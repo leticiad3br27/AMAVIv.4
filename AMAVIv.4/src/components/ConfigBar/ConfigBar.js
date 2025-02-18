@@ -52,7 +52,7 @@ const ConfigBar = () => {
         )}
 
         <li className={styles.menuItem}>
-          <a href="/agendamentos">
+          <a href="/agendamento">
             <FaCalendarAlt className={styles.icon} />
             {isOpen && <span>Agendamentos</span>}
           </a>
