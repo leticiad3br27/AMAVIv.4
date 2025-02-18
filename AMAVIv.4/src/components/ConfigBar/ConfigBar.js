@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ConfigBar.module.css";
 import { FaCog, FaFolder, FaUsers, FaCalendarAlt, FaUser, FaChevronDown, FaChevronUp, FaHome, FaBars, FaTimes } from "react-icons/fa";
 
 const ConfigBar = () => {
-  
   const [isOpen, setIsOpen] = useState(true);
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 720) {
+        setIsOpen(false);
+      }
+    };
+    
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleDropdown = (menu) => setOpenDropdown(openDropdown === menu ? null : menu);
@@ -21,7 +32,7 @@ const ConfigBar = () => {
 
       <ul className={styles.menu}>
         <li className={styles.menuItem}>
-          <a href="/geral">
+          <a href="/configuracoes">
             <FaCog className={styles.icon} />
             {isOpen && <span>Geral</span>}
           </a>
@@ -52,7 +63,7 @@ const ConfigBar = () => {
         )}
 
         <li className={styles.menuItem}>
-          <a href="/agendamento">
+          <a href="/Agendamento">
             <FaCalendarAlt className={styles.icon} />
             {isOpen && <span>Agendamentos</span>}
           </a>

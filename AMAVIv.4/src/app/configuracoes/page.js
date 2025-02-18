@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import ConfigLayout from "../layouts/ConfigLayout";
 import classNames from "classnames";
 import styles from "../styles/Configuracoes.module.css";
@@ -7,6 +8,13 @@ import useTheme from "../../hook/useTheme";
 
 const ConfiguracoesPage = () => {
   const { isDarkMode, toggleTheme } = useTheme();
+  const router = useRouter();
+
+  const handleAdminToggle = (e) => {
+    if (e.target.checked) {
+      router.push("/ADMlogin");
+    }
+  };
 
   return (
     <ConfigLayout>
@@ -24,7 +32,7 @@ const ConfiguracoesPage = () => {
           <div className={styles.section}>
             <h2 className={styles.title}>Modo ADM</h2>
             <label className={styles.switch}>
-              <input type="checkbox" id="adminSwitch" />
+              <input type="checkbox" onChange={handleAdminToggle} />
               <span className={styles.slider} />
             </label>
           </div>
@@ -40,8 +48,12 @@ const ConfiguracoesPage = () => {
         <section className={styles.largeSections}>
           <div className={styles.largeSection}>
             <h2 className={styles.title}>Alerta</h2>
-            <p className={styles.text}>Você está no modo responsável. Deseja mudar para o modo paciente?</p>
-            <button className={classNames(styles.userButton, styles.blue)}>Mudar para Paciente</button>
+            <p className={styles.text}>
+              Você está no modo responsável. Deseja mudar para o modo paciente?
+            </p>
+            <button className={classNames(styles.userButton, styles.blue)}>
+              Mudar para Paciente
+            </button>
           </div>
           <div className={styles.largeSection}>
             <h2 className={styles.title}>Meus Documentos</h2>

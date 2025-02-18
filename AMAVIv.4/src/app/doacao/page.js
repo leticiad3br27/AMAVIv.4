@@ -1,20 +1,29 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'next/image';
-import imagem from '../../../public/assets/img/Coracao.jpeg';
-import styles from './page.module.css';
+import imagem from '../../../public/assets/img/coracao.jpg';
+import styles from '../styles/DoacaoPage.module.css';
 import MainLayout from '../layouts/MainLayout';
 import Link from 'next/link'; 
 
 export default function DoacaoPage() {
     return (
         <MainLayout>
-            <div className={styles.container}>
-                <Image src={imagem} alt="Imagem de um coração para doação" width={500} height={500} /> {}
-                <Link href="/qr-code"> {}
-                    <button className="btn btn-primary">Gerar Qr Code</button>
+            <section className={`${styles.container} mt-5`}>
+                <Image 
+                    src={imagem} 
+                    alt="Coração vermelho representando doação" 
+                    margin-top={90}
+                    width={300} 
+                    height={300} 
+                    priority
+                />
+                <Link href="/Qr.code">
+                    <button className="btn btn-primary mt-3" aria-label="Gerar QR Code para doação">
+                        Gerar QR Code
+                    </button>
                 </Link>
-            </div>
+            </section>
         </MainLayout>
     );
 }
