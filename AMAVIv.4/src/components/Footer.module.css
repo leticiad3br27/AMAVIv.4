@@ -1,0 +1,14 @@
+/* app/components/Footer.module.css */
+.footer {
+    background-color: #1e293b; /* Cinza escuro */
+    color: white;
+    padding: 1rem 0;
+    margin-top: 2rem;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+  }

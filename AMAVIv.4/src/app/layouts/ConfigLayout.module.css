@@ -1,0 +1,32 @@
+/* ConfigLayout.module.css */
+.ConfigLayout {
+    display: flex; /* Usa flexbox para o layout lado a lado */
+    height: 100vh;
+  }
+  
+  .ConfigLayout main {
+    flex: 1;
+    background-color:var(--background-color);
+    padding: 20px;
+    overflow-y: auto; 
+  }
+  .darkTheme {
+    --background-color: #1e1e1e;
+    --text-color: #f9f9f9;
+    --text-color-secondary: #ccc;
+    --switch-background: #555;
+    --switch-checked-background: #2196F3;
+    --button-background: #555;
+    --button-blue-background: #2196F3;
+  }
+  
+  /* Estilos para o tema claro */
+  .lightTheme {
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --text-color-secondary: #666;
+    --switch-background: #ccc;
+    --switch-checked-background: #1b5686;
+    --button-background: #007bff;
+    --button-blue-background: #2196F3;
+  }

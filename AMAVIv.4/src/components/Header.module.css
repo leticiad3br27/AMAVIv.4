@@ -1,0 +1,42 @@
+
+.menuBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #00435D;
+    padding: 10px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+  }
+  
+  .menuIcon {
+    width: 50px;
+    height: auto;
+    border-radius: 100%;
+    margin: 12px;
+    cursor: pointer;
+    z-index: 3;
+  }
+  
+  .linkDiv {
+    display: flex;
+    gap: 10px;
+    padding-right: 30px;
+  }
+  
+  .link {
+    font-size: 18px;
+    padding: 27px 10px;
+    color: white;
+    text-decoration: none;
+    background-color: #00435D;
+    text-align: center;
+  }
+  
+  .link:hover {
+    background-color: #00334D;
+  }

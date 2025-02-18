@@ -1,0 +1,47 @@
+/* CalendarPage.module.css */
+
+.calendarContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Altura total da página */
+  background-color: #f9f9f9; /* Cor de fundo clara */
+}
+
+.sidebar {
+  width: 250px; /* Largura da sidebar */
+  background-color: #4a90e2; /* Cor de fundo da sidebar */
+  color: white; /* Cor do texto na sidebar */
+  padding: 20px; /* Espaçamento interno */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra na sidebar */
+}
+
+.calendarWrapper {
+  flex-grow: 1; /* O calendário ocupa o restante do espaço */
+  padding: 20px; /* Espaçamento interno */
+  background-color: white; /* Cor de fundo do calendário */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ao redor do calendário */
+}
+
+.title {
+  font-size: 24px; /* Tamanho da fonte do título */
+  margin-bottom: 20px; /* Espaçamento abaixo do título */
+  color: #333; /* Cor do texto do título */
+}
+
+/* Estilização adicional para o calendário */
+.fc {
+  font-family: Arial, sans-serif; /* Fonte do calendário */
+}
+
+.fc-daygrid-event {
+  background-color: #4a90e2; /* Cor de fundo dos eventos */
+  color: white; /* Cor do texto dos eventos */
+  border-radius: 4px; /* Bordas arredondadas dos eventos */
+  padding: 5px; /* Espaçamento interno dos eventos */
+  margin: 2px 0; /* Margem entre os eventos */
+}
+
+.fc-daygrid-event:hover {
+  background-color: #357ab8; /* Cor ao passar o mouse sobre os eventos */
+}
