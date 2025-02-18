@@ -2,7 +2,7 @@
 import React from "react";
 import ConfigLayout from "../layouts/ConfigLayout";
 import classNames from "classnames";
-import styles from "../styles/configuracoes.module.css";
+import styles from "../styles/Configuracoes.module.css";
 import useTheme from "../../hook/useTheme";
 
 const ConfiguracoesPage = () => {
