@@ -12,6 +12,7 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
         <a href="/atendimento" className={styles.link}>Atendimento</a>
         <a href="/eventos" className={styles.link}>Eventos</a>
         <a href="/doacao" className={styles.link}>Doações</a>
+        <a href="/login" className={styles.link}>Login</a>
       </div>
     </header>
   );
