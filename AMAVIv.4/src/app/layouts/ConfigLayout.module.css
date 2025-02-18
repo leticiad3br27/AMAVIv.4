@@ -1,6 +1,6 @@
-/* ConfigLayout.module.css */
+
 .ConfigLayout {
-    display: flex; /* Usa flexbox para o layout lado a lado */
+    display: flex;
     height: 100vh;
   }
   
@@ -20,7 +20,6 @@
     --button-blue-background: #2196F3;
   }
   
-  /* Estilos para o tema claro */
   .lightTheme {
     --background-color: #f9f9f9;
     --text-color: #333;

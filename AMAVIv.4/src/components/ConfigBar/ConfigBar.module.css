@@ -12,12 +12,10 @@
   overflow: hidden;
 }
 
-/* Sidebar Fechada */
 .sidebar.closed {
   width: 80px;
 }
 
-/* Cabeçalho */
 .header {
   margin-top: 50px;
   display: flex;
@@ -26,7 +24,7 @@
   flex-direction: row; 
 }
 
-/* Título */
+
 .title {
   font-size: 25px;
   font-weight: bold;
@@ -42,7 +40,6 @@
   width: 0;
 }
 
-/* Botão de Toggle */
 .toggleBtn {
   background: none;
   border: none;
@@ -52,13 +49,11 @@
   transition: transform 0.3s;
 }
 
-/* Menu */
 .menu {
   list-style: none;
   padding: 0;
 }
 
-/* Itens do Menu */
 .menuItem {
   color: var(--text-clr);
   display: flex;
