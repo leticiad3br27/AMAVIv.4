@@ -54,7 +54,7 @@ const ConfigBar = () => {
         {openDropdown === "dependents" && isOpen && (
           <ul className={styles.submenu}>
             <li><a href="/familia">Família</a></li>
-            <li><a href="/amigos">Amigos</a></li>
+            
           </ul>
         )}
 

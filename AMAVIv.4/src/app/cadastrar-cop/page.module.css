@@ -1,0 +1,111 @@
+
+.container {
+  background-color: #217fa4;
+  color: white;
+  font-family: "Aoboshi One", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.h1 {
+  font-family: "Sorts Mill Goudy", serif;
+  margin-bottom: 20px;
+  color: #ffffff;
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+
+.form {
+  background-color: #00435d;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin: 5px 0;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #217fa4;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.buttonVoltar{
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #01202c;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 20%;
+  transition: background 0.3s;
+}
+.buttonVoltar:hover{
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6e1a00;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 20%;
+  transition: background 0.3s;
+}
+.button:hover {
+  background-color: #005f99;
+}
+
+@media (max-width: 768px) {
+  .h1 {
+    font-size: 1.8rem;
+  }
+  .form {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .h1 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
+  .form {
+    width: 100%;
+    padding: 15px;
+  }
+  .input, .button {
+    font-size: 0.9rem;
+  }
+}

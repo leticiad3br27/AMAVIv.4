@@ -38,5 +38,6 @@
   }
   
   .link:hover {
+    text-decoration: none;
     background-color: #00334D;
   }

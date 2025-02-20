@@ -10,7 +10,7 @@
   --background: var(--base-clr);
   --foreground: var(--text-clr);
   --section-bg: #b3b3b3; 
-  --switch-background: #ccc; 
+  --switch-background: #5e5e5e; 
   --switch-border: #999;
   --switch-checked-background: #2196F3;
   --switch-checked-border: #1976D2;
@@ -61,10 +61,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 
 .main-layout,
 .simple-layout {
@@ -76,4 +72,7 @@ a:hover {
 .main-layout main,
 .simple-layout main {
   flex-grow: 1;
+}
+link{
+  text-decoration: none;
 }

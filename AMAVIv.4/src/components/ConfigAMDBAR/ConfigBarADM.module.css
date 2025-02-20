@@ -1,3 +1,5 @@
+/* ConfigBarADM.module.css */
+
 .sidebar {
     width: 260px;
     background: var(--sidebar-bg);
@@ -13,28 +15,6 @@
 
 .sidebar.closed {
     width: 80px;
-}
-
-@media (max-width: 720px) {
-    .sidebar {
-        position: fixed;
-        left: -260px;
-        top: 0;
-        height: 100vh;
-        transition: left 0.3s ease-in-out;
-        z-index: 1000;
-    }
-
-    .sidebar.open {
-        left: 0;
-    }
-
-    .toggleBtn {
-        position: absolute;
-        left: 15px;
-        top: 15px;
-        z-index: 1100;
-    }
 }
 
 .header {
@@ -177,4 +157,27 @@
 
 .returnBtn:hover {
     background: #003d80;
+}
+
+/* ===== Versão para telas pequenas ===== */
+@media (max-width: 720px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 260px;
+        height: 100%;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    /* Quando a sidebar estiver "aberta" na versão mobile, ela desliza para dentro */
+    .sidebar.open {
+        left: 0;
+    }
+
+    /* Se preferir que a versão fechada mantenha um width reduzido, pode ajustar */
+    .sidebar.closed {
+        left: -260px;
+    }
 }

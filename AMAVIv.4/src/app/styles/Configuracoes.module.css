@@ -148,7 +148,7 @@ input:checked + .slider:before {
   --text-color: #f9f9f9;
   --text-color-secondary: #ccc;
   --sidebar-bg: #333333; /* Sidebar e largeSections no tema escuro */
-  --switch-background: #9e9e9e;
+  --switch-background: #1d1d1d;
   --switch-checked-background: #2196F3;
   --button-background: #555;
   --button-blue-background: #2196F3;
