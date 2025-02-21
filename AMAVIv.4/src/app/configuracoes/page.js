@@ -16,6 +16,10 @@ const ConfiguracoesPage = () => {
     }
   };
 
+  const handleVisualizarDocumentos = () => {
+    router.push("/documentos");
+  };
+
   return (
     <ConfigLayout>
       <main className={styles.content}>
@@ -58,7 +62,9 @@ const ConfiguracoesPage = () => {
           <div className={styles.largeSection}>
             <h2 className={styles.title}>Meus Documentos</h2>
             <p className={styles.text}>Visualizar seus documentos?</p>
-            <button className={styles.userButton}>Visualizar</button>
+            <button className={styles.userButton} onClick={handleVisualizarDocumentos}>
+              Visualizar
+            </button>
           </div>
         </section>
       </main>

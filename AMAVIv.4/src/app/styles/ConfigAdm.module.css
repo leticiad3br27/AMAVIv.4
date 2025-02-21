@@ -1,10 +1,11 @@
 .container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
     background-color: var(--background-color);
     transition: background 0.3s ease-in-out;
+    padding: 20px;
+    min-height: 100vh;
 }
 
 .dark {
@@ -27,8 +28,41 @@
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 500px;
+    max-width: 800px;
     width: 100%;
+    margin-top: 20px;
+}
+
+.largeSection {
+    background: var(--info-box-bg);
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+}
+
+.section {
+    margin: 20px 0;
+}
+
+.statsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.statBox {
+    background: var(--info-box-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1 1 200px;
+    max-width: 300px;
 }
 
 .headerContainer h1 {
@@ -103,4 +137,38 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(26px);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .contentWrapper, .largeSection {
+        padding: 20px;
+    }
+
+    .statBox {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+
+    .headerContainer h1 {
+        font-size: 20px;
+    }
+
+    .infoBoxContainer p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contentWrapper, .largeSection {
+        padding: 15px;
+    }
+
+    .headerContainer h1 {
+        font-size: 18px;
+    }
+
+    .infoBoxContainer p {
+        font-size: 12px;
+    }
 }

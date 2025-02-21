@@ -75,13 +75,6 @@ const ConfigBarADM = () => {
         </li>
 
         <li className={styles.menuItem}>
-          <a href="/verificar-doacoes">
-            <FaGift className={styles.icon} />
-            {isOpen && <span>Verificar Doações</span>}
-          </a>
-        </li>
-
-        <li className={styles.menuItem}>
           <a href="/configuracoes">
             <FaCog className={styles.icon} />
             {isOpen && <span>Modo Padrão</span>}

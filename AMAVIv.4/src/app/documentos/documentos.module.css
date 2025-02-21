@@ -1,5 +1,4 @@
 .box {
-    
     padding-top: 10%;
     display: flex;
     flex-direction: row;
@@ -16,7 +15,6 @@
 }
 
 .busca {
-
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -54,7 +52,6 @@
     background-color: #e9ecef;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.368);
 }
-
 .busca .butao {
     display: flex;
     flex-direction: row;
@@ -66,12 +63,27 @@
     overflow: hidden;
     margin-top: 5%;
     box-shadow: 0 4px 10px #0000004d;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.busca .butao >button {
+.busca .butao > button {
     width: 100%;
     text-decoration: none;
     border-color: #06060600;
+    background-color: transparent;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.busca .butao:hover {
+    background-color: #05739D; /* Azul escuro no hover */
+    transform: scale(1.05); /* Aumenta levemente o botão */
+}
+
+.busca .butao:hover > button {
+    color: white; /* Muda a cor do texto no hover */
 }
 
 .sugestao {
@@ -81,7 +93,6 @@
     flex-direction: column;
     justify-content: space-around;
     margin-bottom: 40%;
-
 }
 
 .sugestao h1 {
@@ -139,35 +150,40 @@
     gap: 5px;
 }
 
-.cad-donw>.txt>h1 {
+.cad-donw > .txt > h1 {
     font-size: 20px;
 }
 
-.cad-donw>.txt>h2 {
+.cad-donw > .txt > h2 {
     font-size: 12px;
 }
 
-.cad-donw>button {
+.cad-donw > button {
     border-color: transparent;
     background-color: transparent;
     width: 15%;
     height: auto;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.cad-donw>button>i {
+.cad-donw > button:hover {
+    transform: scale(1.1); /* Aumenta levemente o tamanho */
+    color: #05739D; /* Muda a cor do ícone */
+}
+
+.cad-donw > button > svg {
     width: 100%;
     font-size: 40px;
+    transition: color 0.2s ease-in-out;
 }
 
-.cad-donw>button:focus {
+.cad-donw > button:focus {
     outline: none;
     box-shadow: none;
 }
 
-@media screen and (max-width:1366px) {
-
+@media screen and (max-width: 1366px) {
     .sugestao {
         margin-bottom: 30%;
     }
-
 }
