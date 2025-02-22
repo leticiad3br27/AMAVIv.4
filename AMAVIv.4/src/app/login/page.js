@@ -21,7 +21,7 @@ export default function Login() {
   };
 
   const handleRegister = () => {
-    window.location.href = './cadastrar'; // Redireciona para a página de cadastro
+    window.location.href = './Cadastrar-B'; // Redireciona para a página de cadastro
   };
 
   const handleForgotPassword = () => {

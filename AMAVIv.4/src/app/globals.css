@@ -1,4 +1,3 @@
-
 :root {
   --sidebar-bg: #cfcfcf;
   --base-clr: #ffffff;
@@ -37,17 +36,14 @@
   --button-blue-background: #2196F3;
 }
 
-
-html,
-
-
-body {
+html, body {
   color: var(--foreground);
   background: var(--background);
   font-family: "Aoboshi One", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+  padding-top: 30px; 
 }
 
 * {
@@ -57,10 +53,9 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(---text-clr); /* Corrigido o nome da variável */
   text-decoration: none;
 }
-
 
 .main-layout,
 .simple-layout {
@@ -72,7 +67,4 @@ a {
 .main-layout main,
 .simple-layout main {
   flex-grow: 1;
-}
-link{
-  text-decoration: none;
 }
