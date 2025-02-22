@@ -10,7 +10,7 @@ export default function Beneficiario() {
     return (
         <div className={styles.container}>
             <div className={styles.buttons}>
-                <Link href="/Cadastrar-F/Cadastrar-B">
+                <Link href="Cadastrar-B">
                     <button
                         className={`${styles.button} ${ativo === "beneficiario" ? styles.bgBlue : styles.bgGray}`}
                         onClick={() => setAtivo("beneficiario")}>Beneficiário

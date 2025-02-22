@@ -1,16 +1,23 @@
 'use client';
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import para navegação
 import Link from 'next/link';
 import styles from '../responsavel.module.css';
 import useTheme from "@/hook/useTheme";
 
 export default function Responsável() {
     const { isDarkMode, toggleTheme } = useTheme();
+    const router = useRouter();
     const [ativo, setAtivo] = useState("responsavel");
+
+    const handleEnviar = () => {
+        router.push("/Cadastrar-R"); // Substitua pelo destino correto
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.buttons}>
-                <Link href="Cadastrar-F/Cadastrar-B">
+                <Link href="/Cadastrar-F/Cadastrar-B">
                     <button
                         className={`${styles.button} ${ativo === "beneficiario" ? styles.bgBlue : styles.bgGray}`}
                         onClick={() => setAtivo("beneficiario")}>Beneficiário
@@ -23,8 +30,9 @@ export default function Responsável() {
                     </button>
                 </Link>
             </div>
-            <h1 className={styles.title}>Informações do Dependende</h1>
             
+            <h1 className={styles.title}>Informações do Dependente</h1>
+
             <div className={styles.formContainer}>
                 <h2 className={styles.sectionTitle1}>DADOS PESSOAIS</h2>
                 <div className={styles.gridContainer}>
@@ -36,7 +44,7 @@ export default function Responsável() {
 
                 <h2 className={styles.sectionTitle2}>ADICIONAIS</h2>
                 <div className={styles.gridContainer}>
-                    <label>O Dependende vive com: 
+                    <label>O Dependente vive com: 
                         <select className={styles.inputField}>
                             <option value="pai">Pai</option>
                             <option value="mãe">Mãe</option>
@@ -44,7 +52,7 @@ export default function Responsável() {
                             <option value="outros">Outro</option>
                         </select>
                     </label>
-                    <label>Dignóstico: 
+                    <label>Diagnóstico: 
                         <input type="text" className={styles.inputField} />
                     </label>
                     <label>Faz Tratamento: 
@@ -62,8 +70,11 @@ export default function Responsável() {
                     </label>
                 </div>
             </div>
+
             <div className={styles.buttonContainer}>
-                <button className={styles.buttonEnviar}>ENVIAR</button>
+                <button className={styles.buttonEnviar} onClick={handleEnviar}>
+                    ENVIAR
+                </button>
             </div>
         </div>
     );
