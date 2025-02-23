@@ -1,0 +1,189 @@
+.box {
+    padding-top: 10%;
+    display: flex;
+    flex-direction: row;
+}
+
+.busc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 40%;
+    height: 92.1vh;
+    background-color: #05739D;
+}
+
+.busca {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+}
+
+.busca h1 {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 4%;
+}
+
+.search-container {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8%;
+}
+
+.search-input {
+    width: 90%;
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px 0 0 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.368);
+}
+
+.search-icon {
+    margin-left: 0;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 0 4px 4px 0;
+    background-color: #e9ecef;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.368);
+}
+.busca .butao {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+    background-color: #e9ecef;
+    text-decoration: none;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 5%;
+    box-shadow: 0 4px 10px #0000004d;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.busca .butao > button {
+    width: 100%;
+    text-decoration: none;
+    border-color: #06060600;
+    background-color: transparent;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.busca .butao:hover {
+    background-color: #05739D; /* Azul escuro no hover */
+    transform: scale(1.05); /* Aumenta levemente o botão */
+}
+
+.busca .butao:hover > button {
+    color: white; /* Muda a cor do texto no hover */
+}
+
+.sugestao {
+    width: 17vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 40%;
+}
+
+.sugestao h1 {
+    color: white;
+    font-size: 20px;
+    margin: 0 0 8% -18%;
+}
+
+.type {
+    width: 500px;
+    color: white;
+}
+
+.SquareCheckBig {
+    text-decoration: none;
+    background-color: transparent;
+    border-color: transparent;
+    margin-left: 10vw;
+}
+
+.SquareCheckBig:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.resul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4%;
+    width: 60%;
+    height: auto;
+    background-color: #419CBF;
+    padding-top: 2%;
+}
+
+.cad-donw {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2%;
+    width: 90%;
+    height: auto;
+    background-color: #ced4da;
+    border-radius: 20px;
+}
+
+.cad-donw .txt {
+    width: 85%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+.cad-donw > .txt > h1 {
+    font-size: 20px;
+}
+
+.cad-donw > .txt > h2 {
+    font-size: 12px;
+}
+
+.cad-donw > button {
+    border-color: transparent;
+    background-color: transparent;
+    width: 15%;
+    height: auto;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.cad-donw > button:hover {
+    transform: scale(1.1); /* Aumenta levemente o tamanho */
+    color: #05739D; /* Muda a cor do ícone */
+}
+
+.cad-donw > button > svg {
+    width: 100%;
+    font-size: 40px;
+    transition: color 0.2s ease-in-out;
+}
+
+.cad-donw > button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+@media screen and (max-width: 1366px) {
+    .sugestao {
+        margin-bottom: 30%;
+    }
+}

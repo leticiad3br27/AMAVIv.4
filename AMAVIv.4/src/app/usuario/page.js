@@ -11,7 +11,7 @@ const familia = [
     idade: 40,
     genero: "Masculino",
     numeroSUS: "1234567890",
-    parentesco: "Pai",
+    parentesco: "Usuário Principal",
     cpf: "111.111.111-11",
     rg: "MG-12.345.678",
     endereco: "Rua A, 123, Bairro X, Cidade Y, Estado Z",
@@ -48,6 +48,9 @@ const familia = [
   },
 ];
 
+const usuarioPrincipal = familia.find((membro) => membro.parentesco === "Usuário Principal");
+const parentes = familia.filter((membro) => membro.parentesco !== "Usuário Principal");
+
 const FamiliaPage = () => {
   const { isDarkMode } = useTheme();
   const router = useRouter();
@@ -55,26 +58,31 @@ const FamiliaPage = () => {
   return (
     <ConfigLayout>
       <div className={`${styles.configLayout} ${isDarkMode ? styles.darkTheme : styles.lightTheme}`}>
-        <div className={styles.content}>
-          <div className={styles.smallSections}>
-            <h1 className={styles.title}>Lista de Membros da Família</h1>
+        <div className={styles.profileContainer}>
+          <div className={styles.profileHeader}>
+            <div className={styles.profileImage}></div>
+            <h1 className={styles.profileName}>{usuarioPrincipal?.nome}</h1>
+            <p className={styles.profileText}><strong>Idade:</strong> {usuarioPrincipal?.idade}</p>
+            <p className={styles.profileText}><strong>Gênero:</strong> {usuarioPrincipal?.genero}</p>
+            <p className={styles.profileText}><strong>Número SUS:</strong> {usuarioPrincipal?.numeroSUS}</p>
+            <p className={styles.profileText}><strong>CPF:</strong> {usuarioPrincipal?.cpf}</p>
+            <p className={styles.profileText}><strong>RG:</strong> {usuarioPrincipal?.rg}</p>
+            <p className={styles.profileText}><strong>Endereço:</strong> {usuarioPrincipal?.endereco}</p>
           </div>
 
-          <div className={styles.largeSections}>
-            <div className={styles.grid}>
-              {familia.map((membro) => (
-                <div key={membro.cpf} className={styles.card}>
-                  <h2 className={styles.title}>{membro.nome}</h2>
-                  <p className={styles.text}><strong>Idade:</strong> {membro.idade}</p>
-                  <p className={styles.text}><strong>Gênero:</strong> {membro.genero}</p>
-                  <p className={styles.text}><strong>Número SUS:</strong> {membro.numeroSUS}</p>
-                  <p className={styles.text}><strong>Parentesco:</strong> {membro.parentesco}</p>
-                  <p className={styles.text}><strong>CPF:</strong> {membro.cpf}</p>
-                  <p className={styles.text}><strong>RG:</strong> {membro.rg}</p>
-                  <p className={styles.text}><strong>Endereço:</strong> {membro.endereco}</p>
-                </div>
+          <div className={styles.relationsContainer}>
+            <h2 className={styles.relationsTitle}>Vinculados</h2>
+            <ul className={styles.relationsList}>
+              {parentes.map((membro) => (
+                <li 
+                  key={membro.cpf} 
+                  className={styles.relationItem} 
+                  onClick={() => router.push("/login")}
+                >
+                  {membro.nome}
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
