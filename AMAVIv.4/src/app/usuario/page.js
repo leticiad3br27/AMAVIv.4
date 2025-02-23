@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "../styles/FamiliaPage.module.css";
+import styles from "../styles/famipage.module.css";
 import useTheme from "../../hook/useTheme";
+import ConfigLayout from "../layouts/ConfigLayout";
 
 const familia = [
   {
@@ -48,37 +49,36 @@ const familia = [
 ];
 
 const FamiliaPage = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
   const router = useRouter();
 
   return (
-    <div className={`ConfigLayout ${isDarkMode ? "darkTheme" : "lightTheme"}`}>
-      <div className="content">
-        <div className="smallSections">
-          <h1 className="title">Lista de Membros da Família</h1>
-          <button className="userButton blue" onClick={toggleTheme}>
-            Alternar Tema
-          </button>
-        </div>
+    <ConfigLayout>
+      <div className={`${styles.configLayout} ${isDarkMode ? styles.darkTheme : styles.lightTheme}`}>
+        <div className={styles.content}>
+          <div className={styles.smallSections}>
+            <h1 className={styles.title}>Lista de Membros da Família</h1>
+          </div>
 
-        <div className="largeSections">
-          <div className="grid">
-            {familia.map((membro) => (
-              <div key={membro.cpf} className="card">
-                <h2 className="title">{membro.nome}</h2>
-                <p className="text"><strong>Idade:</strong> {membro.idade}</p>
-                <p className="text"><strong>Gênero:</strong> {membro.genero}</p>
-                <p className="text"><strong>Número SUS:</strong> {membro.numeroSUS}</p>
-                <p className="text"><strong>Parentesco:</strong> {membro.parentesco}</p>
-                <p className="text"><strong>CPF:</strong> {membro.cpf}</p>
-                <p className="text"><strong>RG:</strong> {membro.rg}</p>
-                <p className="text"><strong>Endereço:</strong> {membro.endereco}</p>
-              </div>
-            ))}
+          <div className={styles.largeSections}>
+            <div className={styles.grid}>
+              {familia.map((membro) => (
+                <div key={membro.cpf} className={styles.card}>
+                  <h2 className={styles.title}>{membro.nome}</h2>
+                  <p className={styles.text}><strong>Idade:</strong> {membro.idade}</p>
+                  <p className={styles.text}><strong>Gênero:</strong> {membro.genero}</p>
+                  <p className={styles.text}><strong>Número SUS:</strong> {membro.numeroSUS}</p>
+                  <p className={styles.text}><strong>Parentesco:</strong> {membro.parentesco}</p>
+                  <p className={styles.text}><strong>CPF:</strong> {membro.cpf}</p>
+                  <p className={styles.text}><strong>RG:</strong> {membro.rg}</p>
+                  <p className={styles.text}><strong>Endereço:</strong> {membro.endereco}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ConfigLayout>
   );
 };
 

@@ -47,7 +47,7 @@ export default function Home() {
                   <Image
                     src={item.image}
                     alt="Slider"
-                    width={800} // Defina o tamanho correto para otimização
+                    width={800}
                     height={450}
                     className={slide.slide_item}
                   />
@@ -59,56 +59,52 @@ export default function Home() {
 
         {/* Cartões */}
         <div className={style.div_box}>
-          <a className={style.cartao} href="eventos.html">
+          <a className={style.cartao} href="/eventos">
             <Image
               src="/assets/img/evento.jpg"
-              alt="Imagem figurativa"
+              alt="Imagem de um evento"
               width={500}
               height={300}
             />
             <h1>Eventos</h1>
             <h2>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Fique por dentro dos nossos eventos, encontros e palestras voltados para a conscientização e apoio às famílias.
             </h2>
           </a>
-          <a className={style.cartao} href="atendimento.html">
+          <a className={style.cartao} href="/Atendimento">
             <Image
               src="/assets/img/atendimento.jpg"
-              alt="Imagem"
+              alt="Imagem de um atendimento"
               width={500}
               height={300}
             />
             <h1>Atendimentos</h1>
             <h2>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Conheça nossos serviços de atendimento especializado para pessoas autistas e suas famílias.
             </h2>
           </a>
-          <a className={style.cartao} href="sobre.html">
+          <a className={style.cartao} href="https://sobre-amavi.vercel.app/">
             <Image
               src="/assets/img/sobre.jpg"
-              alt="Imagem"
+              alt="Imagem institucional da AMAVI"
               width={500}
               height={300}
             />
             <h1>Nos Conheça</h1>
             <h2>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Saiba mais sobre a AMAVI, nossa missão e como trabalhamos para apoiar a comunidade autista.
             </h2>
           </a>
-          <a className={style.cartao} href="outro.html">
+          <a className={style.cartao} href="https://linktr.ee/amaviAssociacao">
             <Image
               src="/assets/img/outro.jpg"
-              alt="Imagem"
+              alt="Imagem de recursos adicionais"
               width={500}
               height={300}
             />
             <h1>Outros meios</h1>
             <h2>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Descubra outras formas de apoio, grupos comunitários e informações úteis sobre o autismo.
             </h2>
           </a>
         </div>

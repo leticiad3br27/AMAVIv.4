@@ -1,0 +1,99 @@
+/* Estilos Gerais */
+.configLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--background);
+    color: var(--text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .content {
+    width: 90%;
+    max-width: 900px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px var(--shadow);
+    background: var(--card);
+    transition: background 0.3s ease;
+    text-align: center;
+  }
+  
+  /* Títulos */
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Botões */
+  .userButton {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .blue {
+    background-color: var(--primary-color);
+    color: var(--button-text);
+  }
+  
+  .blue:hover {
+    background-color: var(--primary-hover);
+    transform: scale(1.05);
+  }
+  
+  /* Layout Responsivo */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Cartões */
+  .card {
+    background: var(--card);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px var(--shadow);
+    transition: transform 0.2s ease-in-out, background 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+  }
+  
+  .text {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  /* Responsividade para telas menores */
+  @media (max-width: 600px) {
+    .title {
+      font-size: 20px;
+    }
+  
+    .userButton {
+      font-size: 14px;
+      padding: 8px 12px;
+    }
+  
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .card {
+      padding: 10px;
+    }
+  
+    .text {
+      font-size: 13px;
+    }
+  }
+  
