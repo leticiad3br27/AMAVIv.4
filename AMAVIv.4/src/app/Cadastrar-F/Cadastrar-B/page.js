@@ -11,7 +11,7 @@ export default function Responsável() {
     const [ativo, setAtivo] = useState("responsavel");
 
     const handleEnviar = () => {
-        router.push("/Cadastrar-R"); // Substitua pelo destino correto
+        router.push("/"); // Substitua pelo destino correto
     };
 
     return (

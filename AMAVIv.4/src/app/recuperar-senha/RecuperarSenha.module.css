@@ -1,0 +1,122 @@
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* Tema Claro */
+.container {
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Tema Escuro */
+.dark {
+    background: #1e1e1e;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #f0f0f0;
+}
+
+.title {
+    font-size: 24px;
+}
+
+/* Inputs */
+.inputContainer {
+    text-align: left;
+    margin: 15px 0;
+}
+
+.inputContainer label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out, background 0.3s, color 0.3s;
+}
+
+/* Tema Escuro para Inputs */
+.dark .input {
+    background: #2a2a2a;
+    color: #ffffff;
+    border-color: #444;
+}
+
+.input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Estilo para erro */
+.error {
+    color: #cc0000;
+    font-size: 14px;
+    margin-top: 5px;
+    background: #ffcccc;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.dark .error {
+    background: #5a1e1e;
+    color: #ff8888;
+}
+
+/* Botão */
+.button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+}
+
+.button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Tema Escuro para o botão */
+.dark .button {
+    background-color: #0056b3;
+}
+
+.dark .button:hover {
+    background-color: #003f7f;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    .container {
+        width: 90%;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .button {
+        font-size: 14px;
+    }
+}
