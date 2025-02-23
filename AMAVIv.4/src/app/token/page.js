@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./Token.module.css";
 
-const TokenPage = () => {
+const TokenPageContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [token, setToken] = useState("");
@@ -64,5 +64,12 @@ const TokenPage = () => {
     </div>
   );
 };
+
+
+const TokenPage = () => (
+  <Suspense fallback={<div>Carregando...</div>}>
+    <TokenPageContent />
+  </Suspense>
+);
 
 export default TokenPage;
