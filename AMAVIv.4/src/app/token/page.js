@@ -12,8 +12,8 @@ const TokenPage = () => {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    const tokenFromURL = searchParams.get("code");
-    if (tokenFromURL) {
+    if (searchParams) {
+      const tokenFromURL = searchParams.get("code") || "";
       setToken(tokenFromURL);
     }
   }, [searchParams]);
@@ -26,7 +26,7 @@ const TokenPage = () => {
       return;
     }
 
-    if (inputValue !== token) {
+    if (inputValue.trim().toString() !== token.trim().toString()) {
       setError("Código inválido. Verifique o e-mail de recuperação.");
       return;
     }
