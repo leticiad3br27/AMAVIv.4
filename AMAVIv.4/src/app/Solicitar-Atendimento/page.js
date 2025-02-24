@@ -18,7 +18,7 @@ export default function SolicitarAtendimento() {
   };
 
   const handleVerHistorico = () => {
-    router.push('/historico-atendimentos'); // Ajuste para a rota correta
+    router.push('Solicitar-Atendimento/historico-atendimentos'); // Ajuste para a rota correta
   };
 
   return (
