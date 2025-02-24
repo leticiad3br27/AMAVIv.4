@@ -11,7 +11,7 @@ const SideMenu = ({ isMenuOpen, closeSideMenu }) => {
       </button>
       <a href="/usuario" className={styles.sideLink}>Conta</a>
       <a href="/configuracoes" className={styles.sideLink}>Configurações</a>
-      <a href="/requerimentos" className={styles.sideLink}>Requerimentos</a>
+      <a href="/Solicitar-Atendimento/historico-atendimentos" className={styles.sideLink}>Requerimentos</a>
     </div>
   );
 };

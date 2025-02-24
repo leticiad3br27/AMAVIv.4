@@ -34,7 +34,7 @@ export default function Responsavel() {
                     </button>
                 </Link>
             </div>
-            <h1 className={styles.title}>Informações do Responsável</h1>
+            <h1 className={styles.title}>Informações do Responsável 2 </h1>
             
             <div className={styles.formContainer}>
                 <h2 className={styles.sectionTitle1}>DADOS PESSOAIS</h2>
