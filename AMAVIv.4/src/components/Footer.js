@@ -19,7 +19,7 @@ export default function Footer() {
             <FaTwitter />
           </a>
         </div>
-        <a href="/sobre-nos" className={styles.footerLink}>Sobre Nós</a>
+        <a href="https://sobre-amavi.vercel.app/" className={styles.footerLink}>Sobre Nós</a>
       </div>
     </footer>
   );
