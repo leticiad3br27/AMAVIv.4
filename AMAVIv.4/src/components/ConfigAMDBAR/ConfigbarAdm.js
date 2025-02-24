@@ -35,7 +35,7 @@ const ConfigBarADM = () => {
   
 
         <li className={styles.menuItem}>
-          <a href="/consultar-documentos">
+          <a href="/documentos">
             <FaFileAlt className={styles.icon} />
             {isOpen && <span>Consultar Documentos</span>}
           </a>
