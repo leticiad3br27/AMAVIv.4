@@ -32,12 +32,7 @@ const ConfigBarADM = () => {
       </div>
 
       <ul className={styles.menu}>
-        <li className={styles.menuItem}>
-          <a href="/consultar-paciente">
-            <FaUserMd className={styles.icon} />
-            {isOpen && <span>Consultar Paciente</span>}
-          </a>
-        </li>
+  
 
         <li className={styles.menuItem}>
           <a href="/consultar-documentos">
