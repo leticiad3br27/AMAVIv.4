@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(30%, 300px); /* Mantém responsivo sem ultrapassar limites */
+  width: min(30%, 300px);
   height: auto;
   gap: 10px;
   background-color: #2A81A3;
@@ -38,8 +38,7 @@
 }
 
 .cartao:hover {
-  transform: scale(1.05); /* Efeito de crescimento ao passar o mouse */
-}
+  transform: scale(1.05);}
 
 .cartao img {
   width: 80%;
