@@ -9,7 +9,7 @@ const SideMenu = ({ isMenuOpen, closeSideMenu }) => {
       <button className={styles.closeBtn} onClick={closeSideMenu}>
         &times;
       </button>
-      <a href="/conta" className={styles.sideLink}>Conta</a>
+      <a href="/usuario" className={styles.sideLink}>Conta</a>
       <a href="/configuracoes" className={styles.sideLink}>Configurações</a>
       <a href="/requerimentos" className={styles.sideLink}>Requerimentos</a>
     </div>
