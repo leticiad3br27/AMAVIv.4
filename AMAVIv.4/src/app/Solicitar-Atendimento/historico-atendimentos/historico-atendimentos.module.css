@@ -1,0 +1,38 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.tabelaRequerimentos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.tabelaRequerimentos th, .tabelaRequerimentos td {
+    border: 1px solid #003366; /* Azul escuro */
+    padding: 10px;
+    text-align: left;
+}
+.tabelaRequerimentos th {
+    background-color: #003366; /* Azul escuro */
+    color: white;
+}
+.tabelaRequerimentos tr:nth-child(even) {
+    background-color: #e6f0ff; /* Azul claro */
+}
+.btnNovaSolicitacao {
+    background-color: #003366; /* Azul escuro */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+.btnNovaSolicitacao:hover {
+    background-color: #00509e; /* Azul mais claro ao passar o mouse */
+}
