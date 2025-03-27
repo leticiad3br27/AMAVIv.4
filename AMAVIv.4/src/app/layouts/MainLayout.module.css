@@ -1,35 +1,38 @@
 .mainLayout {
-    padding-top: 50px; 
-    background-color:#05739D;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .mainContent {
-    flex: 1;
-    background-color: var(--background-color);
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
-  .darkTheme {
-    --background-color: #1e1e1e;
-    --text-color: #f9f9f9;
-    --text-color-secondary: #ccc;
-    --switch-background: #555;
-    --switch-checked-background: #2196F3;
-    --button-background: #555;
-    --button-blue-background: #2196F3;
-  }
-  
-  .lightTheme {
-    --background-color: #000000;
-    --text-color: #333;
-    --text-color-secondary: #666;
-    --switch-background: #707070;
-    --switch-checked-background: #1b5686;
-    --button-background: #007bff;
-    --button-blue-background: #2196F3;
-  }
-  
+  padding-top: 50px; 
+  background-color: #00122c;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Alterado de height para min-height */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.mainContent {
+  flex: 1;
+  background-color: var(--background-color);
+  padding: 20px;
+  overflow-y: auto;
+  color: var(--text-color);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.darkTheme {
+  --background-color: #1e1e1e;
+  --text-color: #f9f9f9;
+  --text-color-secondary: #ccc;
+  --switch-background: #555;
+  --switch-checked-background: #2196F3;
+  --button-background: #555;
+  --button-primary: #2196F3;
+}
+
+/* Modo claro */
+.lightTheme {
+  --background-color: #f5f5f5; /* Ajustado para um tom claro */
+  --text-color: #333;
+  --text-color-secondary: #666;
+  --switch-background: #ccc;
+  --switch-checked-background: #1b5686;
+  --button-background: #007bff;
+  --button-primary: #2196F3;
+}

@@ -5,7 +5,7 @@ import SideMenu from "./SideMenu";
 import { FaCog } from "react-icons/fa";
 
 const Header = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 720);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
@@ -14,7 +14,6 @@ const Header = () => {
       setIsMobile(window.innerWidth < 720);
     };
 
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -23,37 +22,37 @@ const Header = () => {
     <>
       <header className={styles.menuBar}>
         <div className={styles.iconContainer}>
-          <div className={styles.menuIcon} onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}>
-            <FaCog size={35} color="#ffffff"/>
-          </div>
+          <button className={styles.menuIcon} onClick={() => setIsSideMenuOpen(!isSideMenuOpen)} aria-label="Configurações">
+            <FaCog size={35} color="#ffffff" />
+          </button>
           {isMobile && (
-            <div className={styles.menuIcon} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              <img src="/assets/SVGS/home-svgrepo-com.svg" alt="Menu" />
-            </div>
+            <button className={styles.menuIcon} onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Abrir menu">
+              <img src="/assets/SVGS/home-svgrepo-com.svg" alt="Ícone do menu" />
+            </button>
           )}
         </div>
-        {!isMobile && (
-          <div className={styles.linkDiv}>
+        {!isMobile ? (
+          <nav className={styles.linkDiv}>
             <a href="/" className={styles.link}>Home</a>
-            <a href="/Solicitar-Atendimento" className={styles.link}> Solicitar-Atendimento</a>
+            <a href="/Solicitar-Atendimento" className={styles.link}>Solicitar Atendimento</a>
             <a href="/eventos" className={styles.link}>Eventos</a>
             <a href="/doacao" className={styles.link}>Doações</a>
             <a href="/login" className={styles.link}>Login</a>
-          </div>
-        )}
-        {isMobile && isMenuOpen && (
-          <div className={styles.floatingMenu}>
-            <a href="/" className={styles.link} onClick={() => setIsMenuOpen(false)}>Home</a>
-            <a href="/Solicitar-Atendimento" className={styles.link} onClick={() => setIsMenuOpen(false)}>Atendimento</a>
-            <a href="/eventos" className={styles.link} onClick={() => setIsMenuOpen(false)}>Eventos</a>
-            <a href="/doacao" className={styles.link} onClick={() => setIsMenuOpen(false)}>Doações</a>
-            <a href="/login" className={styles.link} onClick={() => setIsMenuOpen(false)}>Login</a>
-          </div>
+          </nav>
+        ) : (
+          isMenuOpen && (
+            <nav className={styles.floatingMenu}>
+              {["/", "/Solicitar-Atendimento", "/eventos", "/doacao", "/login"].map((href, index) => (
+                <a key={index} href={href} className={styles.link} onClick={() => setIsMenuOpen(false)}>
+                  {href.replace("/", "").replace("-", " ") || "Home"}
+                </a>
+              ))}
+            </nav>
+          )
         )}
       </header>
-      
-   
-      <SideMenu isMenuOpen={isSideMenuOpen} closeSideMenu={() => setIsSideMenuOpen(false)} />
+
+      {isSideMenuOpen && <SideMenu isMenuOpen={isSideMenuOpen} closeSideMenu={() => setIsSideMenuOpen(false)} />}
     </>
   );
 };

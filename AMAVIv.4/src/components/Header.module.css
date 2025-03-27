@@ -1,38 +1,59 @@
+/* Estilização do cabeçalho */
 .menuBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #00435D;
   padding: 10px 20px;
   box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 3;
+  z-index: 1000;
+
+  /* Efeito de vidro fosco */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-
+/* Ícones do menu */
 .iconContainer {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-
+/* Ícone do menu sem fundo */
 .menuIcon {
-  width: 50px;
+  width: auto;
   height: auto;
-  border-radius: 100%;
   margin: 12px;
   cursor: pointer;
-  z-index: 3;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+
+  /* Remove qualquer fundo ou borda */
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  /* Ajusta a exibição */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuIcon:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
 }
 
 /* Container dos links */
 .linkDiv {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   padding-right: 30px;
 }
 
@@ -42,13 +63,13 @@
   padding: 10px 15px;
   color: white;
   text-decoration: none;
-  background-color: #00435D;
-  text-align: center;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .link:hover {
-  background-color: #00334D;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 /* Responsividade */
@@ -76,18 +97,25 @@
     position: absolute;
     top: 60px;
     left: 10px;
-    background-color: #00435D;
+    background: rgba(0, 67, 93, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     width: 200px;
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   }
 
   .floatingMenu .link {
     display: block;
     padding: 12px;
+    border-radius: 6px;
+  }
+
+  .floatingMenu .link:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 
