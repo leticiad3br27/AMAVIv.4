@@ -12,7 +12,7 @@
   z-index: 1000;
 
   /* Efeito de vidro fosco */
-  background: rgba(0, 0, 0, 0.6);
+  background: #005670bd;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -25,7 +25,7 @@
   gap: 10px;
 }
 
-/* Ícone do menu sem fundo */
+
 .menuIcon {
   width: auto;
   height: auto;
@@ -33,13 +33,11 @@
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.3s ease;
 
-  /* Remove qualquer fundo ou borda */
+  
   background: none !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-
-  /* Ajusta a exibição */
   display: flex;
   align-items: center;
   justify-content: center;

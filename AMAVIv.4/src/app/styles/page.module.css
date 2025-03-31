@@ -10,7 +10,6 @@
   max-width: 100vw;
   box-sizing: border-box;
 }
-
 .divslides {
   width: 100%;
   display: flex;
@@ -19,20 +18,18 @@
   gap: 20px;
   padding: 0;
 }
-
 .a {
   text-decoration: none;
   color: #fff;
   width: 100%;
 }
-
 /* Estilos do cartão */
 .cartao {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: min(30%, 300px);
+  width: min(30vw, 300px); /* Corrigido para usar vw */
   min-height: 420px;
   padding: 20px;
   border-radius: 20px;
@@ -40,14 +37,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  background-color: #00193b;
+  background-color: #353535;
 }
-
 .cartao:hover {
   transform: scale(1.03);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.356);
 }
-
 .cartao img {
   width: 100%;
   height: 180px;
@@ -56,7 +51,6 @@
   border: 2px solid #0f2435;
   margin-bottom: 15px;
 }
-
 .cartao h1 {
   font-size: 1.5rem;
   font-family: "Inter", sans-serif;
@@ -64,11 +58,10 @@
   color: #fff;
   line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .cartao h2 {
   font-size: 1rem;
   font-family: "Aoboshi One", sans-serif;
@@ -76,40 +69,36 @@
   color: #a9c9d9;
   line-height: 1.4;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 /* Estilos do elemento */
 .elemento {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 3;
+  
 }
-
 /* Media queries */
 @media (max-width: 1024px) {
   .cartao {
-    width: min(45%, 280px);
+    width: min(45vw, 280px); /* Corrigido para usar vw */
     min-height: 400px;
   }
+  
   .cartao img {
     height: 160px;
   }
 }
-
 @media (max-width: 768px) {
   .divslides {
     gap: 15px;
   }
   .cartao {
-    width: min(80%, 300px);
+    width: min(80vw, 300px); /* Corrigido para usar vw */
     min-height: 380px;
   }
 }
-
 @media (max-width: 480px) {
   .cartao {
     width: 90%;
