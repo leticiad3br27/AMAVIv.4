@@ -1,12 +1,11 @@
 .container {
-    color: #ffffff;
-    background-color: #001933;
+    background-color: #013368;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza horizontalmente */
-    justify-content: center; /* Centraliza verticalmente */
-    text-align: center; /* Centraliza o texto */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 .title {
     font-size: 24px;
@@ -27,7 +26,7 @@
 .formContainer {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os itens do formulário */
+    align-items: center;
 }
 .gridContainer {
     display: grid;
@@ -57,22 +56,21 @@
     background-color: #218838;
 }
 .inputField, .inputFieldSmall {
-    background-color: #ffffff;
     padding: 10px;
-    border: 2px solid #013368; /* Borda azul */
-    border-radius: 5px; /* Bordas arredondadas */
+    border: 2px solid #013368;
+    border-radius: 5px;
     width: 100%;
-    transition: border-color 0.3s, box-shadow 0.3s; /* Transições suaves */
-    font-size: 16px; /* Tamanho da fonte */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
 }
 .inputField:focus, .inputFieldSmall:focus {
-    border-color: #00b3b3; /* Cor da borda ao focar */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra ao focar */
-    outline: none; /* Remove o contorno padrão */
+    border-color: #00b3b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
 }
 .inputField::placeholder, .inputFieldSmall::placeholder {
-    color: #aaa; /* Cor do texto do placeholder */
-    opacity: 1; /* Para garantir que a opacidade esteja em 1 */
+    color: #aaa;
+    opacity: 1;
 }
 .gridContainer {
     display: grid;

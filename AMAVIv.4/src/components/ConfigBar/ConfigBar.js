@@ -38,14 +38,6 @@ const ConfigBar = () => {
           </a>
         </li>
 
-       
-        <li className={styles.menuItem}>
-          <a href="/documentos">
-            <FaFolder className={styles.icon} />
-            {isOpen && <span>Documentos</span>}
-          </a>
-        </li>
-
         <li onClick={() => toggleDropdown("dependents")} className={styles.menuItem}>
           <FaUsers className={styles.icon} />
           {isOpen && <span>Dependentes</span>} 

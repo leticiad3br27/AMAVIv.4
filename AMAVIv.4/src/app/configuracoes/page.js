@@ -50,15 +50,7 @@ const ConfiguracoesPage = () => {
         </section>
 
         <section className={styles.largeSections}>
-          <div className={styles.largeSection}>
-            <h2 className={styles.title}>Alerta</h2>
-            <p className={styles.text}>
-              Você está no modo responsável. Deseja mudar para o modo paciente?
-            </p>
-            <button className={classNames(styles.userButton, styles.blue)}>
-              Mudar para Paciente
-            </button>
-          </div>
+          
           <div className={styles.largeSection}>
             <h2 className={styles.title}>Meus Documentos</h2>
             <p className={styles.text}>Visualizar seus documentos?</p>

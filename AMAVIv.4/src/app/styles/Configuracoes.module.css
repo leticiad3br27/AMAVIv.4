@@ -30,6 +30,8 @@
 }
 
 .largeSections {
+  margin-bottom: 150px;
+  align-items: center;
   width: 100%;
   background-color: var(--sidebar-bg); 
 }
@@ -164,4 +166,105 @@ input:checked + .slider:before {
   --switch-checked-background: #2196F3;
   --button-background: #007bff;
   --button-blue-background: #2196F3;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .ConfigLayout {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .smallSections, .largeSections {
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .smallSections {
+    max-width: 100%;
+  }
+
+  .largeSections {
+    margin-bottom: 50px;
+  }
+
+  .title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .text {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
+  .switch {
+    width: 50px;
+    height: 28px;
+  }
+
+  .slider:before {
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+
+  .userButton {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .loginForm {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+
+  .input {
+    padding: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ConfigLayout {
+    padding: 5px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .text {
+    font-size: 10px;
+  }
+
+  .userButton {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  .switch {
+    width: 40px;
+    height: 24px;
+  }
+
+  .slider:before {
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(16px);
+  }
 }
