@@ -7,7 +7,7 @@
 }
   
 .title {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255); /* Branco */
     font-size: 30px;
     margin-bottom: 20px;
     text-align: center;
@@ -23,7 +23,7 @@
   
 .label {
     display: block;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255); /* Branco */
     margin-bottom: 5px;
 }
   
@@ -68,21 +68,21 @@
 }
 
 .button {
-    background-color: #4a90e2;
-    color: white;
+    background-color: #001f3f; /* Azul marinho */
+    color: white; /* Branco */
 }
 
 .button:hover {
-    background-color: #357ab8;
+    background-color: #001533; /* Azul marinho mais escuro */
 }
 
 .secondaryButton {
-    background-color: #6c757d;
-    color: white;
+    background-color: #001f3f; /* Azul marinho */
+    color: white; /* Branco */
 }
 
 .secondaryButton:hover {
-    background-color: #5a6268;
+    background-color: #001533; /* Azul marinho mais escuro */
 }
 
 @media (min-width: 600px) {

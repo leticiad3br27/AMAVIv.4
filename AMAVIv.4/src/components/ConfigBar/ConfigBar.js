@@ -38,17 +38,6 @@ const ConfigBar = () => {
           </a>
         </li>
 
-        <li onClick={() => toggleDropdown("dependents")} className={styles.menuItem}>
-          <FaUsers className={styles.icon} />
-          {isOpen && <span>Dependentes</span>} 
-          {isOpen && (openDropdown === "dependents" ? <FaChevronUp className={styles.chevron} /> : <FaChevronDown className={styles.chevron} />)}
-        </li>
-        {openDropdown === "dependents" && isOpen && (
-          <ul className={styles.submenu}>
-            <li><a href="/familia">Família</a></li>
-            
-          </ul>
-        )}
 
         <li className={styles.menuItem}>
           <a href="/Agendamento">

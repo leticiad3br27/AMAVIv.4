@@ -37,7 +37,7 @@ const Header = () => {
             <a href="/Solicitar-Atendimento" className={styles.link}>Solicitar Atendimento</a>
             <a href="/eventos" className={styles.link}>Eventos</a>
             <a href="/doacao" className={styles.link}>Doações</a>
-            <a href="/login" className={styles.link}>Login</a>
+            <a href="/login" className={styles.link}>Entrar</a>
           </nav>
         ) : (
           isMenuOpen && (

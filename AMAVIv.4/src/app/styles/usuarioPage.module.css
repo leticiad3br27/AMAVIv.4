@@ -1,122 +1,121 @@
-/* Layout Principal */
-.ConfigLayout {
-    background-color: var(--background-color);
-    display: flex;
-    height: 100vh;
-    padding: 20px;
-  }
-  
-  .content {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    width: 100%;
-  }
-  
-  /* Seção Lateral Pequena */
-  .smallSections {
-    max-width: 300px;
-    width: 100%;
-    text-align: center;
-    background: var(--sidebar-bg);
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Seção Principal */
-  .largeSections {
-    width: 100%;
-    background-color: var(--sidebar-bg);
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  /* Estilização dos Cards */
-  .card {
-    background: var(--background-color);
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
-    width: 250px;
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-  }
-  
-  .title {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: var(--text-color);
-  }
-  
-  .text {
-    font-size: 14px;
-    color: var(--text-color-secondary);
-    margin-bottom: 5px;
-  }
-  
-  /* Botão Padrão */
-  .userButton {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--button-background);
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .userButton.blue {
-    background-color: var(--button-blue-background);
-  }
-  
-  .userButton:hover {
-    opacity: 0.9;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .content {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .smallSections {
-      max-width: 100%;
-    }
-  
-    .largeSections {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-  
-  /* Tema Escuro */
-  .darkTheme {
-    --background-color: #1e1e1e;
-    --text-color: #f9f9f9;
-    --text-color-secondary: #ccc;
-    --sidebar-bg: #333333;
-    --button-background: #555;
-    --button-blue-background: #2196F3;
-  }
-  
-  /* Tema Claro */
-  .lightTheme {
-    --background-color: #f9f9f9;
-    --text-color: #333;
-    --text-color-secondary: #666;
-    --sidebar-bg: #b3b3b3;
-    --button-background: #007bff;
-    --button-blue-background: #2196F3;
-  }
-  
+.configLayout {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.darkTheme {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.lightTheme {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.profileContainer {
+  max-width: 600px;
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.darkTheme .profileContainer {
+  background-color: #2a2a2a;
+}
+
+.profileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileImage {
+  position: relative;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.profilePic {
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.editPhotoBtn {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.editPhotoBtn:hover {
+  background-color: #357ac9;
+}
+
+.profileName {
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+}
+
+.profileText {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.editIconBtn {
+  background: transparent;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s;
+}
+
+.editIconBtn:hover {
+  transform: scale(1.1);
+}
+
+.relationsContainer {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.relationsTitle {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.relationsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.relationItem {
+  background-color: #f0f0f0;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.relationItem:hover {
+  background-color: #dce1e6;
+}
+
+.darkTheme .relationItem {
+  background-color: #3a3a3a;
+}
+
+.darkTheme .relationItem:hover {
+  background-color: #4a4a4a;
+}
