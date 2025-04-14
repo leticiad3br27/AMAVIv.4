@@ -1,9 +1,10 @@
 "use client";
 import React from 'react';
 import styles from './historico-atendimentos.module.css';
-import { useRouter } from "next/navigation"; // Importando useRouter
+import { useRouter } from "next/navigation"; 
 import SimpleLayout from '@/app/layouts/SimpleLayout';
-const App = () => {
+
+export default function HistoricoAtendimentos() {
     const router = useRouter(); 
     const requerimentos = [
         { id: 1, descricao: "Requerimento de licença de funcionamento", data: "2023-01-15", status: "Deferido" },
@@ -12,11 +13,12 @@ const App = () => {
         { id: 4, descricao: "Requerimento de alteração cadastral", data: "2023-04-05", status: "Deferido" },
         { id: 5, descricao: "Solicitação de informações", data: "2023-05-12", status: "Requerido" }
     ];
+
     const handleNovaSolicitacao = () => {
         router.push('/Solicitar-Atendimento'); 
         alert("Redirecionando para nova solicitação..."); 
-        
     };
+
     return (
         <SimpleLayout>
             <div className={styles.container}>
@@ -47,5 +49,4 @@ const App = () => {
             </div>
         </SimpleLayout>
     );
-};
-export default App;
+}
