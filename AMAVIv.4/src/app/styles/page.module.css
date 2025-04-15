@@ -1,0 +1,114 @@
+/* Estilos gerais */
+.div_box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  padding: 2% 4%;
+  gap: 2%;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+.divslides {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 0;
+}
+.a {
+  text-decoration: none;
+  color: #fff;
+  width: 100%;
+}
+/* Estilos do cartão */
+.cartao {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: min(30vw, 300px); 
+  min-height: 420px;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  background-color:#004b70;
+}
+.cartao:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.356);
+}
+.cartao img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 2px solid #0f2435;
+  margin-bottom: 15px;
+}
+.cartao h1 {
+  font-size: 1.5rem;
+  font-family: "Inter", sans-serif;
+  margin: 0 0 10px 0;
+  color: #fff;
+  line-height: 1.3;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cartao h2 {
+  font-size: 1rem;
+  font-family: "Aoboshi One", sans-serif;
+  margin: 0;
+  color: #a9c9d9;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Estilos do elemento */
+.elemento {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  
+}
+/* Media queries */
+@media (max-width: 1024px) {
+  .cartao {
+    width: min(45vw, 280px); 
+    min-height: 400px;
+  }
+  
+  .cartao img {
+    height: 160px;
+  }
+}
+@media (max-width: 768px) {
+  .divslides {
+    gap: 15px;
+  }
+  .cartao {
+    width: min(80vw, 300px); 
+    min-height: 380px;
+  }
+}
+@media (max-width: 480px) {
+  .cartao {
+    width: 90%;
+    min-height: 360px;
+  }
+  .cartao img {
+    height: 140px;
+  }
+  .cartao h1 {
+    font-size: 1.3rem;
+  }
+}
