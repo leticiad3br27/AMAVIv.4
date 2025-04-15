@@ -1,0 +1,167 @@
+.ConfigLayout {
+  background-color: var(--background-color);
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+}
+
+.content {
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
+
+.smallSections, .largeSections {
+  text-align: center;
+  background: var(--sidebar-bg);
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.smallSections {
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.largeSections {
+  width: 100%;
+  background-color: var(--sidebar-bg); 
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.text {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  margin-bottom: 20px;
+}
+
+/* Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--switch-background);
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--switch-checked-background);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.userButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--button-background);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.userButton.blue {
+  background-color: var(--button-blue-background);
+}
+
+.userButton:hover {
+  opacity: 0.9;
+}
+
+.loginForm {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color:var(--background-color);
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Tema Escuro */
+.darkTheme {
+  --background-color: #1e1e1e;
+  --text-color: #f9f9f9;
+  --text-color-secondary: #ccc;
+  --sidebar-bg: #333333; /* Sidebar e largeSections no tema escuro */
+  --switch-background: #1d1d1d;
+  --switch-checked-background: #2196F3;
+  --button-background: #555;
+  --button-blue-background: #2196F3;
+}
+
+/* Tema Claro */
+.lightTheme {
+  --background-color: #f9f9f9;
+  --text-color: #333;
+  --text-color-secondary: #666;
+  --sidebar-bg: #b3b3b3; /* Sidebar e largeSections no tema claro */
+  --switch-background: #222222;
+  --switch-checked-background: #2196F3;
+  --button-background: #007bff;
+  --button-blue-background: #2196F3;
+}
