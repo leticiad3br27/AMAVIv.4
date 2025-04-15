@@ -71,7 +71,7 @@ export default function Home() {
               Fique por dentro dos nossos eventos, encontros e palestras voltados para a conscientização e apoio às famílias.
             </h2>
           </a>
-          <a className={style.cartao} href="/Atendimento">
+          <a className={style.cartao} href="/Agendamento">
             <Image
               src="/assets/img/atendimento.jpg"
               alt="Imagem de um atendimento"
