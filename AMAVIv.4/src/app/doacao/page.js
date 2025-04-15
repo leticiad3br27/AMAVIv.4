@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'next/image';
-import qrCode from '../../../public/assets/img/image.png'; // Substitua pela sua imagem de QR Code
+import qrCode from '../../../public/assets/img/-Freedom.jpg'; // Substitua pela sua imagem de QR Code
 import styles from '../styles/DoacaoPage.module.css';
 import MainLayout from '../layouts/MainLayout';
 
