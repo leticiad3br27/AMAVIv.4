@@ -1,166 +1,119 @@
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #2d3e50;
-    color: white;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    background-color: #1a2a6c;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.div_box {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-}
-
-.cartaoImagem {
-   
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #1976d2;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    height: 250px;
-}
-
-.inputFile {
+    max-width: 900px;
     margin: auto;
-    display: none;
-}
-
-.cartaoImagem label {
-    height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #fff; /* Adiciona uma borda pontilhada */
-    padding: 15px;
-    width: 80%;
-    max-width: 200px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 30px;
+    background-color: #f4f8fc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 42, 78, 0.1);
+    font-family: sans-serif;
+  }
+  
+  .titulo {
     text-align: center;
-    background: transparent; /* Fundo transparente */
-    transition: background 0.3s ease-in-out;
-}
-
-.imagensPreviewContainer {
+    color: #002b5b;
+    margin-bottom: 30px;
+  }
+  
+  .form {
     display: flex;
+    gap: 30px;
     flex-wrap: wrap;
+  }
+  
+  .form label {
+    display: block;
     margin-top: 10px;
-    gap: 10px;
-}
-
-.imagemPreview {
-    width: 80px;
-    height: 80px;
-    border-radius: 5px;
-    object-fit: cover;
-}
-
-.formulario {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.label {
     font-weight: bold;
-}
-
-.input, .textarea {
+    color: #002b5b;
+  }
+  
+  .form input,
+  .form textarea {
     width: 100%;
     padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    border: none;
-    background: #3a4b63;
-    color: white;
-}
-
-.textarea {
-    resize: none;
-    height: 80px;
-}
-
-.button {
-    background: #1a2a6c;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-.button:hover {
-    background: #0d1b4c;
-}
-
-.voltar {
-    background: #1a2a6c;
-    color: white;
-    padding: 10px;
-    border: none;
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.voltar:hover {
-    background: #0d1b4c;
-}
-
-.botaoRemover {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgb(0, 68, 255);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
     font-size: 14px;
+    background-color: #ffffff;
+  }
+  
+  .form textarea {
+    resize: vertical;
+  }
+  
+  .leftColumn,
+  .rightColumn {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .dropzone {
+    border: 2px dashed #0070f3;
+    padding: 20px;
+    text-align: center;
+    border-radius: 6px;
+    background-color: #e6f0ff;
     cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .dropzone:hover {
+    background-color: #d0e4ff;
+  }
+  
+  .preview {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  
+  .thumbnail {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 15px;
+    border: 2px solid #004080;
+    box-shadow: 0 0 5px rgba(0, 42, 78, 0.3);
+  }
+  .buttonContainer {
     display: flex;
-    align-items: center;
     justify-content: center;
-}
-
-.imagemWrapper {
-    position: relative;
-    display: inline-block;
-    margin: 5px;
-}
-
-@media (min-width: 600px) {
-    .div_box {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .cartaoImagem {
-        width: 40%;
-    }
-
-    .formulario {
-        width: 55%;
-    }
-}
+    margin-top: 20px;
+  }
+  
+  
+  .button {
+    padding: 12px 25px;
+    background-color: #002b5b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #004080;
+  }
+  
+  .mapsLink {
+    margin-top: 25px;
+    text-align: center;
+  }
+  
+  .mapsLink a {
+    color: #0056cc;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .mapsLink a:hover {
+    text-decoration: underline;
+  }
+  

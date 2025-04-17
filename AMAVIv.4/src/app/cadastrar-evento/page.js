@@ -1,87 +1,184 @@
 "use client";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
+import Link from "next/link";
 import styles from "./EventRegistration.module.css";
-import useTheme from "../../hook/useTheme";
 
-export default function EventRegistration() {
-  const { isDarkMode, toggleTheme } = useTheme(); // Agora está no lugar correto
+export default function CadastrarEvento() {
+  const [imagem, setImagem] = useState(null);
+  const [previewImagem, setPreviewImagem] = useState(null);
+  const dropRef = useRef(null);
 
-  const [dadosEvento, setDadosEvento] = useState({
-    titulo: "",
-    descricao: "",
+  const [form, setForm] = useState({
+    nome: "",
     data: "",
-    horario: "",
-    localizacao: "",
-    imagens: [],
-    imagensPreview: [],
+    hora: "",
+    local: "",
+    descricao: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDadosEvento({ ...dadosEvento, [name]: value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const previewUrls = files.map((file) => URL.createObjectURL(file));
-    setDadosEvento((prevState) => ({
-      ...prevState,
-      imagens: [...prevState.imagens, ...files],
-      imagensPreview: [...prevState.imagensPreview, ...previewUrls],
-    }));
+  const handleImagem = (file) => {
+    setImagem(file);
+    setPreviewImagem(URL.createObjectURL(file));
   };
 
-  const handleRemoveImage = (index) => {
-    setDadosEvento((prevState) => {
-      const novasImagens = [...prevState.imagens];
-      const novasImagensPreview = [...prevState.imagensPreview];
-      novasImagens.splice(index, 1);
-      novasImagensPreview.splice(index, 1);
-      return { ...prevState, imagens: novasImagens, imagensPreview: novasImagensPreview };
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleDrop = (e) => {
     e.preventDefault();
-    console.log("Evento cadastrado:", dadosEvento);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleImagem(e.dataTransfer.files[0]);
+    }
   };
 
-return (
-    <div className={`${styles.container} ${isDarkMode ? styles.darkMode : ""}`}>
-        <h2 className={styles.title}>EVENTOS</h2>
-        
-        <div className={styles.div_box}>
-            <div className={styles.cartaoImagem}>
-                <label htmlFor="imagemUpload" className={styles.botaoAdicionarImagem}>
-                    <div className={styles.botaoConteudo}>+
-                        <span>Adicionar Imagem</span>
-                    </div>
-                </label>
-                <input id="imagemUpload" type="file" multiple onChange={handleImageChange} className={styles.inputFile} />
-                <div className={styles.imagensPreviewContainer}>
-                    {dadosEvento.imagensPreview.map((src, index) => (
-                        <div key={index} className={styles.imagemWrapper}>
-                            <img src={src} alt={`Preview ${index}`} className={styles.imagemPreview} />
-                            <button type="button" onClick={() => handleRemoveImage(index)} className={styles.botaoRemover}>X</button>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <form onSubmit={handleSubmit} className={styles.formulario}>
-                <label className={styles.label}>Título:</label>
-                <input type="text" name="titulo" value={dadosEvento.titulo} onChange={handleChange} className={styles.input} required />
-                <label className={styles.label}>Descrição:</label>
-                <textarea name="descricao" value={dadosEvento.descricao} onChange={handleChange} className={styles.textarea} required />
-                <label className={styles.label}>Data:</label>
-                <input type="date" name="data" value={dadosEvento.data} onChange={handleChange} className={styles.input} required />
-                <label className={styles.label}>Local:</label>
-                <input type="text" name="localizacao" value={dadosEvento.localizacao} onChange={handleChange} className={styles.input} required />
-                <label className={styles.label}>Horário:</label>
-                <input type="time" name="horario" value={dadosEvento.horario} onChange={handleChange} className={styles.input} required />
-                <button type="submit" className={styles.button}>Salvar</button>
-            </form>
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleImagemInput = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      handleImagem(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+    if (imagem) {
+      formData.append("imagem", imagem);
+    }
+
+    try {
+      const response = await fetch("/api/eventos", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("Evento cadastrado com sucesso!");
+        setForm({
+          nome: "",
+          data: "",
+          hora: "",
+          local: "",
+          descricao: "",
+        });
+        setImagem(null);
+        setPreviewImagem(null);
+      } else {
+        alert("Erro ao cadastrar o evento.");
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao conectar com o servidor.");
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <Link href="/ConfigAdm" className={styles.voltarBtn}>← Retornar</Link>
+
+      <h1 className={styles.titulo}>Cadastro de Evento</h1>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.leftColumn}>
+          <label>Nome do Evento:</label>
+          <input
+            type="text"
+            name="nome"
+            value={form.nome}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Data:</label>
+          <input
+            type="date"
+            name="data"
+            value={form.data}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Hora:</label>
+          <input
+            type="time"
+            name="hora"
+            value={form.hora}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Local (endereço):</label>
+          <input
+            type="text"
+            name="local"
+            value={form.local}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Descrição do Local:</label>
+          <textarea
+            name="descricao"
+            value={form.descricao}
+            onChange={handleChange}
+            rows={4}
+            required
+          />
         </div>
-        <button className={styles.voltar} onClick={() => window.location.href = '/ConfigAdm'}>Voltar</button>
+
+        <div className={styles.rightColumn}>
+          <label>Imagem do Evento:</label>
+          <div
+            ref={dropRef}
+            className={styles.dropzone}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onClick={() => dropRef.current.querySelector("input").click()}
+          >
+            {previewImagem ? (
+              <img
+                src={previewImagem}
+                alt="Preview"
+                className={styles.thumbnail}
+              />
+            ) : (
+              <p>Arraste e solte a imagem aqui ou clique para selecionar</p>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImagemInput}
+              style={{ display: "none" }}
+            />
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button type="submit" className={styles.button}>
+              Cadastrar Evento
+            </button>
+          </div>
+
+          {form.local && (
+            <div className={styles.mapsLink}>
+              <h3>Ver no Google Maps:</h3>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  form.local
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {form.local}
+              </a>
+            </div>
+          )}
+        </div>
+      </form>
     </div>
-);
+  );
 }
