@@ -1,9 +1,9 @@
-
-"use client";  
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from './beneficiario.module.css';
 import useTheme from '../../hook/useTheme';
+
 const validateCPF = (cpf) => {
     cpf = cpf.replace(/[^\d]+/g, '');
     if (cpf.length !== 11) return false;
@@ -24,6 +24,7 @@ const validateCPF = (cpf) => {
     secondVerifier = secondVerifier >= 10 ? 0 : secondVerifier;
     return cpf[9] == firstVerifier && cpf[10] == secondVerifier;
 };
+
 const formatCPF = (cpf) => {
     cpf = cpf.replace(/\D/g, '');
     if (cpf.length <= 3) return cpf;
@@ -31,9 +32,17 @@ const formatCPF = (cpf) => {
     if (cpf.length <= 9) return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6)}`;
     return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9, 11)}`;
 };
+
+const formatCurrency = (value) => {
+    return value.replace(/\D/g, '')
+        .replace(/(\d)(\d{2})$/, '$1,$2')
+        .replace(/(?=(\d{3})+(\D))\B/g, '.');
+};
+
 export default function Beneficiario() {
     const { isDarkMode, toggleTheme } = useTheme();
     const [formData, setFormData] = useState({
+        // Dados do Beneficiário
         nome: '',
         cpf: '',
         telefone: '',
@@ -50,9 +59,18 @@ export default function Beneficiario() {
         cartaoSus: '',
         laudoMedico: null,
         informacoesMedicas: '',
+        
+        // Dados do Responsável
         nomeResponsavel: '',
         cpfResponsavel: '',
+        rgResponsavel: '',
+        profissaoResponsavel: '',
+        nascimentoResponsavel: '',
+        estadoCivilResponsavel: '',
+        rendaResponsavel: '',
+        enderecoResponsavel: ''
     });
+
     const [profissoes, setProfissoes] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [progress, setProgress] = useState(0);
@@ -60,6 +78,7 @@ export default function Beneficiario() {
     const [cpfError, setCpfError] = useState("");
     const [cpfResponsavelError, setCpfResponsavelError] = useState("");
     const router = useRouter();
+
     useEffect(() => {
         const fetchProfessions = async () => {
             try {
@@ -73,21 +92,28 @@ export default function Beneficiario() {
         };
         fetchProfessions();
     }, []);
+
     useEffect(() => {
-        const filledFields = Object.values(formData).filter(value => value).length;
-        const totalFields = Object.keys(formData).length;
+        const filledFields = Object.values(formData).filter(value => {
+            if (value === null || value === undefined) return false;
+            if (typeof value === 'string' && value.trim() === '') return false;
+            return true;
+        }).length;
+        
+        const totalFields = isUnderage ? Object.keys(formData).length : Object.keys(formData).length - 8;
         setProgress((filledFields / totalFields) * 100);
         
         if (formData.nascimento) {
             const age = calculateAge(formData.nascimento);
             setIsUnderage(age < 18);
         } else {
-            setIsUnderage(false); // Se não houver data de nascimento, não é menor de idade.
+            setIsUnderage(false);
         }
-    }, [formData]);
+    }, [formData, isUnderage]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        
         if (name === "cpf") {
             const formattedCPF = formatCPF(value);
             setFormData({ ...formData, cpf: formattedCPF });
@@ -96,22 +122,32 @@ export default function Beneficiario() {
             } else {
                 setCpfError("");
             }
+            return;
         }
         
         if (name === "cpfResponsavel") {
-            const formattedCPFResponsavel = formatCPF(value);
-            setFormData({ ...formData, cpfResponsavel: formattedCPFResponsavel });
-            if (formattedCPFResponsavel && !validateCPF(formattedCPFResponsavel.replace(/[^\d]+/g, ''))) {
-                setCpfResponsavelError("CPF do responsável inválido!");
+            const formattedCPF = formatCPF(value);
+            setFormData({ ...formData, cpfResponsavel: formattedCPF });
+            if (formattedCPF && !validateCPF(formattedCPF.replace(/[^\d]+/g, ''))) {
+                setCpfResponsavelError("CPF inválido!");
             } else {
                 setCpfResponsavelError("");
             }
+            return;
         }
         
-        if (name === "profissao") {
+        if (name === "rendaResponsavel") {
+            setFormData({ ...formData, [name]: formatCurrency(value) });
+            return;
+        }
+        
+        if (name === "profissao" || name === "profissaoResponsavel") {
             setSearchTerm(value);
         }
+        
+        setFormData({ ...formData, [name]: value });
     };
+
     const calculateAge = (birthDate) => {
         const today = new Date();
         const birth = new Date(birthDate);
@@ -122,36 +158,62 @@ export default function Beneficiario() {
         }
         return age;
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // Validar CPF do beneficiário
         const rawCPF = formData.cpf.replace(/[^\d]+/g, '');
         if (!validateCPF(rawCPF)) {
             setCpfError("CPF inválido! Por favor, insira um CPF válido.");
             return;
         }
         
-        // Verifique se todos os campos necessários estão preenchidos
-        const allFieldsFilled = Object.values(formData).every(value => value);
+        // Se for menor de idade, validar dados do responsável
         if (isUnderage) {
             const rawCPFResponsavel = formData.cpfResponsavel.replace(/[^\d]+/g, '');
             if (!validateCPF(rawCPFResponsavel)) {
                 setCpfResponsavelError("CPF do responsável inválido! Por favor, insira um CPF válido.");
                 return;
             }
-            // Se todos os campos estiverem preenchidos, redirecione para "definir senha"
-            if (allFieldsFilled) {
-                router.push("/definir-senha");
-            }
-        } else {
-            // Se todos os campos estiverem preenchidos, redirecione para "definir senha"
-            if (allFieldsFilled) {
-                router.push("/definir-senha");
+            
+            // Verificar se todos os campos do responsável estão preenchidos
+            const requiredResponsavelFields = [
+                'nomeResponsavel', 'cpfResponsavel', 'rgResponsavel',
+                'profissaoResponsavel', 'nascimentoResponsavel',
+                'estadoCivilResponsavel', 'rendaResponsavel', 'enderecoResponsavel'
+            ];
+            
+            for (const field of requiredResponsavelFields) {
+                if (!formData[field]) {
+                    alert(`Por favor, preencha todos os campos do responsável. Campo faltante: ${field}`);
+                    return;
+                }
             }
         }
+        
+        // Verificar campos obrigatórios do beneficiário
+        const requiredBeneficiarioFields = [
+            'nome', 'cpf', 'telefone', 'email', 'nascimento',
+            'rg', 'profissao', 'rua', 'numero', 'cidade',
+            'estado', 'cep', 'sexo', 'cartaoSus'
+        ];
+        
+        for (const field of requiredBeneficiarioFields) {
+            if (!formData[field]) {
+                alert(`Por favor, preencha todos os campos obrigatórios. Campo faltante: ${field}`);
+                return;
+            }
+        }
+        
+        // Se tudo estiver válido, redirecionar
+        router.push("/definir-senha");
     };
+
     const filteredProfissoes = profissoes.filter(profissao =>
         profissao.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Informações Pessoais</h1>
@@ -170,6 +232,7 @@ export default function Beneficiario() {
                             onChange={handleChange} 
                             className={styles.inputField} 
                             required 
+                            placeholder="000.000.000-00"
                         />
                         {cpfError && <span className={styles.error}>{cpfError}</span>}
                     </label>
@@ -185,6 +248,7 @@ export default function Beneficiario() {
                             onChange={handleChange}
                             className={styles.inputField}
                             list="profissoes-list"
+                            required
                         />
                         <datalist id="profissoes-list">
                             {filteredProfissoes.map((profissao, index) => (
@@ -193,11 +257,12 @@ export default function Beneficiario() {
                         </datalist>
                     </label>
                 </div>
+                
                 {isUnderage && (
                     <div>
                         <h2 className={styles.sectionTitle4}>DADOS DO RESPONSÁVEL</h2>
                         <div className={styles.gridContainer}>
-                            <label>Nome do Responsável: 
+                            <label>Nome Completo: 
                                 <input 
                                     type="text" 
                                     name="nomeResponsavel" 
@@ -207,7 +272,8 @@ export default function Beneficiario() {
                                     required 
                                 />
                             </label>
-                            <label>CPF do Responsável: 
+                            
+                            <label>CPF: 
                                 <input 
                                     type="text" 
                                     name="cpfResponsavel" 
@@ -215,12 +281,89 @@ export default function Beneficiario() {
                                     onChange={handleChange} 
                                     className={styles.inputField} 
                                     required 
+                                    placeholder="000.000.000-00"
                                 />
                                 {cpfResponsavelError && <span className={styles.error}>{cpfResponsavelError}</span>}
+                            </label>
+                            
+                            <label>RG: 
+                                <input 
+                                    type="number" 
+                                    name="rgResponsavel" 
+                                    value={formData.rgResponsavel} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required 
+                                />
+                            </label>
+                            
+                            <label>Profissão:
+                                <input
+                                    type="text"
+                                    name="profissaoResponsavel"
+                                    value={formData.profissaoResponsavel}
+                                    onChange={handleChange}
+                                    className={styles.inputField}
+                                    list="profissoes-list"
+                                    required
+                                />
+                            </label>
+                            
+                            <label>Data de Nascimento: 
+                                <input 
+                                    type="date" 
+                                    name="nascimentoResponsavel" 
+                                    value={formData.nascimentoResponsavel} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required 
+                                />
+                            </label>
+                            
+                            <label>Estado Civil: 
+                                <select 
+                                    name="estadoCivilResponsavel" 
+                                    value={formData.estadoCivilResponsavel} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required
+                                >
+                                    <option value="">Selecione</option>
+                                    <option value="Solteiro(a)">Solteiro(a)</option>
+                                    <option value="Casado(a)">Casado(a)</option>
+                                    <option value="Divorciado(a)">Divorciado(a)</option>
+                                    <option value="Viúvo(a)">Viúvo(a)</option>
+                                    <option value="Separado(a)">Separado(a)</option>
+                                    <option value="União Estável">União Estável</option>
+                                </select>
+                            </label>
+                            
+                            <label>Renda Mensal (R$): 
+                                <input 
+                                    type="text" 
+                                    name="rendaResponsavel" 
+                                    value={formData.rendaResponsavel} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required 
+                                    placeholder="0,00"
+                                />
+                            </label>
+                            
+                            <label>Endereço Completo: 
+                                <input 
+                                    type="text" 
+                                    name="enderecoResponsavel" 
+                                    value={formData.enderecoResponsavel} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required 
+                                />
                             </label>
                         </div>
                     </div>
                 )}
+                
                 <h2 className={styles.sectionTitle2}>ENDEREÇO</h2>
                 <div className={styles.gridContainer}>
                     <label>CEP: <input type="text" name="cep" value={formData.cep} onChange={handleChange} className={styles.inputField} required /></label>
