@@ -38,9 +38,10 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  background-color:#004b70;
+  background-color:#000550;
 }
 .cartao:hover {
+  background-color:#00065c;
   transform: scale(1.03);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.356);
 }

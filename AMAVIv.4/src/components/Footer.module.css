@@ -1,56 +1,107 @@
+.footer {
+  background-color: #e3f2fd; /* Azul claro */
+  color: #0d47a1; /* Azul escuro */
+  padding: 3rem 2rem 1rem;
+  border-top: 2px solid #90caf9; /* Azul intermediário */
+  font-family: 'Segoe UI', sans-serif;
+}
 
+.topSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
 
-.wrapper {
+.addressCard {
+  background-color: #bbdefb; /* Azul claro */
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 300px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.addressCard h3 {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #0d47a1; /* Azul escuro */
+}
+
+.addressCard hr {
+  border: none;
+  border-top: 1px solid #64b5f6; /* Azul intermediário */
+  margin: 0.5rem 0;
+}
+
+.logoSection {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
 }
 
-.content {
-  flex: 1;
+.logo {
+  width: 200px; /* Aumente o tamanho conforme necessário */
+  height: auto; /* Mantém a proporção da imagem */
+  margin-bottom: 0.5rem;
 }
 
-.footer {
-  background-color: #1e293b; 
-  color: white;
-  padding: 1rem 0;
-  margin-top: auto;
+.brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1565c0; /* Azul escuro */
+  margin-bottom: 1rem;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.socials a {
+  margin: 0 0.5rem;
+  font-size: 1.3rem;
+  color: #1e88e5; /* Azul intermediário */
+  transition: color 0.3s;
+}
+
+.socials a:hover {
+  color: #0d47a1; /* Azul escuro */
+}
+
+.linksSection {
+  display: flex;
+  gap: 3rem;
+}
+
+.linksSection h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: #0d47a1; /* Azul escuro */
+}
+
+.linksSection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linksSection li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.linksSection a {
+  color: #1565c0; 
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.linksSection a:hover {
+  color: #0d47a1; 
+}
+
+.bottomBar {
   text-align: center;
-}
-
-@media (max-width: 1200px) {
-  .container {
-    max-width: 100%;
-    padding: 0 2rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .container {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .footer {
-    padding: 0.5rem 0;
-  }
-  .container {
-    padding: 0 1rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .footer {
-    padding: 0.25rem 0;
-  }
-  .container {
-    padding: 0 0.5rem;
-  }
+  padding-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #1e88e5; 
+  border-top: 1px solid #90caf9; 
+  margin-top: 2rem;
 }
