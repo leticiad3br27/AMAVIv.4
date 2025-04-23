@@ -42,20 +42,17 @@ export default function Footer() {
           <div>
             <h4>Sobre a AMAVI</h4>
             <ul>
-              <li><a href="/sobre">Quem somos</a></li>
-              <li><a href="/contato">Contato</a></li>
-              <li><a href="/equipe">Nossa equipe</a></li>
-              <li><a href="/historico">Histórico</a></li>
+              <li><a href="https://sobre-amavi.vercel.app/">Quem somos</a></li>
+              <li><a href="https://sobre-amavi.vercel.app/">Contato</a></li>
+              <li><a href="https://sobre-amavi.vercel.app/">Nossa equipe</a></li>
+              <li><a href="https://sobre-amavi.vercel.app/">Histórico</a></li>
             </ul>
           </div>
           <div>
             <h4>Suporte</h4>
-            <ul>
-              <li><a href="/ajuda">Central de ajuda</a></li>
-              <li><a href="/faq">FAQ</a></li>
-              <li><a href="/documentacao">Documentação</a></li>
-              <li><a href="/termos">Termos de uso</a></li>
-            </ul>
+            <a href="mailto:suporte.amavi@gmail.com" className={styles.supportButton}>
+              Enviar e-mail para o suporte
+            </a>
           </div>
         </div>
       </div>
