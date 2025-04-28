@@ -1,106 +1,139 @@
 .configLayout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
-  
-  .darkTheme {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
-  
-  .lightTheme {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
-  
-  .conteiner {
-    border-radius: 5px;
-    width: 100%;
-    max-width: 950px;
-    margin: auto;
-    padding-top: 6%;
-    margin-top: 90px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.darkTheme {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.lightTheme {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.conteiner {
+  border-radius: 5px;
+  width: 100%;
+  max-width: 950px;
+  margin: auto;
+  padding-top: 6%;
+  margin-top: 90px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-color);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+  color: var(--text-color);
+}
+.profileHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.profileImage {
+  width: 100px;
+  height: 100px;
+  background: gray;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profileName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.profileText {
+  font-size: 1rem;
+  margin: 2px 0;
+}
+.historicoContainer {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+.historicoTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-color); /* Usa a variável de cor do texto */
+}
+.historicoList {
+  list-style: none;
+  padding: 0;
+}
+.historicoItem {
+  background: var(--bg-color); /* Usa a variável de cor de fundo */
+  color: var(--text-color); /* Usa a variável de cor do texto */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: background 0.3s;
+}
+.historicoItem:hover {
+  background: var(--hover-bg-color, #747474); /* Cor de fundo ao passar o mouse */
+}
+.relationsContainer {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+.relationsTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-color); /* Usa a variável de cor do texto */
+}
+.relationsList {
+  list-style: none;
+  padding: 0;
+}
+.relationItem {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+.relationItem:hover {
+  background: var(--hover-bg-color, #272727d5); /* Cor de fundo ao passar o mouse */
+}
+.slide_item {
+  border-radius: 5px;
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
+  background-color: var(--bg-color);
+}
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
   .profileContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--bg-color);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
-    color: var(--text-color);
-  }
-  
-  .profileHeader {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .profileImage {
-    width: 100px;
-    height: 100px;
-    background: gray;
-    border-radius: 50%;
-    margin: 0 auto 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-width: 90%; /* Aumenta a largura em telas menores */
+    padding: 15px; /* Reduz o padding */
   }
   
   .profileName {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 5px;
+    font-size: 1.3rem; /* Ajusta o tamanho da fonte */
   }
   
   .profileText {
-    font-size: 1rem;
-    margin: 2px 0;
+    font-size: 0.9rem; /* Ajusta o tamanho da fonte */
   }
   
-  .relationsContainer {
-    margin-top: 20px;
-    width: 100%;
-    text-align: center;
+  .relationsTitle, 
+  .historicoTitle {
+    font-size: 1rem; /* Ajusta o tamanho da fonte */
   }
-  
-  .relationsTitle {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .relationsList {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .relationItem {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background 0.3s;
-  }
-  
-  .relationItem:hover {
-    background: #ddd;
-  }
-  
-  .slide_item {
-    border-radius: 5px;
-    width: 100%;
-    height: 50vh;
-    object-fit: cover;
-    background-color: var(--bg-color);
-  }
+}
