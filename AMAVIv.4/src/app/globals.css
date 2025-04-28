@@ -53,7 +53,7 @@ html, body {
 }
 
 a {
-  color: var(---text-clr); /* Corrigido o nome da variável */
+  color: var(---text-clr); 
   text-decoration: none;
 }
 

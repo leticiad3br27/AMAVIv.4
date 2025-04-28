@@ -1,12 +1,9 @@
 'use client';
 import { useState } from "react";
 import styles from './page.module.css';
-import useTheme from "@/hook/useTheme";
 import SimpleLayout from "../layouts/SimpleLayout";
 import { useRouter } from "next/navigation";
-
 export default function SolicitarAtendimento() {
-  const { isDarkMode, toggleTheme } = useTheme();
   const [descricao, setDescricao] = useState('');
   const [dependente, setDependente] = useState('');
   const [anexarDocumento, setAnexarDocumento] = useState('');

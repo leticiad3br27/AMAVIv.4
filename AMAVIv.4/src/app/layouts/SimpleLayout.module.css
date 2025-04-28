@@ -1,13 +1,14 @@
 .mainLayout {
+  color: black;
   padding-top: 50px; 
-  background-color: #e3f2fd; /* Cor de fundo fixa */
+  background-color: #e3f2fd;
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 .mainContent {
   flex: 1;
-  background-color: #ffffff; /* Cor de fundo fixa */
+  background-color: #ffffff; 
   padding: 50px;
   overflow-y: auto;
 }

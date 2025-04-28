@@ -116,6 +116,7 @@
 }
 /* Modal Responsivo */
 .modal {
+  color: white;
   display: flex;
   position: fixed;
   z-index: 1000;
@@ -140,7 +141,7 @@ body.modal-open {
   width: 90%;
   max-width: 600px;
   text-align: center;
-  color: #053d63;
+  color: #ffffff;
   transition: all 0.3s ease-in-out;
 }
 /* Ajusta o tamanho da imagem quando o modal estiver aberto */
