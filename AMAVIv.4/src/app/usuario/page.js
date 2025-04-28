@@ -23,7 +23,10 @@ const usuarioPrincipal = {
 const FamiliaPage = () => {
   const { isDarkMode } = useTheme();
   const router = useRouter();
-  
+  const handleHistoricoClick = (item) => {
+   
+    router.push(`Solicitar-Atendimento/historico-atendimentos`); 
+  };
   return (
     <ConfigLayout>
       <div className={`${styles.configLayout} ${isDarkMode ? styles.darkTheme : styles.lightTheme}`}>
@@ -44,7 +47,11 @@ const FamiliaPage = () => {
             <h2 className={styles.historicoTitle}>Histórico Médico</h2>
             <ul className={styles.historicoList}>
               {usuarioPrincipal.historico.map((item, index) => (
-                <li key={index} className={styles.historicoItem}>
+                <li 
+                  key={index} 
+                  className={styles.historicoItem} 
+                  onClick={() => handleHistoricoClick(item)}
+                >
                   <strong>{item.data}:</strong> {item.descricao}
                 </li>
               ))}

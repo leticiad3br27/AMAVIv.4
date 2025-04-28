@@ -15,11 +15,10 @@ const App = () => {
     const handleNovaSolicitacao = () => {
         router.push('/Solicitar-Atendimento'); 
         alert("Redirecionando para nova solicitação..."); 
-        
     };
     return (
         <SimpleLayout>
-            <div className={styles.container}>
+            <div className={`${styles.container} ${styles.lightTheme}`}> {/* Adicionando classe de tema claro */}
                 <h1>Histórico de Requerimentos</h1>
                 <table className={styles.tabelaRequerimentos}>
                     <thead>

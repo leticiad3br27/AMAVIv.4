@@ -4,11 +4,9 @@ import { useRouter } from 'next/navigation'; // Importando o roteador do Next.js
 import SimpleLayout from '@/app/layouts/SimpleLayout';
 import styles from './documentos.module.css';
 import { Search, SquareCheckBig, CloudDownload } from 'lucide-react';
-
 export default function Documents() {
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter(); // Inicializando o roteador
-
   const handleDownload = (docName, content) => {
     const blob = new Blob([content], { type: "text/plain" });
     const link = document.createElement("a");
@@ -18,11 +16,9 @@ export default function Documents() {
     link.click();
     document.body.removeChild(link);
   };
-
   const handleNavigateToCadastro = () => {
     router.push('/cadastrar-documentacao');
   };
-
   const documents = [
     { name: "RG", content: "Documento de identidade oficial do usuário." },
     { name: "CPF", content: "Cadastro de Pessoa Física do usuário." },
@@ -30,11 +26,13 @@ export default function Documents() {
     { name: "FICHAS", content: "Fichas de cadastro e atendimento registradas no sistema." },
     { name: "LAUDOS", content: "Laudos médicos e psicológicos arquivados no banco de dados." },
   ];
-
   const filteredDocs = documents.filter(doc =>
     doc.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  const handleSuggestionClick = (doc) => {
+    
+    handleDownload(doc.name, doc.content);
+  };
   return (
     <SimpleLayout>
       <div className={styles.box}>
@@ -68,7 +66,11 @@ export default function Documents() {
                   <tr key={doc.name}>
                     <td className={styles.type}>{doc.name} :</td>
                     <td>
-                      <button className={styles.SquareCheckBig} type="submit">
+                      <button 
+                        className={styles.SquareCheckBig} 
+                        type="button" 
+                        onClick={() => handleSuggestionClick(doc)} 
+                      >
                         <SquareCheckBig size={12} />
                       </button>
                     </td>
@@ -78,7 +80,6 @@ export default function Documents() {
             </table>
           </div>
         </div>
-
         {filteredDocs.length > 0 && (
           <div className={styles.resul}>
             {filteredDocs.map((doc) => (
