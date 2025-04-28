@@ -5,22 +5,20 @@
   border-top: 2px solid #90caf9; /* Azul intermediário */
   font-family: 'Segoe UI', sans-serif;
 }
-
 .topSection {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 2rem;
 }
-
 .addressCard {
   background-color: #bbdefb; /* Azul claro */
   padding: 1.5rem;
   border-radius: 12px;
   max-width: 300px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  flex: 1 1 280px; /* Flexível para ajustar ao espaço disponível */
 }
-
 .addressCard h3 {
   font-size: 1.2rem;
   display: flex;
@@ -28,75 +26,63 @@
   gap: 0.5rem;
   color: #0d47a1; /* Azul escuro */
 }
-
 .addressCard hr {
   border: none;
   border-top: 1px solid #64b5f6; /* Azul intermediário */
   margin: 0.5rem 0;
 }
-
 .logoSection {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .logo {
   width: 200px; /* Aumente o tamanho conforme necessário */
   height: auto; /* Mantém a proporção da imagem */
   margin-bottom: 0.5rem;
 }
-
 .brand {
   font-size: 1.8rem;
   font-weight: bold;
   color: #1565c0; /* Azul escuro */
   margin-bottom: 1rem;
 }
-
 .socials a {
   margin: 0 0.5rem;
   font-size: 1.3rem;
   color: #1e88e5; /* Azul intermediário */
   transition: color 0.3s;
 }
-
 .socials a:hover {
   color: #0d47a1; /* Azul escuro */
 }
-
 .linksSection {
   display: flex;
   gap: 3rem;
+  flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha se necessário */
 }
-
 .linksSection h4 {
   font-size: 1.1rem;
   margin-bottom: 0.8rem;
   color: #0d47a1; /* Azul escuro */
 }
-
 .linksSection ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .linksSection li {
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
-
 .linksSection a {
   color: #1565c0; 
   text-decoration: none;
   transition: color 0.3s;
 }
-
 .linksSection a:hover {
   color: #0d47a1; 
 }
-
 .bottomBar {
   text-align: center;
   padding-top: 1.5rem;
@@ -104,4 +90,36 @@
   color: #1e88e5; 
   border-top: 1px solid #90caf9; 
   margin-top: 2rem;
+}
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  .footer {
+    padding: 2rem 1rem;
+  }
+  .topSection {
+    flex-direction: column; /* Muda para coluna em telas menores */
+    align-items: center;
+  }
+  .linksSection {
+    flex-direction: column; /* Muda para coluna em telas menores */
+    align-items: center;
+    gap: 1rem; /* Ajusta o espaço entre os itens */
+  }
+  .addressCard {
+    max-width: 100%; /* Permite que o cartão ocupe toda a largura em telas pequenas */
+  }
+  .brand {
+    font-size: 1.5rem; /* Reduz o tamanho da fonte da marca em telas menores */
+  }
+}
+@media (max-width: 480px) {
+  .socials a {
+    font-size: 1.1rem; /* Reduz o tamanho da fonte dos links sociais em telas muito pequenas */
+  }
+  .linksSection h4 {
+    font-size: 1rem; /* Reduz o tamanho da fonte dos cabeçalhos em telas muito pequenas */
+  }
+  .bottomBar {
+    font-size: 0.8rem; /* Reduz o tamanho da fonte da barra inferior em telas muito pequenas */
+  }
 }
