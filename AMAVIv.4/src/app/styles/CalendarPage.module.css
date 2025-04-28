@@ -8,7 +8,6 @@
   padding: 20px;
   overflow-x: hidden; /* Impede rolagem horizontal */
 }
-
 /* Wrapper de Conteúdo */
 .contentWrapper {
   width: 90%;
@@ -19,21 +18,18 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
 /* Cabeçalho */
 .headerContainer h1 {
   color: var(--text-color);
   font-size: 24px;
   margin-bottom: 20px;
 }
-
 /* Lista */
 .list {
   list-style: none;
   padding: 0;
   width: 100%;
 }
-
 .listItem {
   background: var(--background-color);
   color: var(--text-color);
@@ -45,11 +41,9 @@
   transition: transform 0.2s ease-in-out;
   text-align: left;
 }
-
 .listItem:hover {
   transform: scale(1.02);
 }
-
 /* Detalhes */
 .details {
   margin-top: 10px;
@@ -58,7 +52,6 @@
   border-radius: 5px;
   color: var(--text-color-secondary);
 }
-
 /* Tema */
 .dark {
   --background-color: #1e1e1e;
@@ -66,38 +59,38 @@
   --text-color-secondary: #ccc;
   --sidebar-bg: #333333;
 }
-
 .light {
   --background-color: #f9f9f9;
   --text-color: #333;
   --text-color-secondary: #666;
   --sidebar-bg: #b3b3b3;
 }
-
 /* Responsividade */
 @media (max-width: 768px) {
   .contentWrapper {
     width: 95%;
     padding: 15px;
   }
-
+  .headerContainer h1 {
+    font-size: 22px; /* Ajusta o tamanho do cabeçalho */
+  }
   .listItem {
     font-size: 14px;
     padding: 12px;
   }
 }
-
 @media (max-width: 480px) {
   .contentWrapper {
     width: 100%;
     padding: 10px;
   }
-
+  .headerContainer h1 {
+    font-size: 20px; /* Ajusta ainda mais o tamanho do cabeçalho */
+  }
   .listItem {
-    font-size: 14px;
+    font-size: 14px; /* Mantém o tamanho da fonte */
     padding: 10px;
   }
-
   .details {
     font-size: 12px;
     padding: 8px;

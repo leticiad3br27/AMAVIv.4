@@ -20,7 +20,7 @@ export default function Documents() {
   };
 
   const handleNavigateToCadastro = () => {
-    router.push('/cadastrar-documentacao'); // Redireciona para a página de cadastro
+    router.push('/cadastrar-documentacao');
   };
 
   const documents = [
