@@ -1,12 +1,15 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Importando o roteador do Next.js
+import { useRouter } from 'next/navigation';
 import SimpleLayout from '@/app/layouts/SimpleLayout';
 import styles from './documentos.module.css';
 import { Search, SquareCheckBig, CloudDownload } from 'lucide-react';
+
 export default function Documents() {
   const [searchTerm, setSearchTerm] = useState('');
-  const router = useRouter(); // Inicializando o roteador
+  const [sortBy, setSortBy] = useState('nome'); // <- Novo estado de filtro
+  const router = useRouter();
+
   const handleDownload = (docName, content) => {
     const blob = new Blob([content], { type: "text/plain" });
     const link = document.createElement("a");
@@ -16,23 +19,35 @@ export default function Documents() {
     link.click();
     document.body.removeChild(link);
   };
+
   const handleNavigateToCadastro = () => {
     router.push('/cadastrar-documentacao');
   };
+
   const documents = [
-    { name: "RG", content: "Documento de identidade oficial do usuário." },
-    { name: "CPF", content: "Cadastro de Pessoa Física do usuário." },
-    { name: "CEP", content: "Código de Endereçamento Postal do endereço cadastrado." },
-    { name: "FICHAS", content: "Fichas de cadastro e atendimento registradas no sistema." },
-    { name: "LAUDOS", content: "Laudos médicos e psicológicos arquivados no banco de dados." },
+    { name: "RG", content: "Documento de identidade oficial do usuário.", date: "2022-01-01", type: "Identificação" },
+    { name: "CPF", content: "Cadastro de Pessoa Física do usuário.", date: "2021-06-15", type: "Fiscal" },
+    { name: "CEP", content: "Código de Endereçamento Postal do endereço cadastrado.", date: "2020-12-10", type: "Endereço" },
+    { name: "FICHAS", content: "Fichas de cadastro e atendimento registradas no sistema.", date: "2023-03-22", type: "Cadastro" },
+    { name: "LAUDOS", content: "Laudos médicos e psicológicos arquivados no banco de dados.", date: "2023-02-10", type: "Saúde" },
   ];
-  const filteredDocs = documents.filter(doc =>
-    doc.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const handleSuggestionClick = (doc) => {
-    
-    handleDownload(doc.name, doc.content);
-  };
+
+  // Filtrando por busca
+  const filteredDocs = documents
+    .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      if (sortBy === 'alfabetico') {
+        return a.name.localeCompare(b.name);
+      }
+      if (sortBy === 'data') {
+        return new Date(b.date) - new Date(a.date);
+      }
+      if (sortBy === 'tipo') {
+        return a.type.localeCompare(b.type);
+      }
+      return 0; // Padrão
+    });
+
   return (
     <SimpleLayout>
       <div className={styles.box}>
@@ -58,28 +73,20 @@ export default function Documents() {
               </button>
             </a>
           </div>
+
+          {/* Sugestões agora são filtros */}
           <div className={styles.sugestao}>
-            <h1>SUGESTÕES</h1>
-            <table className={styles.table}>
-              <tbody>
-                {documents.map((doc) => (
-                  <tr key={doc.name}>
-                    <td className={styles.type}>{doc.name} :</td>
-                    <td>
-                      <button 
-                        className={styles.SquareCheckBig} 
-                        type="button" 
-                        onClick={() => handleSuggestionClick(doc)} 
-                      >
-                        <SquareCheckBig size={12} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <h1>FILTRAR POR</h1>
+            <div className={styles['filter-buttons']}>
+              <button className={styles.filterButton} onClick={() => setSortBy('alfabetico')}>Alfabético</button>
+              <button className={styles.filterButton} onClick={() => setSortBy('data')}>Data</button>
+              <button className={styles.filterButton} onClick={() => setSortBy('tipo')}>Tipo</button>
+              <button className={styles.filterButton} onClick={() => setSortBy('nome')}>Nome</button>
+            </div>
           </div>
         </div>
+
+        {/* Resultado */}
         {filteredDocs.length > 0 && (
           <div className={styles.resul}>
             {filteredDocs.map((doc) => (

@@ -1,7 +1,8 @@
 .ConfigLayout {
   background-color: var(--background-color);
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
   padding: 20px;
 }
 
@@ -9,6 +10,7 @@
   background: var(--sidebar-bg);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 20px;
   width: 100%;
 }
@@ -21,6 +23,7 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  box-sizing: border-box;
 }
 
 .smallSections {
@@ -30,8 +33,10 @@
 }
 
 .largeSections {
-  width: 100%;
-  height:50%;
+  padding: 100px;
+  align-items: center;
+  flex: 1;
+  min-height: 300px;
   background-color: var(--sidebar-bg); 
 }
 
@@ -46,7 +51,6 @@
   color: var(--text-color-secondary);
   margin-bottom: 20px;
 }
-
 
 .switch {
   position: relative;
@@ -117,7 +121,7 @@ input:checked + .slider:before {
   padding: 2rem;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color:var(--background-color);
+  background-color: var(--background-color);
 }
 
 .formGroup {
@@ -148,7 +152,7 @@ input:checked + .slider:before {
   --background-color: #1e1e1e;
   --text-color: #f9f9f9;
   --text-color-secondary: #ccc;
-  --sidebar-bg: #333333; /* Sidebar e largeSections no tema escuro */
+  --sidebar-bg: #333333;
   --switch-background: #1d1d1d;
   --switch-checked-background: #2196F3;
   --button-background: #555;
@@ -160,9 +164,50 @@ input:checked + .slider:before {
   --background-color: #f9f9f9;
   --text-color: #333;
   --text-color-secondary: #666;
-  --sidebar-bg: #b3b3b3; /* Sidebar e largeSections no tema claro */
+  --sidebar-bg: #b3b3b3;
   --switch-background: #222222;
   --switch-checked-background: #2196F3;
   --button-background: #007bff;
   --button-blue-background: #2196F3;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .smallSections {
+    max-width: 100%;
+  }
+  
+  .largeSections {
+    width: 100%;
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ConfigLayout {
+    padding: 10px;
+  }
+
+  .loginForm {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .text {
+    font-size: 13px;
+  }
+
+  .userButton {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px;
+  }
 }

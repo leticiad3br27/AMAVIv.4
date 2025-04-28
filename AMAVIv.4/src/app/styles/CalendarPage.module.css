@@ -1,98 +1,69 @@
-/* Layout Principal */
-.container {
-  background-color: var(--background-color);
-  min-height: 100vh;
+.calendarContainer {
+  width: 100%;
+  padding: 20px;
+}
+
+.calendarHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  overflow-x: hidden; /* Impede rolagem horizontal */
-}
-/* Wrapper de Conteúdo */
-.contentWrapper {
-  width: 90%;
-  max-width: 800px;
-  background: var(--sidebar-bg);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-/* Cabeçalho */
-.headerContainer h1 {
-  color: var(--text-color);
-  font-size: 24px;
   margin-bottom: 20px;
 }
-/* Lista */
-.list {
+
+.title {
+  font-size: 26px;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.legendList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
   list-style: none;
   padding: 0;
-  width: 100%;
+  margin: 0;
 }
-.listItem {
-  background: var(--background-color);
-  color: var(--text-color);
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-  text-align: left;
-}
-.listItem:hover {
-  transform: scale(1.02);
-}
-/* Detalhes */
-.details {
-  margin-top: 10px;
-  padding: 10px;
-  background: var(--sidebar-bg);
-  border-radius: 5px;
+
+.legendList li {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
   color: var(--text-color-secondary);
 }
-/* Tema */
-.dark {
-  --background-color: #1e1e1e;
-  --text-color: #f9f9f9;
-  --text-color-secondary: #ccc;
-  --sidebar-bg: #333333;
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 6px;
+  display: inline-block;
 }
-.light {
-  --background-color: #f9f9f9;
-  --text-color: #333;
-  --text-color-secondary: #666;
-  --sidebar-bg: #b3b3b3;
+
+.calendarWrapper {
+  margin-top: 10px;
 }
+
 /* Responsividade */
 @media (max-width: 768px) {
-  .contentWrapper {
-    width: 95%;
-    padding: 15px;
+  .title {
+    font-size: 22px;
   }
-  .headerContainer h1 {
-    font-size: 22px; /* Ajusta o tamanho do cabeçalho */
-  }
-  .listItem {
-    font-size: 14px;
-    padding: 12px;
+  .legendList li {
+    font-size: 12px;
   }
 }
+
 @media (max-width: 480px) {
-  .contentWrapper {
-    width: 100%;
-    padding: 10px;
-  }
-  .headerContainer h1 {
-    font-size: 20px; /* Ajusta ainda mais o tamanho do cabeçalho */
-  }
-  .listItem {
-    font-size: 14px; /* Mantém o tamanho da fonte */
-    padding: 10px;
-  }
-  .details {
-    font-size: 12px;
-    padding: 8px;
+  .legendList {
+    flex-direction: column;
+    align-items: center;
   }
 }

@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "../styles/famipage.module.css";
+import styles from "../styles/famipage.module.css"; // Seu novo CSS
 import useTheme from "../../hook/useTheme";
 import ConfigLayout from "../layouts/ConfigLayout";
+
 const usuarioPrincipal = {
   nome: "João Silva",
   idade: 40,
@@ -20,46 +21,52 @@ const usuarioPrincipal = {
     { data: "2023-06-20", descricao: "Consulta com especialista" },
   ],
 };
+
 const FamiliaPage = () => {
   const { isDarkMode } = useTheme();
   const router = useRouter();
+
   const handleHistoricoClick = (item) => {
-   
-    router.push(`Solicitar-Atendimento/historico-atendimentos`); 
+    router.push("Solicitar-Atendimento/historico-atendimentos");
   };
+
   return (
     <ConfigLayout>
-      <div className={`${styles.configLayout} ${isDarkMode ? styles.darkTheme : styles.lightTheme}`}>
-        <div className={styles.profileContainer}>
+      <div className={`${styles.pageContainer} ${isDarkMode ? styles.darkTheme : styles.lightTheme}`}>
+        {/* Coluna de Dados */}
+        <div className={styles.dataColumn}>
           <div className={styles.profileHeader}>
             <div className={styles.profileImage}></div>
             <h1 className={styles.profileName}>{usuarioPrincipal.nome}</h1>
-            <p className={styles.profileText}><strong>Idade:</strong> {usuarioPrincipal.idade}</p>
-            <p className={styles.profileText}><strong>Gênero:</strong> {usuarioPrincipal.genero}</p>
-            <p className={styles.profileText}><strong>Número SUS:</strong> {usuarioPrincipal.numeroSUS}</p>
-            <p className={styles.profileText}><strong>CPF:</strong> {usuarioPrincipal.cpf}</p>
-            <p className={styles.profileText}><strong>RG:</strong> {usuarioPrincipal.rg}</p>
-            <p className={styles.profileText}><strong>Endereço:</strong> {usuarioPrincipal.endereco}</p>
-            <p className={styles.profileText}><strong>Telefone:</strong> {usuarioPrincipal.telefone}</p>
-            <p className={styles.profileText}><strong>Email:</strong> {usuarioPrincipal.email}</p>
           </div>
-          <div className={styles.historicoContainer}>
-            <h2 className={styles.historicoTitle}>Histórico Médico</h2>
-            <ul className={styles.historicoList}>
-              {usuarioPrincipal.historico.map((item, index) => (
-                <li 
-                  key={index} 
-                  className={styles.historicoItem} 
-                  onClick={() => handleHistoricoClick(item)}
-                >
-                  <strong>{item.data}:</strong> {item.descricao}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className={styles.profileInfo}><strong>Idade:</strong> {usuarioPrincipal.idade}</p>
+          <p className={styles.profileInfo}><strong>Gênero:</strong> {usuarioPrincipal.genero}</p>
+          <p className={styles.profileInfo}><strong>Número SUS:</strong> {usuarioPrincipal.numeroSUS}</p>
+          <p className={styles.profileInfo}><strong>CPF:</strong> {usuarioPrincipal.cpf}</p>
+          <p className={styles.profileInfo}><strong>RG:</strong> {usuarioPrincipal.rg}</p>
+          <p className={styles.profileInfo}><strong>Endereço:</strong> {usuarioPrincipal.endereco}</p>
+          <p className={styles.profileInfo}><strong>Telefone:</strong> {usuarioPrincipal.telefone}</p>
+          <p className={styles.profileInfo}><strong>Email:</strong> {usuarioPrincipal.email}</p>
+        </div>
+
+        {/* Coluna de Histórico */}
+        <div className={styles.historyColumn}>
+          <h2 className={styles.sectionTitle}>Histórico Médico</h2>
+          <ul className={styles.historyList}>
+            {usuarioPrincipal.historico.map((item, index) => (
+              <li
+                key={index}
+                className={styles.historyItem}
+                onClick={() => handleHistoricoClick(item)}
+              >
+                <strong>{item.data}:</strong> {item.descricao}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </ConfigLayout>
   );
 };
+
 export default FamiliaPage;

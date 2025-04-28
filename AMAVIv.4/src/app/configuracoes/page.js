@@ -2,7 +2,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import ConfigLayout from "../layouts/ConfigLayout";
-import classNames from "classnames";
 import styles from "../styles/Configuracoes.module.css";
 import useTheme from "../../hook/useTheme";
 
@@ -33,6 +32,7 @@ const ConfiguracoesPage = () => {
               </label>
             </div>
           </div>
+
           <div className={styles.section}>
             <h2 className={styles.title}>Modo ADM</h2>
             <label className={styles.switch}>
@@ -40,6 +40,7 @@ const ConfiguracoesPage = () => {
               <span className={styles.slider} />
             </label>
           </div>
+
           <div className={styles.section}>
             <h2 className={styles.title}>Notificações</h2>
             <label className={styles.switch}>
@@ -50,8 +51,7 @@ const ConfiguracoesPage = () => {
         </section>
 
         <section className={styles.largeSections}>
-  
-          <div className={styles.largeSection}>
+          <div className={styles.container}>
             <h2 className={styles.title}>Meus Documentos</h2>
             <p className={styles.text}>Visualizar seus documentos?</p>
             <button className={styles.userButton} onClick={handleVisualizarDocumentos}>

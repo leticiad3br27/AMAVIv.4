@@ -2,188 +2,277 @@
     padding-top: 3%;
     display: flex;
     flex-direction: row;
-}
-
-.busc {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .busc {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     width: 40%;
-    height: 92.1vh;
-    background-color: #05739D;
-}
-
-.busca {
+    min-width: 300px;
+    background-color: #001555; /* Azul Royal */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .busca {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 12px;
-}
-
-.busca h1 {
+  }
+  
+  .busca h1 {
     color: white;
-    font-size: 25px;
-    margin-bottom: 4%;
-}
-
-.search-container {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 8%;
-}
-
-.search-input {
-    width: 90%;
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px 0 0 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.368);
-}
-
-.search-icon {
-    margin-left: 0;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 0 4px 4px 0;
-    background-color: #e9ecef;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.368);
-}
-.busca .butao {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 80%;
-    background-color: #e9ecef;
-    text-decoration: none;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 5%;
-    box-shadow: 0 4px 10px #0000004d;
-    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.busca .butao > button {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
     width: 100%;
-    text-decoration: none;
-    border-color: #06060600;
-    background-color: transparent;
-    font-size: 16px;
-    padding: 10px;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-.busca .butao:hover {
-    background-color: #05739D; /* Azul escuro no hover */
-    transform: scale(1.05); /* Aumenta levemente o botão */
-}
-
-.busca .butao:hover > button {
-    color: white; /* Muda a cor do texto no hover */
-}
-
-.sugestao {
-    width: 17vw;
-    height: auto;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-bottom: 40%;
-}
-
-.sugestao h1 {
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .search-icon {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0 5px 5px 0;
+    background-color: #4169E1; /* Azul Royal */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .butao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    background-color: #4169E1; /* Azul Royal */
+    text-decoration: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .butao > button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .butao:hover {
+    background-color: #5A8DEE; /* Azul Royal mais claro */
+    transform: scale(1.05);
+  }
+  
+  .butao:hover > button {
+    color: white;
+  }
+  
+  .sugestao {
+    width: 100%;
+    margin-top: 30px;
+  }
+  
+  .sugestao h1 {
     color: white;
     font-size: 20px;
-    margin: 0 0 8% -18%;
-}
-
-.type {
-    width: 500px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .table {
+    width: 100%;
+  }
+  
+  .type {
     color: white;
-}
-
-.SquareCheckBig {
-    text-decoration: none;
-    background-color: transparent;
-    border-color: transparent;
-    margin-left: 10vw;
-}
-
-.SquareCheckBig:focus {
+    font-size: 16px;
+    text-align: left;
+    padding-left: 10px;
+  }
+  
+  .SquareCheckBig {
+    background: transparent;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .SquareCheckBig:focus {
     outline: none;
-    box-shadow: none;
-}
-
-.resul {
+  }
+  
+  .resul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4%;
-    width: 60%;
-    height: auto;
-    background-color: #419CBF;
-    padding-top: 2%;
-}
-
-.cad-donw {
+    width: 55%;
+    min-width: 300px;
+    background-color: #4169E1; /* Azul Royal */
+    border-radius: 10px;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .cad-donw {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 2%;
-    width: 90%;
-    height: auto;
-    background-color: #ced4da;
-    border-radius: 20px;
-}
-
-.cad-donw .txt {
-    width: 85%;
-    height: auto;
+    background-color: #ffffff; /* Azul Royal mais claro */
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    gap: 10px;
+  }
+  
+  .txt {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    gap: 5px;
-}
-
-.cad-donw > .txt > h1 {
-    font-size: 20px;
-}
-
-.cad-donw > .txt > h2 {
-    font-size: 12px;
-}
-
-.cad-donw > button {
-    border-color: transparent;
-    background-color: transparent;
+    width: 85%;
+  }
+  
+  .txt h1 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .txt h2 {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .cad-donw > button {
+    background: none;
+    border: none;
     width: 15%;
-    height: auto;
-    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-.cad-donw > button:hover {
-    transform: scale(1.1); /* Aumenta levemente o tamanho */
-    color: #05739D; /* Muda a cor do ícone */
-}
-
-.cad-donw > button > svg {
-    width: 100%;
-    font-size: 40px;
-    transition: color 0.2s ease-in-out;
-}
-
-.cad-donw > button:focus {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .cad-donw > button:hover {
+    transform: scale(1.1);
+    color: #4169E1; /* Azul Royal */
+  }
+  
+  .cad-donw > button:focus {
     outline: none;
-    box-shadow: none;
-}
-
-@media screen and (max-width: 1366px) {
-    .sugestao {
-        margin-bottom: 30%;
+  }
+  
+  .cad-donw > button > svg {
+    width: 100%;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 1024px) {
+    .box {
+      flex-direction: column;
+      align-items: center;
     }
-}
+  
+    .busc, .resul {
+      width: 80%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .busc, .resul {
+      width: 90%;
+    }
+  
+    .sugestao {
+      margin-top: 20px;
+    }
+  
+    .txt h1 {
+      font-size: 16px;
+    }
+  
+    .txt h2 {
+      font-size: 12px;
+    }
+  
+    .search-input, .search-icon {
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .search-container {
+      flex-direction: column;
+    }
+  
+    .search-input, .search-icon {
+      width: 100%;
+      border-radius: 5px;
+    }
+  
+    .butao {
+      width: 100%;
+    }
+  
+    .sugestao h1, .busca h1 {
+      font-size: 18px;
+    }
+  
+    .type {
+      font-size: 14px;
+    }
+  
+    .resul {
+      width: 100%;
+    }
+  }
+  
+  .filter-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .filterButton {
+    background-color: #4169E1; /* Azul Royal */
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .filterButton:hover {
+    background-color: #5A8DEE; /* Azul Royal mais claro */
+    color: white;
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 480px) {
+    .filter-buttons {
+      flex-direction: column;
+    }
+  }
