@@ -58,25 +58,12 @@ export default function Beneficiario() {
         sexo: '',
         cartaoSus: '',
         laudoMedico: null,
-        informacoesMedicas: '',
-        
-        // Dados do Responsável
-        nomeResponsavel: '',
-        cpfResponsavel: '',
-        rgResponsavel: '',
-        profissaoResponsavel: '',
-        nascimentoResponsavel: '',
-        estadoCivilResponsavel: '',
-        rendaResponsavel: '',
-        enderecoResponsavel: ''
+        informacoesMedicas: ''
     });
 
     const [profissoes, setProfissoes] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
     const [progress, setProgress] = useState(0);
-    const [isUnderage, setIsUnderage] = useState(false);
     const [cpfError, setCpfError] = useState("");
-    const [cpfResponsavelError, setCpfResponsavelError] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -99,21 +86,14 @@ export default function Beneficiario() {
             if (typeof value === 'string' && value.trim() === '') return false;
             return true;
         }).length;
-        
-        const totalFields = isUnderage ? Object.keys(formData).length : Object.keys(formData).length - 8;
+
+        const totalFields = Object.keys(formData).length;
         setProgress((filledFields / totalFields) * 100);
-        
-        if (formData.nascimento) {
-            const age = calculateAge(formData.nascimento);
-            setIsUnderage(age < 18);
-        } else {
-            setIsUnderage(false);
-        }
-    }, [formData, isUnderage]);
+    }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        
+
         if (name === "cpf") {
             const formattedCPF = formatCPF(value);
             setFormData({ ...formData, cpf: formattedCPF });
@@ -124,27 +104,7 @@ export default function Beneficiario() {
             }
             return;
         }
-        
-        if (name === "cpfResponsavel") {
-            const formattedCPF = formatCPF(value);
-            setFormData({ ...formData, cpfResponsavel: formattedCPF });
-            if (formattedCPF && !validateCPF(formattedCPF.replace(/[^\d]+/g, ''))) {
-                setCpfResponsavelError("CPF inválido!");
-            } else {
-                setCpfResponsavelError("");
-            }
-            return;
-        }
-        
-        if (name === "rendaResponsavel") {
-            setFormData({ ...formData, [name]: formatCurrency(value) });
-            return;
-        }
-        
-        if (name === "profissao" || name === "profissaoResponsavel") {
-            setSearchTerm(value);
-        }
-        
+
         setFormData({ ...formData, [name]: value });
     };
 
@@ -152,8 +112,8 @@ export default function Beneficiario() {
         const today = new Date();
         const birth = new Date(birthDate);
         let age = today.getFullYear() - birth.getFullYear();
-        const monthDiff = today.getMonth() - birth.getMonth();
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        const monthDifference = today.getMonth() - birth.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
             age--;
         }
         return age;
@@ -161,58 +121,38 @@ export default function Beneficiario() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         // Validar CPF do beneficiário
         const rawCPF = formData.cpf.replace(/[^\d]+/g, '');
         if (!validateCPF(rawCPF)) {
             setCpfError("CPF inválido! Por favor, insira um CPF válido.");
             return;
         }
-        
-        // Se for menor de idade, validar dados do responsável
-        if (isUnderage) {
-            const rawCPFResponsavel = formData.cpfResponsavel.replace(/[^\d]+/g, '');
-            if (!validateCPF(rawCPFResponsavel)) {
-                setCpfResponsavelError("CPF do responsável inválido! Por favor, insira um CPF válido.");
-                return;
-            }
-            
-            // Verificar se todos os campos do responsável estão preenchidos
-            const requiredResponsavelFields = [
-                'nomeResponsavel', 'cpfResponsavel', 'rgResponsavel',
-                'profissaoResponsavel', 'nascimentoResponsavel',
-                'estadoCivilResponsavel', 'rendaResponsavel', 'enderecoResponsavel'
-            ];
-            
-            for (const field of requiredResponsavelFields) {
-                if (!formData[field]) {
-                    alert(`Por favor, preencha todos os campos do responsável. Campo faltante: ${field}`);
-                    return;
-                }
-            }
+
+        // Calcular idade
+        const age = calculateAge(formData.nascimento);
+        if (age < 18) {
+            router.push("/Cadastrar-R");
+            return;
         }
-        
+
         // Verificar campos obrigatórios do beneficiário
         const requiredBeneficiarioFields = [
             'nome', 'cpf', 'telefone', 'email', 'nascimento',
             'rg', 'profissao', 'rua', 'numero', 'cidade',
             'estado', 'cep', 'sexo', 'cartaoSus'
         ];
-        
+
         for (const field of requiredBeneficiarioFields) {
             if (!formData[field]) {
                 alert(`Por favor, preencha todos os campos obrigatórios. Campo faltante: ${field}`);
                 return;
             }
         }
-        
+
         // Se tudo estiver válido, redirecionar
         router.push("/definir-senha");
     };
-
-    const filteredProfissoes = profissoes.filter(profissao =>
-        profissao.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <div className={styles.container}>
@@ -251,118 +191,12 @@ export default function Beneficiario() {
                             required
                         />
                         <datalist id="profissoes-list">
-                            {filteredProfissoes.map((profissao, index) => (
+                            {profissoes.map((profissao, index) => (
                                 <option key={index} value={profissao} />
                             ))}
                         </datalist>
                     </label>
                 </div>
-                
-                {isUnderage && (
-                    <div>
-                        <h2 className={styles.sectionTitle4}>DADOS DO RESPONSÁVEL</h2>
-                        <div className={styles.gridContainer}>
-                            <label>Nome Completo: 
-                                <input 
-                                    type="text" 
-                                    name="nomeResponsavel" 
-                                    value={formData.nomeResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required 
-                                />
-                            </label>
-                            
-                            <label>CPF: 
-                                <input 
-                                    type="text" 
-                                    name="cpfResponsavel" 
-                                    value={formData.cpfResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required 
-                                    placeholder="000.000.000-00"
-                                />
-                                {cpfResponsavelError && <span className={styles.error}>{cpfResponsavelError}</span>}
-                            </label>
-                            
-                            <label>RG: 
-                                <input 
-                                    type="number" 
-                                    name="rgResponsavel" 
-                                    value={formData.rgResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required 
-                                />
-                            </label>
-                            
-                            <label>Profissão:
-                                <input
-                                    type="text"
-                                    name="profissaoResponsavel"
-                                    value={formData.profissaoResponsavel}
-                                    onChange={handleChange}
-                                    className={styles.inputField}
-                                    list="profissoes-list"
-                                    required
-                                />
-                            </label>
-                            
-                            <label>Data de Nascimento: 
-                                <input 
-                                    type="date" 
-                                    name="nascimentoResponsavel" 
-                                    value={formData.nascimentoResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required 
-                                />
-                            </label>
-                            
-                            <label>Estado Civil: 
-                                <select 
-                                    name="estadoCivilResponsavel" 
-                                    value={formData.estadoCivilResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required
-                                >
-                                    <option value="">Selecione</option>
-                                    <option value="Solteiro(a)">Solteiro(a)</option>
-                                    <option value="Casado(a)">Casado(a)</option>
-                                    <option value="Divorciado(a)">Divorciado(a)</option>
-                                    <option value="Viúvo(a)">Viúvo(a)</option>
-                                    <option value="Separado(a)">Separado(a)</option>
-                                    <option value="União Estável">União Estável</option>
-                                </select>
-                            </label>
-                            
-                            <label>Renda Mensal (R$): 
-                                <input 
-                                    type="text" 
-                                    name="rendaResponsavel" 
-                                    value={formData.rendaResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required 
-                                    placeholder="0,00"
-                                />
-                            </label>
-                            
-                            <label>Endereço Completo: 
-                                <input 
-                                    type="text" 
-                                    name="enderecoResponsavel" 
-                                    value={formData.enderecoResponsavel} 
-                                    onChange={handleChange} 
-                                    className={styles.inputField} 
-                                    required 
-                                />
-                            </label>
-                        </div>
-                    </div>
-                )}
                 
                 <h2 className={styles.sectionTitle2}>ENDEREÇO</h2>
                 <div className={styles.gridContainer}>

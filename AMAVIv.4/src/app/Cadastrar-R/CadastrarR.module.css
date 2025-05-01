@@ -1,0 +1,174 @@
+/* Container principal */
+.container {
+    color: #ffffff;
+    background: linear-gradient(135deg, #001933 0%, #003366 100%);
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+/* Título */
+.title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* Barra de progresso */
+.progressContainer {
+    width: 100%;
+    background-color: #2c3e50;
+    border-radius: 25px;
+    margin-bottom: 30px;
+    height: 14px;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.progressBar {
+    height: 100%;
+    background: linear-gradient(90deg, #00bcd4, #007bff);
+    border-radius: 25px 0 0 25px;
+    transition: width 0.4s ease-in-out;
+    box-shadow: 0 0 8px #00bcd4;
+}
+
+/* Formulário e container dos inputs */
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Grid responsivo para inputs */
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px 25px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* Label e inputs */
+.label {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-weight: 600;
+    color: #eee;
+}
+
+.inputField {
+    margin-top: 6px;
+    background-color: #f5f7fa;
+    padding: 14px 18px;
+    border: 2.5px solid #013368;
+    border-radius: 9px;
+    width: 100%;
+    font-size: 1rem;
+    color: #1a1a1a;
+    box-sizing: border-box;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    appearance: none;
+    outline-offset: 2px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputField:focus {
+    border-color: #00d4d8;
+    background-color: #e8faff;
+    box-shadow: 0 0 10px 3px rgba(0, 212, 216, 0.5);
+    outline: none;
+    z-index: 1;
+}
+
+/* Mensagens de erro */
+.errorMessage {
+    color: #ff4d4f;
+    margin-top: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    grid-column: span 2;
+    text-align: left;
+    text-shadow: 0 0 4px rgba(255, 77, 79, 0.7);
+}
+
+/* Botão principal */
+.buttonContainer {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+}
+
+.buttonEnviar {
+    padding: 14px 38px;
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5);
+    transition: background 0.35s ease, box-shadow 0.35s ease;
+    user-select: none;
+    letter-spacing: 0.04em;
+}
+
+.buttonEnviar:hover:not(:disabled),
+.buttonEnviar:focus:not(:disabled) {
+    background: linear-gradient(135deg, #209838 0%, #18692d 100%);
+    box-shadow: 0 8px 20px rgba(30, 126, 52, 0.8);
+    outline: none;
+}
+
+.buttonEnviar:disabled,
+.buttonEnviar[aria-disabled="true"] {
+    background-color: #8c8c8c;
+    box-shadow: none;
+    cursor: not-allowed;
+    color: #f1f1f1;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+    .container {
+        margin: 20px 10px;
+        min-height: auto;
+        padding: 20px 15px;
+    }
+
+    .gridContainer {
+        grid-template-columns: 1fr;
+        gap: 18px 0;
+    }
+
+    .errorMessage {
+        grid-column: 1;
+    }
+
+    .buttonEnviar {
+        width: 100%;
+        padding: 16px 0;
+        font-size: 1.125rem;
+    }
+}
