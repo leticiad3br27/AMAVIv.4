@@ -8,7 +8,7 @@
 }
 .mainContent {
   flex: 1;
-  background-color: #4169E1; 
+  background-color: #ccd9ff; 
   padding: 50px;
   overflow-y: auto;
 }
