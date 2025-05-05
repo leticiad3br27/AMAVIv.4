@@ -52,7 +52,7 @@
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 0 5px 5px 0;
-    background-color: #ccd9ff; /* Azul Royal */
+    background-color: #c3ddff; /* Azul Royal */
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
@@ -62,7 +62,7 @@
     justify-content: center;
     align-items: center;
     width: 90%;
-    background-color: #ccd9ff; /* Azul Royal */
+    background-color: #b9daff; /* Azul Royal */
     text-decoration: none;
     border-radius: 8px;
     margin-top: 10px;
@@ -130,7 +130,7 @@
     align-items: center;
     width: 55%;
     min-width: 300px;
-    background-color: #ccd9ff; /* Azul Royal */
+    background-color: #b9daff; /* Azul Royal */
     border-radius: 10px;
     padding: 20px;
     gap: 20px;
@@ -174,7 +174,7 @@
   
   .cad-donw > button:hover {
     transform: scale(1.1);
-    color: #ccd9ff; /* Azul Royal */
+    color: #b9daff; /* Azul Royal */
   }
   
   .cad-donw > button:focus {
@@ -254,7 +254,7 @@
   }
   
   .filterButton {
-    background-color: #ccd9ff; /* Azul Royal */
+    background-color: #b9daff; /* Azul Royal */
     color: white;
     font-weight: bold;
     border: none;
