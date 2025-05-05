@@ -62,7 +62,7 @@
     justify-content: center;
     align-items: center;
     width: 90%;
-    background-color: #b9daff; /* Azul Royal */
+    background-color: #3091ff; /* Azul Royal */
     text-decoration: none;
     border-radius: 8px;
     margin-top: 10px;
@@ -130,7 +130,7 @@
     align-items: center;
     width: 55%;
     min-width: 300px;
-    background-color: #b9daff; /* Azul Royal */
+    background-color: #3091ff; /* Azul Royal */
     border-radius: 10px;
     padding: 20px;
     gap: 20px;
@@ -174,7 +174,7 @@
   
   .cad-donw > button:hover {
     transform: scale(1.1);
-    color: #b9daff; /* Azul Royal */
+    color: #3091ff; /* Azul Royal */
   }
   
   .cad-donw > button:focus {
@@ -254,7 +254,7 @@
   }
   
   .filterButton {
-    background-color: #b9daff; /* Azul Royal */
+    background-color: #3091ff; /* Azul Royal */
     color: white;
     font-weight: bold;
     border: none;

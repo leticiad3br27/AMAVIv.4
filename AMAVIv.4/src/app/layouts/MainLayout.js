@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import SideMenu from "@/components/SideMenu";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import SideMenu from "../..//components/SideMenu";
 import styles from "./MainLayout.module.css";
 
 export default function MainLayout({ children }) {

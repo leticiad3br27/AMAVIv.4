@@ -8,7 +8,7 @@
   padding: 20px;
 }
 .eve {
-  background-color: #b9daff; /* Azul Royal */
+  background-color: #72b4ff; /* Azul Royal */
   border-radius: 35px;
   max-width: 90%;
   min-height: 100px;
@@ -41,7 +41,7 @@
   max-width: 1200px;
 }
 .divCard {
-  background-color: #b9daff; /* Azul Royal */
+  background-color: #3091ff; /* Azul Royal */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -136,7 +136,7 @@ body.modal-open {
   overflow: hidden;
 }
 .modalContent {
-  background-color: #b9daff; /* Azul Royal */
+  background-color: #3091ff; /* Azul Royal */
   padding: 20px;
   border-radius: 10px;
   width: 90%;
@@ -166,6 +166,6 @@ body.modal-open {
 }
 .close:hover,
 .close:focus {
-  color: #b9daff; /* Azul Royal */
+  color: #3091ff; /* Azul Royal */
   text-decoration: none;
 }
