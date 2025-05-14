@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './historico-atendimentos.module.css';
 import { useRouter } from "next/navigation"; // Importando useRouter
-import SimpleLayout from '../../app/layout/Simplelayout';
+import SimpleLayout from '../../layouts/SimpleLayout';
 const App = () => {
     const router = useRouter(); 
     const requerimentos = [
