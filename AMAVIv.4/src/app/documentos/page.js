@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import SimpleLayout from '@/app/layouts/SimpleLayout';
+import SimpleLayout from 'import SimpleLayout from '../../layouts/SimpleLayout';';
 import styles from './documentos.module.css';
 import { Search, SquareCheckBig, CloudDownload } from 'lucide-react';
 
