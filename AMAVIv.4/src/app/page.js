@@ -17,9 +17,9 @@ import "swiper/css/scrollbar";
 export default function Home() {
   const data = [
     { id: "1", image: "/assets/img/AMAVI1.png" },
-    { id: "2", image: "/assets/img/AMAVI (36 x 24 in) (2).png" },
-    { id: "3", image: "/assets/img/AMAVI (36 x 24 in).png" },
-    { id: "4", image: "/assets/img/AMAVI (36 x 24 in).png" },
+    { id: "2", image: "/assets/img/caminhada.png" },
+    { id: "3", image: "/assets/img/carterinha.png" },
+    { id: "4", image: "/assets/img/AMAVI.png" },
   ];
 
   return (
