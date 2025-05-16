@@ -1,19 +1,22 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './login.module.css';
 
 export default function Login() {
-  const validateForm = () => {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-    if (username === '' || password === '') {
+  const validateForm = () => {
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (trimmedUsername === '' || trimmedPassword === '') {
       alert('Por favor, preencha todos os campos antes de continuar.');
       return;
     }
     
     // Validação simples: usuário e senha devem ser "root"
-    if (username === 'root' && password === 'root') {
+    if (trimmedUsername === 'root' && trimmedPassword === 'root') {
       window.location.href = './';
     } else {
       alert('Usuário ou senha incorretos!');
@@ -35,8 +38,8 @@ export default function Login() {
         <div className={styles.shape} />
       </div>
 
-      <form className={styles.form} id="loginForm">
-        <h3>Entrar</h3>
+      <form className={styles.form} id="loginForm" onSubmit={(e) => { e.preventDefault(); validateForm(); }}>
+        <h3 className={styles.title}>Entrar</h3>
 
         <label className={styles.label} htmlFor="username">
           Usuário
@@ -46,6 +49,9 @@ export default function Login() {
           placeholder="Email ou Telefone"
           id="username"
           className={styles.input}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          aria-label="Usuário"
         />
 
         <label className={styles.label} htmlFor="password">
@@ -56,6 +62,9 @@ export default function Login() {
           placeholder="Senha"
           id="password"
           className={styles.input}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          aria-label="Senha"
         />
 
         <button type="button" className={styles.button} onClick={validateForm}>
@@ -67,7 +76,7 @@ export default function Login() {
             className={styles.socialItem}
             onClick={handleRegister}
           >
-            Primeira vez aqui?
+            Cadastrar-se
           </button>
           <button 
             type="button"

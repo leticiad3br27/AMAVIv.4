@@ -1,125 +1,169 @@
 .footer {
-  background-color: #e3f2fd; /* Azul claro */
-  color: #0d47a1; /* Azul escuro */
-  padding: 3rem 2rem 1rem;
-  border-top: 2px solid #90caf9; /* Azul intermediário */
-  font-family: 'Segoe UI', sans-serif;
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 1s ease-in;
+  text-align: center; /* Centraliza textos por padrão */
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .topSection {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid #bbdefb;
+  padding-bottom: 2rem;
 }
-.addressCard {
-  background-color: #bbdefb; /* Azul claro */
-  padding: 1.5rem;
-  border-radius: 12px;
-  max-width: 300px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
-  flex: 1 1 280px; /* Flexível para ajustar ao espaço disponível */
-}
-.addressCard h3 {
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #0d47a1; /* Azul escuro */
-}
-.addressCard hr {
-  border: none;
-  border-top: 1px solid #64b5f6; /* Azul intermediário */
-  margin: 0.5rem 0;
-}
-.logoSection {
+
+.addressCard,
+.logoSection,
+.linksSection {
+  flex: 1 1 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.addressCard:hover,
+.logoSection:hover,
+.linksSection:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(13, 71, 161, 0.1);
+}
+
+.addressCard h3 {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  gap: 0.5rem;
+  color: #1565c0;
+  justify-content: center;
+}
+
+.addressCard hr {
+  border: none;
+  border-top: 1px solid #90caf9;
+  margin: 0.5rem 0;
+  width: 50%;
+}
+
+.addressCard p {
+  line-height: 1.5;
+  color: #0d47a1;
+}
+
 .logo {
-  width: 200px; /* Aumente o tamanho conforme necessário */
-  height: auto; /* Mantém a proporção da imagem */
+  width: 150px;
+  height: auto;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.socials a {
+  font-size: 1.5rem;
+  color: #42a5f5;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.socials a:hover {
+  color: #1e88e5;
+  transform: scale(1.2);
+}
+
+.linksSection h4 {
+  color: #1565c0;
   margin-bottom: 0.5rem;
 }
-.brand {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #1565c0; /* Azul escuro */
-  margin-bottom: 1rem;
-}
-.socials a {
-  margin: 0 0.5rem;
-  font-size: 1.3rem;
-  color: #1e88e5; /* Azul intermediário */
-  transition: color 0.3s;
-}
-.socials a:hover {
-  color: #0d47a1; /* Azul escuro */
-}
-.linksSection {
-  display: flex;
-  gap: 3rem;
-  flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha se necessário */
-}
-.linksSection h4 {
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-  color: #0d47a1; /* Azul escuro */
-}
+
 .linksSection ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .linksSection li {
   margin-bottom: 0.5rem;
-  font-size: 0.95rem;
 }
+
 .linksSection a {
-  color: #1565c0; 
+  color: #1976d2;
   text-decoration: none;
   transition: color 0.3s;
 }
+
 .linksSection a:hover {
-  color: #0d47a1; 
+  color: #0d47a1;
 }
+
+.supportButton {
+  display: inline-block;
+  background-color: #64b5f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.supportButton:hover {
+  background-color: #42a5f5;
+  transform: scale(1.05);
+}
+
 .bottomBar {
   text-align: center;
-  padding-top: 1.5rem;
+  padding-top: 1rem;
+  color: #1976d2;
   font-size: 0.9rem;
-  color: #1e88e5; 
-  border-top: 1px solid #90caf9; 
-  margin-top: 2rem;
+  animation: fadeIn 1.5s ease-in;
 }
-/* Media Queries para responsividade */
+
+/* Responsividade */
 @media (max-width: 768px) {
-  .footer {
-    padding: 2rem 1rem;
-  }
   .topSection {
-    flex-direction: column; /* Muda para coluna em telas menores */
+    flex-direction: column;
     align-items: center;
   }
+
+  .addressCard,
+  .logoSection,
   .linksSection {
-    flex-direction: column; /* Muda para coluna em telas menores */
-    align-items: center;
-    gap: 1rem; /* Ajusta o espaço entre os itens */
+    flex: 1 1 100%;
   }
-  .addressCard {
-    max-width: 100%; /* Permite que o cartão ocupe toda a largura em telas pequenas */
+
+  .logo {
+    width: 120px;
   }
-  .brand {
-    font-size: 1.5rem; /* Reduz o tamanho da fonte da marca em telas menores */
-  }
-}
-@media (max-width: 480px) {
-  .socials a {
-    font-size: 1.1rem; /* Reduz o tamanho da fonte dos links sociais em telas muito pequenas */
-  }
-  .linksSection h4 {
-    font-size: 1rem; /* Reduz o tamanho da fonte dos cabeçalhos em telas muito pequenas */
-  }
-  .bottomBar {
-    font-size: 0.8rem; /* Reduz o tamanho da fonte da barra inferior em telas muito pequenas */
+
+  .socials {
+    justify-content: center;
   }
 }

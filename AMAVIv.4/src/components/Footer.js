@@ -19,40 +19,22 @@ export default function Footer() {
 
         <div className={styles.logoSection}>
           <img src="/assets/img/AMAVILOGO1.png" alt="Logo da AMAVI" className={styles.logo} />
-          <h2 className={styles.brand}>AMAVI</h2>
+        
           <div className={styles.socials}>
             <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><FaFacebook /></a>
-            <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><FaLinkedin /></a>
             <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><FaInstagram /></a>
-            <a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><FaTwitter /></a>
           </div>
         </div>
 
         <div className={styles.linksSection}>
           <div>
-            <h4>Funcionalidades</h4>
-            <ul>
-              <li>Atendimentos</li>
-              <li>Doações</li>
-              <li>Eventos</li>
-              <li>Agendamentos</li>
-              <li>Voluntariado</li>
-            </ul>
-          </div>
-          <div>
             <h4>Sobre a AMAVI</h4>
             <ul>
               <li><a href="https://sobre-amavi.vercel.app/">Quem somos</a></li>
-              <li><a href="https://sobre-amavi.vercel.app/">Contato</a></li>
-              <li><a href="https://sobre-amavi.vercel.app/">Nossa equipe</a></li>
-              <li><a href="https://sobre-amavi.vercel.app/">Histórico</a></li>
+              <li><a href="mailto:suporte.amavi@gmail.com" className={styles.supportButton}>
+                Enviar e-mail para o suporte
+              </a></li>
             </ul>
-          </div>
-          <div>
-            <h4>Suporte</h4>
-            <a href="mailto:suporte.amavi@gmail.com" className={styles.supportButton}>
-              Enviar e-mail para o suporte
-            </a>
           </div>
         </div>
       </div>
