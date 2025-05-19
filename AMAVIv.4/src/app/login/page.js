@@ -46,7 +46,7 @@ export default function Login() {
         </label>
         <input
           type="text"
-          placeholder="Email ou Telefone"
+          placeholder="CPF"
           id="username"
           className={styles.input}
           value={username}
