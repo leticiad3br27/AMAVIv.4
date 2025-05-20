@@ -1,5 +1,5 @@
 .box {
-    padding-top: 10%;
+    
     display: flex;
     flex-direction: row;
 }
@@ -11,7 +11,7 @@
     justify-content: space-between;
     width: 40%;
     height: 92.1vh;
-    background-color: #05739D;
+    background-color: #3b5386;
 }
 
 .busca {
@@ -78,7 +78,7 @@
 }
 
 .busca .butao:hover {
-    background-color: #05739D; /* Azul escuro no hover */
+    background-color: #100e63; /* Azul escuro no hover */
     transform: scale(1.05); /* Aumenta levemente o botão */
 }
 
@@ -125,7 +125,7 @@
     gap: 4%;
     width: 60%;
     height: auto;
-    background-color: #419CBF;
+    background-color: #1d1c52;
     padding-top: 2%;
 }
 
