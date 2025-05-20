@@ -2,12 +2,11 @@
   padding: 2rem;
   background-color: #f9f9f9;
   border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
 }
-
 /* Título principal */
 .title {
   font-size: 2.5rem;
@@ -16,7 +15,6 @@
   text-align: center;
   margin-bottom: 1rem;
 }
-
 /* Subtítulo */
 .subTitle {
   color: #007bff;
@@ -25,7 +23,6 @@
   margin-bottom: 2rem;
   font-size: 1.5rem;
 }
-
 /* Texto de introdução */
 .lead {
   font-size: 1.2rem;
@@ -34,27 +31,26 @@
   margin-bottom: 2rem;
   padding: 0 1rem;
 }
-
 /* Lista de chaves Pix */
 .pixList {
   font-size: 1.1rem;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   word-wrap: break-word;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
-
 .pixList:hover {
   background-color: #f0f8ff;
+  transform: scale(1.02);
 }
-
 /* Wrapper da imagem QR Code */
 .qrWrapper {
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
 }
-
 /* Estilo da imagem */
 .qrImage {
   border: 2px solid #ddd;
@@ -62,7 +58,20 @@
   width: 100%;
   height: auto;
 }
-
+/* Estilo dos botões */
+.btn-copy {
+  margin-left: 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-copy:hover {
+  background-color: #0056b3;
+}
 /* Rodapé / mensagem final */
 .footer {
   font-size: 0.95rem;
@@ -71,61 +80,48 @@
   margin-top: 3rem;
   padding: 0 1rem;
 }
-
 /* Media queries para responsividade */
 @media (max-width: 768px) {
   .title {
     font-size: 2rem;
   }
-
   .lead {
     font-size: 1rem;
   }
-
   .subTitle {
     font-size: 1.2rem;
   }
-
   .pixList {
     font-size: 1rem;
   }
 }
-
 @media (max-width: 480px) {
   .title {
     font-size: 1.8rem;
   }
-
   .lead {
     font-size: 0.95rem;
   }
-
   .subTitle {
     font-size: 1.1rem;
   }
-
   .pixList {
     font-size: 0.95rem;
   }
-
   .footer {
     font-size: 0.85rem;
   }
 }
-
 @media (max-width: 320px) {
   .title {
     font-size: 1.6rem;
   }
-
   .subTitle {
     font-size: 1rem;
   }
-
   .lead {
     font-size: 0.9rem;
   }
-
   .pixList {
     font-size: 0.9rem;
   }
