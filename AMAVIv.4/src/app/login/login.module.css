@@ -1,57 +1,12 @@
-/* login.module.css */
 
-@keyframes gradientBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes shapeMove1 {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.2;
-  }
-  50% {
-    transform: translate(20px, 15px) scale(1.1);
-    opacity: 0.3;
-  }
-}
-
-@keyframes shapeMove2 {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.25;
-  }
-  50% {
-    transform: translate(-20px, -10px) scale(1.15);
-    opacity: 0.35;
-  }
-}
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(
-    270deg,
-    rgba(0, 11, 73, 0.9) 0%,
-    #001356 25%,
-    #001f7a 50%,
-    #001356 75%,
-    rgba(0, 11, 73, 0.9) 100%
-  );
-  background-size: 800% 800%;
-  animation: gradientBackground 15s ease infinite;
   position: relative;
   overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .background {
@@ -60,173 +15,197 @@
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
+  background: linear-gradient(135deg, #0d47a1, #1976d2); /* Gradiente azul escuro */
   z-index: -1;
 }
 
 .shape {
   position: absolute;
   border-radius: 50%;
-  background: rgba(0, 11, 73, 0.4);
-  filter: blur(40px);
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float 6s ease-in-out infinite; /* Animação de flutuação */
 }
 
 .shape:nth-child(1) {
-  width: 180px;
-  height: 180px;
-  top: -40px;
-  left: -40px;
-  animation-name: shapeMove1;
-  animation-duration: 7s;
+  width: 200px;
+  height: 200px;
+  top: -50px;
+  left: -50px;
 }
 
 .shape:nth-child(2) {
-  width: 250px;
-  height: 250px;
-  bottom: -70px;
-  right: -70px;
-  background: rgba(0, 11, 73, 0.5);
-  animation-name: shapeMove2;
-  animation-duration: 9s;
+  width: 300px;
+  height: 300px;
+  bottom: -100px;
+  right: -100px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translatey(0);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
 }
 
 .form {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px 35px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 11, 73, 0.3);
-  width: 320px;
-  text-align: center;
-  transition: box-shadow 0.3s ease;
-  position: relative;
-  z-index: 1;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Cor da sombra */
+  width: 90%;
+  max-width: 400px;
+  transition: transform 0.3s; /* Animação de transformação */
 }
 
 .form:hover {
-  box-shadow: 0 12px 30px rgba(0, 11, 73, 0.5);
+  transform: scale(1.02); /* Efeito de zoom ao passar o mouse */
 }
 
 .title {
-  color: rgba(0, 11, 73, 0.9);
-  margin-bottom: 28px;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-shadow: 0 1px 4px rgba(0, 11, 73, 0.5);
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-align: center;
+  color: #0d47a1; /* Azul escuro */
+  font-weight: bold;
 }
 
 .label {
   display: block;
-  text-align: left;
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 8px;
-  color: rgba(0, 11, 73, 0.85);
-  user-select: none;
-  transition: color 0.3s;
-}
-
-.label:hover {
-  color: rgba(0, 11, 73, 1);
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #424242; /* Cor dos rótulos */
 }
 
 .input {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 24px;
-  border: 2px solid rgba(0, 11, 73, 0.3);
-  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #0d47a1; /* Azul escuro */
+  border-radius: 5px;
   font-size: 16px;
-  font-weight: 500;
-  color: rgba(0, 11, 73, 0.9);
-  background: white;
-  outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  box-shadow: inset 0 0 5px rgba(0, 11, 73, 0.15);
+  transition: border-color 0.3s, box-shadow 0.3s; /* Animação de transição */
 }
 
 .input:focus {
-  border-color: rgba(0, 11, 73, 1);
-  box-shadow: 0 0 10px rgba(0, 11, 73, 0.7);
+  border-color: #1976d2; /* Azul claro */
+  outline: none;
+  box-shadow: 0 0 5px #1976d2; /* Sombra ao focar */
 }
 
 .button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(90deg, rgba(0, 11, 73, 0.9), #001356);
+  background-color: #0d47a1; /* Azul escuro */
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 700;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 11, 73, 0.6);
-  transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s, transform 0.3s; /* Animações de transição */
 }
 
 .button:hover {
-  background: linear-gradient(90deg, #001a92, #002885);
-  box-shadow: 0 8px 25px rgba(0, 11, 73, 0.9);
-  transform: translateY(-3px) scale(1.03);
-}
-
-.button:active {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 4px 14px rgba(0, 11, 73, 0.7);
+  background-color: #1976d2; /* Azul claro */
+  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
 }
 
 .social {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 25px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .socialItem {
   background: none;
   border: none;
-  color: rgba(0, 11, 73, 0.9);
+  color: #0d47a1; /* Azul escuro */
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
-  text-decoration: underline;
-  position: relative;
-  padding: 6px 8px;
-  transition: color 0.4s ease;
-  user-select: none;
-}
-
-.socialItem::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background: rgba(0, 11, 73, 1);
-  transition: width 0.35s ease;
-  border-radius: 2px;
+  transition: color 0.3s; /* Animação de transição */
 }
 
 .socialItem:hover {
-  color: #002885;
-}
-
-.socialItem:hover::after {
-  width: 100%;
+  color: #1976d2; /* Azul claro */
+  text-decoration: underline; /* Sublinhado ao passar o mouse */
 }
 
 .fb {
-  color: #001356;
+  color: #ff4757; /* Cor para o botão de recuperação de senha */
 }
 
-.fb:hover {
-  color: #001a92;
+@media (max-width: 768px) {
+  .form {
+    padding: 20px; /* Reduz o padding em telas menores */
+  }
+
+  .title {
+    font-size: 24px; /* Tamanho do título em telas menores */
+  }
+
+  .input {
+    padding: 10px; /* Reduz o padding do input em telas menores */
+    font-size: 14px; /* Tamanho da fonte do input em telas menores */
+  }
+
+  .button {
+    padding: 10px; /* Reduz o padding do botão em telas menores */
+    font-size: 14px; /* Tamanho da fonte do botão em telas menores */
+  }
+
+  .socialItem {
+    font-size: 12px; /* Tamanho da fonte dos itens sociais em telas menores */
+  }
 }
 
-.fb:hover::after {
-  background: #001a92;
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px; /* Tamanho do título em telas muito pequenas */
+  }
+
+  .input {
+    padding: 8px; /* Reduz o padding do input em telas muito pequenas */
+    font-size: 12px; /* Tamanho da fonte do input em telas muito pequenas */
+  }
+
+  .button {
+    padding: 8px; /* Reduz o padding do botão em telas muito pequenas */
+    font-size: 12px; /* Tamanho da fonte do botão em telas muito pequenas */
+  }
+
+  .socialItem {
+    font-size: 10px; /* Tamanho da fonte dos itens sociais em telas muito pequenas */
+  }
+}
+
+/* Efeitos adicionais para animações */
+@keyframes buttonPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button:active {
+  animation: buttonPulse 0.5s; /* Animação de pulsação ao clicar no botão */
+}
+
+.input::placeholder {
+  color: #aaa; /* Cor do placeholder */
+  opacity: 1; /* Para garantir que o placeholder seja visível */
+}
+
+.input:focus::placeholder {
+  color: transparent; /* Esconde o placeholder ao focar */
+}
+
+.socialItem:focus {
+  outline: none;
+  box-shadow: 0 0 5px #1976d2; /* Sombra ao focar */
 }
