@@ -1,59 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import SimpleLayout from "../layouts/SimpleLayout";
 
-const eventos = [
-  {
-    id: 1,
-    title: "Palestra: Direitos das Pessoas Autistas",
-    description: "Uma palestra educativa sobre os direitos das pessoas autistas, abordando legislação, benefícios e inclusão.",
-    date: "10/03/2025",
-    time: "18:00",
-    location: "Auditório da AMAVI",
-    image: "/assets/img/DESCUBRA OS DIREITOS DOS AUTISTAS.jpg",
-  },
-  {
-    id: 2,
-    title: "Oficina de Comunicação Alternativa",
-    description: "Atividade prática para ensinar métodos de comunicação alternativa e aumentativa para autistas não verbais.",
-    date: "15/03/2025",
-    time: "14:00",
-    location: "Centro Comunitário AMAVI",
-    image: "/assets/img/Palestra para as crianças.jpg",
-  },
-  {
-    id: 3,
-    title: "Encontro de Famílias e Profissionais",
-    description: "Momento de troca entre famílias de autistas e profissionais da saúde e educação para compartilhar experiências e boas práticas.",
-    date: "20/03/2025",
-    time: "16:00",
-    location: "Sede da AMAVI",
-    image: "/assets/img/91180853-772f-4696-8cab-52a1369b11f0.jpg",
-  },
-  {
-    id: 4,
-    title: "Dia de Lazer para Crianças Autistas",
-    description: "Um dia especial com atividades lúdicas e adaptadas para crianças autistas e seus familiares.",
-    date: "25/03/2025",
-    time: "10:00",
-    location: "Parque Inclusivo AMAVI",
-    image: "/assets/img/FESTA PIQUENIQUE Infantil_ 40 Dicas para Fazer.jpg",
-  },
-  {
-    id: 5,
-    title: "Grupo de Apoio para Pais e Cuidadores",
-    description: "Encontro mensal para compartilhar desafios e estratégias no cuidado e educação de crianças e adultos autistas.",
-    date: "30/03/2025",
-    time: "19:00",
-    location: "Sala de Reuniões AMAVI",
-    image: "/assets/img/Símbolo de amizade interracial e solidariedade de pessoas e apoio na diversidade _ Vetor Premium.jpg",
-  },
-];
-
 function Eventos() {
+  const [eventos, setEventos] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+
+  useEffect(() => {
+    fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/agenda/eventos")
+      .then((res) => res.json())
+      .then((data) => setEventos(data))
+      .catch((err) => console.error("Erro ao buscar eventos:", err));
+  }, []);
 
   const openModal = (evento) => {
     setModalData(evento);
@@ -65,7 +25,6 @@ function Eventos() {
     setModalData(null);
   };
 
-  // Fecha o modal ao clicar fora do conteúdo
   const handleOutsideClick = (event) => {
     if (event.target.id === "modal") {
       closeModal();
