@@ -33,16 +33,9 @@ const formatCPF = (cpf) => {
     return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9, 11)}`;
 };
 
-const formatCurrency = (value) => {
-    return value.replace(/\D/g, '')
-        .replace(/(\d)(\d{2})$/, '$1,$2')
-        .replace(/(?=(\d{3})+(\D))\B/g, '.');
-};
-
 export default function Beneficiario() {
-    const { isDarkMode, toggleTheme } = useTheme();
+    const { isDarkMode } = useTheme();
     const [formData, setFormData] = useState({
-        // Dados do Beneficiário
         nome: '',
         cpf: '',
         telefone: '',
@@ -57,7 +50,8 @@ export default function Beneficiario() {
         cep: '',
         sexo: '',
         cartaoSus: '',
-        laudoMedico: null,
+        laudo_medico: null, // correto
+        foto_blob: null,    // correto
         informacoesMedicas: ''
     });
 
@@ -65,6 +59,18 @@ export default function Beneficiario() {
     const [progress, setProgress] = useState(0);
     const [cpfError, setCpfError] = useState("");
     const router = useRouter();
+
+    // Estados para controle de senha
+    const [senha, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [requisitos, setRequisitos] = useState({
+        minLength: false,
+        upperCase: false,
+        number: false,
+        specialChar: false,
+    });
+    const [senhasCoincidem, setSenhasCoincidem] = useState(true);
+    const [mostrarSenhaForm, setMostrarSenhaForm] = useState(false);
 
     useEffect(() => {
         const fetchProfessions = async () => {
@@ -119,7 +125,7 @@ export default function Beneficiario() {
         return age;
     };
 
-    const handleSubmit = (e) => {
+    const handleBeneficiarioSubmit = (e) => {
         e.preventDefault();
 
         // Validar CPF do beneficiário
@@ -150,111 +156,221 @@ export default function Beneficiario() {
             }
         }
 
-        // Se tudo estiver válido, redirecionar
-        router.push("/definir-senha");
+        // Mostrar formulário de senha
+        setMostrarSenhaForm(true);
+    };
+
+    const handleSenhaChange = (e) => {
+        const valor = e.target.value;
+        setSenha(valor);
+        setRequisitos({
+            minLength: valor.length >= 8,
+            upperCase: /[A-Z]/.test(valor),
+            number: /[0-9]/.test(valor),
+            specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(valor),
+        });
+    };
+
+    const handleConfirmarSenhaChange = (e) => {
+        const valor = e.target.value;
+        setConfirmarSenha(valor);
+        setSenhasCoincidem(valor === senha);
+    };
+
+    const isSenhaValid = Object.values(requisitos).every((req) => req) && senhasCoincidem;
+
+    const handleFinalSubmit = async () => {
+        const finalFormData = new FormData();
+        // Corrija o nome do campo do cartão SUS para num_sus
+        for (const key in formData) {
+            if (key === 'cartaoSus') {
+                finalFormData.append('num_sus', formData[key]);
+            } else if (key === 'nascimento') {
+                finalFormData.append('data_nascimento', formData[key]); // <-- Adicione esta linha
+            } else if (formData[key] instanceof File) {
+                finalFormData.append(key, formData[key]);
+            } else {
+                finalFormData.append(key, formData[key]);
+            }
+        }
+        finalFormData.append('senha', senha);
+
+        try {
+            const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios', {
+                method: 'POST',
+                body: finalFormData,
+            });
+            const data = await response.json();
+            if (response.ok) {
+                alert('Usuário cadastrado com sucesso! ID: ' + data.id);
+                router.push("/login");
+            } else {
+                alert('Erro: ' + (data.error || 'Erro desconhecido'));
+            }
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error);
+            alert('Erro ao cadastrar usuário.');
+        }
     };
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Informações Pessoais</h1>
-            <div className={styles.progressContainer}>
-                <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
-            </div>
-            <form className={styles.formContainer} onSubmit={handleSubmit}>
-                <h2 className={styles.sectionTitle1}>DADOS PESSOAIS DO BENEFICIARIO</h2>
-                <div className={styles.gridContainer}>
-                    <label>Nome: <input type="text" name="nome" value={formData.nome} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>CPF: 
-                        <input 
-                            type="text" 
-                            name="cpf" 
-                            value={formData.cpf} 
-                            onChange={handleChange} 
-                            className={styles.inputField} 
-                            required 
-                            placeholder="000.000.000-00"
-                        />
-                        {cpfError && <span className={styles.error}>{cpfError}</span>}
-                    </label>
-                    <label>Telefone: <input type="text" name="telefone" value={formData.telefone} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>E-MAIL: <input type="email" name="email" value={formData.email} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>Nascimento: <input type="date" name="nascimento" value={formData.nascimento} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>RG: <input type="text" name="rg" value={formData.rg} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>Profissão:
+            {!mostrarSenhaForm ? (
+                <>
+                    <h1 className={styles.title}>Informações Pessoais</h1>
+                    <div className={styles.progressContainer}>
+                        <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
+                    </div>
+                    <form className={styles.formContainer} onSubmit={handleBeneficiarioSubmit}>
+                        <h2 className={styles.sectionTitle1}>DADOS PESSOAIS DO BENEFICIARIO</h2>
+                        <div className={styles.gridContainer}>
+                            <label>Nome: <input type="text" name="nome" value={formData.nome} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>CPF: 
+                                <input 
+                                    type="text" 
+                                    name="cpf" 
+                                    value={formData.cpf} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required 
+                                    placeholder="000.000.000-00"
+                                />
+                                {cpfError && <span className={styles.error}>{cpfError}</span>}
+                            </label>
+                            <label>Telefone: <input type="text" name="telefone" value={formData.telefone} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>E-MAIL: <input type="email" name="email" value={formData.email} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>Nascimento: <input type="date" name="nascimento" value={formData.nascimento} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>RG: <input type="text" name="rg" value={formData.rg} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>Profissão:
+                                <input
+                                    type="text"
+                                    name="profissao"
+                                    value={formData.profissao}
+                                    onChange={handleChange}
+                                    className={styles.inputField}
+                                    list="profissoes-list"
+                                    required
+                                />
+                                <datalist id="profissoes-list">
+                                    {profissoes.map((profissao, index) => (
+                                        <option key={index} value={profissao} />
+                                    ))}
+                                </datalist>
+                            </label>
+                            <label>Foto do Usuário:
+                                <input 
+                                    type="file" 
+                                    name="foto_blob" 
+                                    onChange={(e) => setFormData({ ...formData, foto_blob: e.target.files[0] })} // corrigido
+                                    className={styles.inputField} 
+                                    accept="image/*"
+                                />
+                            </label>
+                        </div>
+                        
+                        <h2 className={styles.sectionTitle2}>ENDEREÇO</h2>
+                        <div className={styles.gridContainer}>
+                            <label>CEP: <input type="text" name="cep" value={formData.cep} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>Rua: <input type="text" name="rua" value={formData.rua} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>Número: <input type="text" name="numero" value={formData.numero} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>Cidade: <input type="text" name="cidade" value={formData.cidade} onChange={handleChange} className={styles.inputField} required /></label>
+                            <label>Estado: <input type="text" name="estado" value={formData.estado} onChange={handleChange} className={styles.inputField} required /></label>
+                        </div>
+                        
+                        <h2 className={styles.sectionTitle3}>INFORMAÇÕES MÉDICAS</h2>
+                        <div className={styles.gridContainer}>
+                            <label>Sexo:
+                                <select 
+                                    name="sexo" 
+                                    value={formData.sexo || ''} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required
+                                >
+                                    <option value="">Selecione</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="feminino">Feminino</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </label>
+                            <label>Cartão do SUS:
+                                <input 
+                                    type="text" 
+                                    name="cartaoSus" 
+                                    value={formData.cartaoSus || ''} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    required 
+                                />
+                            </label>
+                            <label>Laudo Médico:
+                                <input 
+                                    type="file" 
+                                    name="laudo_medico" 
+                                    onChange={(e) => setFormData({ ...formData, laudo_medico: e.target.files[0] })} // corrigido
+                                    className={styles.inputField} 
+                                />
+                            </label>
+                            <label>Outras Informações Médicas:
+                                <textarea 
+                                    name="informacoesMedicas" 
+                                    value={formData.informacoesMedicas || ''} 
+                                    onChange={handleChange} 
+                                    className={styles.inputField} 
+                                    rows="4"
+                                />
+                            </label>
+                        </div>
+                        <div className={styles.buttonContainer}>
+                            <button type="submit" className={styles.buttonEnviar}>PRÓXIMO: CRIAR SENHA</button>
+                        </div>
+                    </form>
+                </>
+            ) : (
+                <>
+                    <h1 className={styles.title}>Criação de Senha</h1>
+                    <div className={styles.formContainer}>
                         <input
-                            type="text"
-                            name="profissao"
-                            value={formData.profissao}
-                            onChange={handleChange}
+                            type="password"
                             className={styles.inputField}
-                            list="profissoes-list"
-                            required
+                            placeholder="Crie sua senha"
+                            value={senha}
+                            onChange={handleSenhaChange}
                         />
-                        <datalist id="profissoes-list">
-                            {profissoes.map((profissao, index) => (
-                                <option key={index} value={profissao} />
-                            ))}
-                        </datalist>
-                    </label>
-                </div>
-                
-                <h2 className={styles.sectionTitle2}>ENDEREÇO</h2>
-                <div className={styles.gridContainer}>
-                    <label>CEP: <input type="text" name="cep" value={formData.cep} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>Rua: <input type="text" name="rua" value={formData.rua} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>Número: <input type="text" name="numero" value={formData.numero} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>Cidade: <input type="text" name="cidade" value={formData.cidade} onChange={handleChange} className={styles.inputField} required /></label>
-                    <label>Estado: <input type="text" name="estado" value={formData.estado} onChange={handleChange} className={styles.inputField} required /></label>
-                </div>
-                
-                <h2 className={styles.sectionTitle3}>INFORMAÇÕES MÉDICAS</h2>
-                <div className={styles.gridContainer}>
-                    <label>Sexo:
-                        <select 
-                            name="sexo" 
-                            value={formData.sexo || ''} 
-                            onChange={handleChange} 
-                            className={styles.inputField} 
-                            required
-                        >
-                            <option value="">Selecione</option>
-                            <option value="masculino">Masculino</option>
-                            <option value="feminino">Feminino</option>
-                            <option value="outro">Outro</option>
-                        </select>
-                    </label>
-                    <label>Cartão do SUS:
-                        <input 
-                            type="text" 
-                            name="cartaoSus" 
-                            value={formData.cartaoSus || ''} 
-                            onChange={handleChange} 
-                            className={styles.inputField} 
-                            required 
+                        <input
+                            type="password"
+                            className={styles.inputField}
+                            placeholder="Confirme sua senha"
+                            value={confirmarSenha}
+                            onChange={handleConfirmarSenhaChange}
                         />
-                    </label>
-                    <label>Laudo Médico:
-                        <input 
-                            type="file" 
-                            name="laudoMedico" 
-                            onChange={(e) => setFormData({ ...formData, laudoMedico: e.target.files[0] })} 
-                            className={styles.inputField} 
-                        />
-                    </label>
-                    <label>Outras Informações Médicas:
-                        <textarea 
-                            name="informacoesMedicas" 
-                            value={formData.informacoesMedicas || ''} 
-                            onChange={handleChange} 
-                            className={styles.inputField} 
-                            rows="4"
-                        />
-                    </label>
-                </div>
-                <div className={styles.buttonContainer}>
-                    <button type="submit" className={styles.buttonEnviar}>ENVIAR</button>
-                </div>
-            </form>
+                        <div className={styles.requisitos}>
+                            <div className={`${styles.requisito} ${requisitos.minLength ? styles.valido : styles.invalid}`}>
+                                Mínimo 8 caracteres
+                            </div>
+                            <div className={`${styles.requisito} ${requisitos.upperCase ? styles.valido : styles.invalid}`}>
+                                Uma letra maiúscula
+                            </div>
+                            <div className={`${styles.requisito} ${requisitos.number ? styles.valido : styles.invalid}`}>
+                                Um número
+                            </div>
+                            <div className={`${styles.requisito} ${requisitos.specialChar ? styles.valido : styles.invalid}`}>
+                                Um caractere especial
+                            </div>
+                        </div>
+                        {!senhasCoincidem && <div className={styles.error}>As senhas não coincidem!</div>}
+                        <div className={styles.buttonContainer}>
+                            <button
+                                className={styles.buttonEnviar}
+                                disabled={!isSenhaValid}
+                                onClick={handleFinalSubmit}
+                            >
+                                FINALIZAR CADASTRO
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
