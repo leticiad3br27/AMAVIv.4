@@ -12,10 +12,8 @@ export default function CadastrarEvento() {
   const [formData, setFormData] = useState({
     titulo: '',
     descricao: '',
-    tipo_evento: '',
     data_evento: '',
     horario_evento: '',
-    publico: '',
   });
   const [imagem, setImagem] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -51,10 +49,8 @@ export default function CadastrarEvento() {
     const formDataToSend = new FormData();
     formDataToSend.append('titulo', formData.titulo);
     formDataToSend.append('descricao', formData.descricao);
-    formDataToSend.append('tipo_evento', formData.tipo_evento);
     formDataToSend.append('data_evento', formData.data_evento);
     formDataToSend.append('horario_evento', formData.horario_evento);
-    formDataToSend.append('publico', formData.publico);
     if (imagem) {
       formDataToSend.append('imagem', imagem); // Campo 'imagem' conforme multer
     }
@@ -124,16 +120,6 @@ export default function CadastrarEvento() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Tipo de Evento:</Form.Label>
-          <Form.Select name="tipo_evento" value={formData.tipo_evento} onChange={handleChange} required>
-            <option value="">Selecione...</option>
-            <option value="reuniao">Reunião</option>
-            <option value="workshop">Workshop</option>
-            <option value="conferencia">Conferência</option>
-          </Form.Select>
-        </Form.Group>
-
-        <Form.Group className="mb-3">
           <Form.Label>Data:</Form.Label>
           <Form.Control
             type="date"
@@ -150,17 +136,6 @@ export default function CadastrarEvento() {
             type="time"
             name="horario_evento"
             value={formData.horario_evento}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Público:</Form.Label>
-          <Form.Control
-            type="text"
-            name="publico"
-            value={formData.publico}
             onChange={handleChange}
             required
           />
