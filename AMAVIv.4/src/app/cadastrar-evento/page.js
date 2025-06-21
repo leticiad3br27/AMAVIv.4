@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { CalendarPlus } from 'lucide-react';
-import styles from './page.module.css';
+import styles from './EventRegistration.module.css';
 
 export default function CadastrarEvento() {
   const router = useRouter();
