@@ -3,200 +3,179 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
+import { UserPlus } from 'lucide-react';
 import styles from './page.module.css';
 
 export default function CadastrarCooperador() {
   const router = useRouter();
-
   const [formData, setFormData] = useState({
-    nome: "",
-    email: "",
-    telefone: "",
-    cargo: "",
-    foto_url: "",
+    nome: '',
+    email: '',
+    telefone: '',
+    cargo: '',
     isAdmin: false,
   });
-
-  const [file, setFile] = useState(null);
+  const [imagem, setImagem] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (name === 'foto_url' && value.length > 255) {
-      setError('A URL da foto não pode exceder 255 caracteres.');
-      return;
-    }
-    setForm((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prev) => ({
-        ...prev,
-        foto_url: reader.result, // Base64 da imagem
-      }));
-    };
-
-    if (selectedFile) {
-      reader.readAsDataURL(selectedFile);
+    if (e.target.files) {
+      const file = e.target.files[0];
+      if (file && file.size > 5 * 1024 * 1024) {
+        setError('A imagem deve ter no máximo 5MB');
+        return;
+      }
+      if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
+        setError('Apenas imagens JPEG ou PNG são permitidas');
+        return;
+      }
+      setImagem(file);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { nome, email, telefone, foto_url, cargo } = formData;
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('nome', formData.nome);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('telefone', formData.telefone);
+    formDataToSend.append('cargo', formData.cargo);
+    formDataToSend.append('isAdmin', formData.isAdmin.toString());
+    if (imagem) {
+      formDataToSend.append('imagem', imagem); // Campo 'imagem' conforme multer
+    }
 
     try {
-      const response = await fetch(
-        "https://amaviapi.dev.vilhena.ifro.edu.br/api/colaborador/colaboradores",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ nome, email, telefone, foto_url, cargo }),
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/colaboradores`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formDataToSend,
+      });
 
       const text = await response.text();
-      console.log("Status:", response.status);
-      console.log("Resposta:", text);
+      console.log('Status:', response.status, 'Resposta:', text);
 
       if (response.ok) {
-        const data = JSON.parse(text);
-        alert("Cadastro realizado com sucesso!");
-        if (formData.isAdmin) router.push("/cadastrar-senha");
+        setSuccess('Colaborador cadastrado com sucesso!');
+        setFormData({ nome: '', email: '', telefone: '', cargo: '', isAdmin: false });
+        setImagem(null);
+        e.target.reset();
+        if (formData.isAdmin) {
+          router.push('/cadastrar-senha');
+        } else {
+          router.push('/colaboradores');
+        }
       } else {
-        alert("Erro ao cadastrar: " + text);
+        setError(`Erro ao cadastrar: ${text}`);
       }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-      alert("Erro de conexão com o servidor.");
+    } catch (err) {
+      console.error('Erro na requisição:', err);
+      setError('Erro de conexão com o servidor.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className={styles.container}>
+    <Container className={styles.container}>
       <Link href="/ConfigAdm" className={styles.voltarBtn}>
         ← Voltar para Configuração
       </Link>
 
-      <h1 className={styles.titulo}>Cadastrar Cooperador</h1>
+      <h1 className={styles.titulo}>Cadastrar Colaborador</h1>
 
-      {error && <p className={styles.error}>Erro: {error}</p>}
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
       {loading && <p className={styles.loading}>Carregando...</p>}
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-
-        <label className={styles.label} htmlFor="nome">
-          Nome completo:
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          id="nome"
-          name="nome"
-          required
-          value={formData.nome}
-          onChange={handleChange}
-        />
-
-        <label className={styles.label} htmlFor="email">
-          Email:
-        </label>
-        <input
-          className={styles.input}
-          type="email"
-          id="email"
-          name="email"
-          required
-          value={formData.email}
-          onChange={handleChange}
-        />
-
-        <label className={styles.label} htmlFor="telefone">
-          Telefone:
-        </label>
-        <input
-          className={styles.input}
-          type="tel"
-          id="telefone"
-          name="telefone"
-          required
-          value={formData.telefone}
-          onChange={handleChange}
-        />
-
-        <label className={styles.label} htmlFor="cargo">
-          Cargo:
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          id="cargo"
-          name="cargo"
-          required
-          value={formData.cargo}
-          onChange={handleChange}
-        />
-
-        <label className={styles.label} htmlFor="file">
-          Selecionar Imagem:
-        </label>
-        <input
-          className={styles.input}
-          type="file"
-          id="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          required
-        />
-
-          <label htmlFor="foto_url" className={styles.label}>URL da Foto (opcional):</label>
-          <input
-            type="url"
-            id="foto_url"
-            name="foto_url"
-            value={form.foto_url}
+      <Form onSubmit={handleSubmit} className={styles.form}>
+        <Form.Group className="mb-3">
+          <Form.Label>Nome completo:</Form.Label>
+          <Form.Control
+            type="text"
+            name="nome"
+            value={formData.nome}
             onChange={handleChange}
-            placeholder="https://exemplo.com/foto.jpg"
-            maxLength={255}
-            aria-describedby="foto_url_help"
-            className={styles.input}
+            required
           />
-          <p id="foto_url_help" className={styles.helpText}>
-            Insira uma URL válida para a foto (máximo 255 caracteres).
-          </p>
+        </Form.Group>
 
-          <label htmlFor="foto" className={styles.label}>Selecionar Imagem (opcional):</label>
-          <input
+        <Form.Group className="mb-3">
+          <Form.Label>Email:</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Telefone:</Form.Label>
+          <Form.Control
+            type="tel"
+            name="telefone"
+            value={formData.telefone}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Cargo:</Form.Label>
+          <Form.Control
+            type="text"
+            name="cargo"
+            value={formData.cargo}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Imagem (JPEG/PNG, máx. 5MB):</Form.Label>
+          <Form.Control
             type="file"
-            id="foto"
-            name="foto"
-            accept="image/*"
+            accept="image/jpeg,image/png"
             onChange={handleFileChange}
-            className={styles.input}
           />
+        </Form.Group>
 
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <button type="submit" className={styles.button} disabled={loading}>
-              {loading ? 'Cadastrando...' : 'Finalizar Cadastro'}
-            </button>
-          </div>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="checkbox"
+            label="É administrador?"
+            name="isAdmin"
+            checked={formData.isAdmin}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <div className="d-flex justify-content-center">
+          <Button variant="primary" type="submit" disabled={loading}>
+            <UserPlus size={16} className="me-2" />
+            {loading ? 'Cadastrando...' : 'Finalizar Cadastro'}
+          </Button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 }
-
-export default CadastrarCooperador;
-
-
