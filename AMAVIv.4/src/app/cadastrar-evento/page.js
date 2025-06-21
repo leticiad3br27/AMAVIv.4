@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { CalendarPlus } from 'lucide-react';
 import styles from './EventRegistration.module.css';
 
