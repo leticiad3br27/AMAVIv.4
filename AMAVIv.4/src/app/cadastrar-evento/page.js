@@ -1,184 +1,187 @@
-"use client";
-import React, { useState, useRef } from "react";
-import Link from "next/link";
-import styles from "./EventRegistration.module.css";
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
+import { CalendarPlus } from 'lucide-react';
+import styles from './page.module.css';
 
 export default function CadastrarEvento() {
-  const [imagem, setImagem] = useState(null);
-  const [previewImagem, setPreviewImagem] = useState(null);
-  const dropRef = useRef(null);
-
-  const [form, setForm] = useState({
-    nome: "",
-    data: "",
-    hora: "",
-    local: "",
-    descricao: "",
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    titulo: '',
+    descricao: '',
+    tipo_evento: '',
+    data_evento: '',
+    horario_evento: '',
+    publico: '',
   });
+  const [imagem, setImagem] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImagem = (file) => {
-    setImagem(file);
-    setPreviewImagem(URL.createObjectURL(file));
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleImagem(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleImagemInput = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      handleImagem(e.target.files[0]);
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      if (file && file.size > 10 * 1024 * 1024) {
+        setError('A imagem deve ter no máximo 10MB');
+        return;
+      }
+      if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
+        setError('Apenas imagens JPEG ou PNG são permitidas');
+        return;
+      }
+      setImagem(file);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
 
-    const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+    const formDataToSend = new FormData();
+    formDataToSend.append('titulo', formData.titulo);
+    formDataToSend.append('descricao', formData.descricao);
+    formDataToSend.append('tipo_evento', formData.tipo_evento);
+    formDataToSend.append('data_evento', formData.data_evento);
+    formDataToSend.append('horario_evento', formData.horario_evento);
+    formDataToSend.append('publico', formData.publico);
     if (imagem) {
-      formData.append("imagem", imagem);
+      formDataToSend.append('imagem', imagem); // Campo 'imagem' conforme multer
     }
 
     try {
-      const response = await fetch("/api/eventos", {
-        method: "POST",
-        body: formData,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/eventos`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formDataToSend,
       });
 
+      const text = await response.text();
+      console.log('Status:', response.status, 'Resposta:', text);
+
       if (response.ok) {
-        alert("Evento cadastrado com sucesso!");
-        setForm({
-          nome: "",
-          data: "",
-          hora: "",
-          local: "",
-          descricao: "",
-        });
+        setSuccess('Evento cadastrado com sucesso!');
+        setFormData({ titulo: '', descricao: '', tipo_evento: '', data_evento: '', horario_evento: '', publico: '' });
         setImagem(null);
-        setPreviewImagem(null);
+        e.target.reset();
+        router.push('/eventos');
       } else {
-        alert("Erro ao cadastrar o evento.");
+        setError(`Erro ao cadastrar: ${text}`);
       }
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro ao conectar com o servidor.");
+    } catch (err) {
+      console.error('Erro na requisição:', err);
+      setError('Erro de conexão com o servidor.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <Link href="/ConfigAdm" className={styles.voltarBtn}>← Retornar</Link>
+    <Container className={styles.container}>
+      <Link href="/eventos" className={styles.voltarBtn}>
+        ← Voltar para Eventos
+      </Link>
 
-      <h1 className={styles.titulo}>Cadastro de Evento</h1>
+      <h1 className={styles.titulo}>Cadastrar Evento</h1>
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.leftColumn}>
-          <label>Nome do Evento:</label>
-          <input
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
+      {loading && <p className={styles.loading}>Carregando...</p>}
+
+      <Form onSubmit={handleSubmit} className={styles.form}>
+        <Form.Group className="mb-3">
+          <Form.Label>Título:</Form.Label>
+          <Form.Control
             type="text"
-            name="nome"
-            value={form.nome}
+            name="titulo"
+            value={formData.titulo}
             onChange={handleChange}
             required
           />
+        </Form.Group>
 
-          <label>Data:</label>
-          <input
-            type="date"
-            name="data"
-            value={form.data}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Hora:</label>
-          <input
-            type="time"
-            name="hora"
-            value={form.hora}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Local (endereço):</label>
-          <input
-            type="text"
-            name="local"
-            value={form.local}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Descrição do Local:</label>
-          <textarea
+        <Form.Group className="mb-3">
+          <Form.Label>Descrição:</Form.Label>
+          <Form.Control
+            as="textarea"
             name="descricao"
-            value={form.descricao}
+            value={formData.descricao}
             onChange={handleChange}
-            rows={4}
             required
           />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Tipo de Evento:</Form.Label>
+          <Form.Select name="tipo_evento" value={formData.tipo_evento} onChange={handleChange} required>
+            <option value="">Selecione...</option>
+            <option value="reuniao">Reunião</option>
+            <option value="workshop">Workshop</option>
+            <option value="conferencia">Conferência</option>
+          </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Data:</Form.Label>
+          <Form.Control
+            type="date"
+            name="data_evento"
+            value={formData.data_evento}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Horário:</Form.Label>
+          <Form.Control
+            type="time"
+            name="horario_evento"
+            value={formData.horario_evento}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Público:</Form.Label>
+          <Form.Control
+            type="text"
+            name="publico"
+            value={formData.publico}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Imagem (JPEG/PNG, máx. 10MB):</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/jpeg,image/png"
+            onChange={handleFileChange}
+          />
+        </Form.Group>
+
+        <div className="d-flex justify-content-center">
+          <Button variant="primary" type="submit" disabled={loading}>
+            <CalendarPlus size={16} className="me-2" />
+            {loading ? 'Cadastrando...' : 'Cadastrar Evento'}
+          </Button>
         </div>
-
-        <div className={styles.rightColumn}>
-          <label>Imagem do Evento:</label>
-          <div
-            ref={dropRef}
-            className={styles.dropzone}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onClick={() => dropRef.current.querySelector("input").click()}
-          >
-            {previewImagem ? (
-              <img
-                src={previewImagem}
-                alt="Preview"
-                className={styles.thumbnail}
-              />
-            ) : (
-              <p>Arraste e solte a imagem aqui ou clique para selecionar</p>
-            )}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImagemInput}
-              style={{ display: "none" }}
-            />
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <button type="submit" className={styles.button}>
-              Cadastrar Evento
-            </button>
-          </div>
-
-          {form.local && (
-            <div className={styles.mapsLink}>
-              <h3>Ver no Google Maps:</h3>
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  form.local
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {form.local}
-              </a>
-            </div>
-          )}
-        </div>
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 }

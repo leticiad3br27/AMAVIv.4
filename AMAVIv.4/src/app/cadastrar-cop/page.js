@@ -95,6 +95,7 @@ export default function CadastrarCooperador() {
       {loading && <p className={styles.loading}>Carregando...</p>}
 
       <form onSubmit={handleSubmit} className={styles.form}>
+
         <label className={styles.label} htmlFor="nome">
           Nome completo:
         </label>
