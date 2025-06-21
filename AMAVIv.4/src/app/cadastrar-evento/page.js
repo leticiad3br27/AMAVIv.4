@@ -60,7 +60,7 @@ export default function CadastrarEvento() {
     }
 
     try {
-      const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/evento', {
+      const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/eventos', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
