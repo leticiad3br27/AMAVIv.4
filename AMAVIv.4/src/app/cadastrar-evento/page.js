@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { CalendarPlus } from 'lucide-react';
 import styles from './EventRegistration.module.css';
 
