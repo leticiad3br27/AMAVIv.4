@@ -1,119 +1,62 @@
 .container {
-    max-width: 900px;
-    margin: auto;
-    padding: 30px;
-    background-color: #f4f8fc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 42, 78, 0.1);
-    font-family: sans-serif;
-  }
-  
-  .titulo {
-    text-align: center;
-    color: #002b5b;
-    margin-bottom: 30px;
-  }
-  
-  .form {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-  }
-  
-  .form label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-    color: #002b5b;
-  }
-  
-  .form input,
-  .form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 4px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: #ffffff;
-  }
-  
-  .form textarea {
-    resize: vertical;
-  }
-  
-  .leftColumn,
-  .rightColumn {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .dropzone {
-    border: 2px dashed #0070f3;
-    padding: 20px;
-    text-align: center;
-    border-radius: 6px;
-    background-color: #e6f0ff;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .dropzone:hover {
-    background-color: #d0e4ff;
-  }
-  
-  .preview {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-top: 10px;
-  }
-  
-  .thumbnail {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-top: 15px;
-    border: 2px solid #004080;
-    box-shadow: 0 0 5px rgba(0, 42, 78, 0.3);
-  }
-  .buttonContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  
-  .button {
-    padding: 12px 25px;
-    background-color: #002b5b;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .button:hover {
-    background-color: #004080;
-  }
-  
-  .mapsLink {
-    margin-top: 25px;
-    text-align: center;
-  }
-  
-  .mapsLink a {
-    color: #0056cc;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .mapsLink a:hover {
-    text-decoration: underline;
-  }
-  
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  background-color: #f4f8fc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 42, 78, 0.1);
+  font-family: sans-serif;
+}
+
+.titulo {
+  text-align: center;
+  color: #002b5b;
+  margin-bottom: 30px;
+}
+
+.form {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #002b5b;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+
+.form textarea {
+  resize: vertical;
+}
+
+.voltarBtn {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #0056cc;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.voltarBtn:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  text-align: center;
+  color: #002b5b;
+  font-weight: bold;
+}
