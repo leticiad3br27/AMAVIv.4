@@ -62,14 +62,20 @@ export default function CadastrarEvento() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('Token de autenticação não encontrado.');
+        setError('Você precisa estar logado para cadastrar um evento.');
+        router.push('/login');
+        return;
       }
       console.log('Token:', token);
       for (let [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
 
-      const response = await fetch('http://localhost:3000/api/evento', { // Alterado para localhost em desenvolvimento
+      const apiUrl = process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3000/api/evento'
+        : 'https://amaviapi.dev.vilhena.ifro.edu.br/api/evento';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
