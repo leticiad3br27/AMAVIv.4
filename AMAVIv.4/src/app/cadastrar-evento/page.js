@@ -12,8 +12,10 @@ export default function CadastrarEvento() {
   const [formData, setFormData] = useState({
     titulo: '',
     descricao: '',
+    tipo_evento: 'default',
     data_evento: '',
     horario_evento: '',
+    publico: 'geral',
   });
   const [imagem, setImagem] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -49,17 +51,25 @@ export default function CadastrarEvento() {
     const formDataToSend = new FormData();
     formDataToSend.append('titulo', formData.titulo);
     formDataToSend.append('descricao', formData.descricao);
+    formDataToSend.append('tipo_evento', formData.tipo_evento);
     formDataToSend.append('data_evento', formData.data_evento);
     formDataToSend.append('horario_evento', formData.horario_evento);
+    formDataToSend.append('publico', formData.publico);
     if (imagem) {
-      formDataToSend.append('imagem', imagem); // Campo 'imagem' conforme multer
+      formDataToSend.append('imagem', imagem);
     }
 
     try {
+      const token = localStorage.getItem('token');
+      console.log('Token:', token);
+      for (let [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+
       const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/evento', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formDataToSend,
       });
@@ -69,16 +79,16 @@ export default function CadastrarEvento() {
 
       if (response.ok) {
         setSuccess('Evento cadastrado com sucesso!');
-        setFormData({ titulo: '', descricao: '', tipo_evento: '', data_evento: '', horario_evento: '', publico: '' });
+        setFormData({ titulo: '', descricao: '', tipo_evento: 'default', data_evento: '', horario_evento: '', publico: 'geral' });
         setImagem(null);
         e.target.reset();
         router.push('/eventos');
       } else {
-        setError(`Erro ao cadastrar: ${text}`);
+        throw new Error(`Erro ${response.status}: ${text}`);
       }
     } catch (err) {
       console.error('Erro na requisição:', err);
-      setError('Erro de conexão com o servidor.');
+      setError(`Falha na requisição: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -120,6 +130,17 @@ export default function CadastrarEvento() {
         </Form.Group>
 
         <Form.Group className="mb-3">
+          <Form.Label>Tipo de Evento:</Form.Label>
+          <Form.Control
+            type="text"
+            name="tipo_evento"
+            value={formData.tipo_evento}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
           <Form.Label>Data:</Form.Label>
           <Form.Control
             type="date"
@@ -136,6 +157,17 @@ export default function CadastrarEvento() {
             type="time"
             name="horario_evento"
             value={formData.horario_evento}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Público:</Form.Label>
+          <Form.Control
+            type="text"
+            name="publico"
+            value={formData.publico}
             onChange={handleChange}
             required
           />
