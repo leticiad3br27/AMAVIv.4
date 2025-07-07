@@ -1,181 +1,128 @@
-'use client';
-
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Form, Button, Alert, Container } from 'react-bootstrap';
-import { UserPlus } from 'lucide-react';
-import styles from './page.module.css';
-
-export default function CadastrarCooperador() {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    telefone: '',
-    cargo: '',
-    isAdmin: false,
-  });
-  const [imagem, setImagem] = useState(null);
-  const [loading, setLoading] = useState(false);
+function ConsultarCooperador() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPerson, setSelectedPerson] = useState(null);
+  const [people, setPeople] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      if (file && file.size > 5 * 1024 * 1024) {
-        setError('A imagem deve ter no máximo 5MB');
-        return;
-      }
-      if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
-        setError('Apenas imagens JPEG ou PNG são permitidas');
-        return;
-      }
-      setImagem(file);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
-
-    const formDataToSend = new FormData();
-    formDataToSend.append('nome', formData.nome);
-    formDataToSend.append('email', formData.email);
-    formDataToSend.append('telefone', formData.telefone);
-    formDataToSend.append('cargo', formData.cargo);
-    formDataToSend.append('isAdmin', formData.isAdmin.toString());
-    if (imagem) {
-      formDataToSend.append('imagem', imagem); // Campo 'imagem' conforme multer
-    }
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/colaboradores`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: formDataToSend,
-      });
-
-      const text = await response.text();
-      console.log('Status:', response.status, 'Resposta:', text);
-
-      if (response.ok) {
-        setSuccess('Colaborador cadastrado com sucesso!');
-        setFormData({ nome: '', email: '', telefone: '', cargo: '', isAdmin: false });
-        setImagem(null);
-        e.target.reset();
-        if (formData.isAdmin) {
-          router.push('/cadastrar-senha');
-        } else {
-          router.push('/colaboradores');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/colaborador/colaboradores");
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
         }
-      } else {
-        setError(`Erro ao cadastrar: ${text}`);
+        const data = await response.json();
+        setPeople(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Erro na requisição:', err);
-      setError('Erro de conexão com o servidor.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredResults = people.filter(
+    (person) =>
+      person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      person.cpf.includes(searchTerm) ||
+      person.matricula.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const closeModal = () => setSelectedPerson(null);
 
   return (
-    <Container className={styles.container}>
-      <Link href="/ConfigAdm" className={styles.voltarBtn}>
-        ← Voltar para Configuração
-      </Link>
-
-      <h1 className={styles.titulo}>Cadastrar Colaborador</h1>
-
-      {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
-      {loading && <p className={styles.loading}>Carregando...</p>}
-
-      <Form onSubmit={handleSubmit} className={styles.form}>
-        <Form.Group className="mb-3">
-          <Form.Label>Nome completo:</Form.Label>
-          <Form.Control
+    <SimpleLayout>
+      <div className={styles.container}>
+        <h1 className={styles.h1}>Consultar</h1>
+        <div className={styles.searchBar}>
+          <input
             type="text"
-            name="nome"
-            value={formData.nome}
-            onChange={handleChange}
-            required
+            placeholder="Consultar por Nome, CPF ou Matrícula"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.input}
+            aria-label="Campo de busca"
           />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Telefone:</Form.Label>
-          <Form.Control
-            type="tel"
-            name="telefone"
-            value={formData.telefone}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Cargo:</Form.Label>
-          <Form.Control
-            type="text"
-            name="cargo"
-            value={formData.cargo}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Imagem (JPEG/PNG, máx. 5MB):</Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/jpeg,image/png"
-            onChange={handleFileChange}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="É administrador?"
-            name="isAdmin"
-            checked={formData.isAdmin}
-            onChange={handleChange}
-          />
-        </Form.Group>
-
-        <div className="d-flex justify-content-center">
-          <Button variant="primary" type="submit" disabled={loading}>
-            <UserPlus size={16} className="me-2" />
-            {loading ? 'Cadastrando...' : 'Finalizar Cadastro'}
-          </Button>
         </div>
-      </Form>
-    </Container>
+        <div className={styles.tableContainer}>
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p className={styles.error}>Error: {error}</p>
+          ) : (
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Matrícula</th>
+                  <th>Função</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredResults.length > 0 ? (
+                  filteredResults.map((result, index) => (
+                    <tr
+                      key={index}
+                      onClick={() => setSelectedPerson(result)}
+                      className={styles.row}
+                      tabIndex={0}
+                      role="button"
+                      onKeyPress={(e) => e.key === "Enter" && setSelectedPerson(result)}
+                    >
+                      <td>{result.name}</td>
+                      <td>{result.cpf}</td>
+                      <td>{result.matricula}</td>
+                      <td>{result.role}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className={styles.noResults}>
+                      Nenhum resultado encontrado.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {selectedPerson && (
+          <div className={styles.modal} onClick={closeModal}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.modalInfo}>
+                <div className={styles.textInfo}>
+                  <h2>{selectedPerson.name}</h2>
+                  <p><strong>CPF:</strong> {selectedPerson.cpf}</p>
+                  <p><strong>Matrícula:</strong> {selectedPerson.matricula}</p>
+                  <p><strong>Idade:</strong> {selectedPerson.idade} anos</p>
+                  <p><strong>Função:</strong> {selectedPerson.role}</p>
+                  <p><strong>Tem família registrada?</strong> {selectedPerson.familiaRegistrada ? "Sim" : "Não"}</p>
+                  <p><strong>É responsável?</strong> {selectedPerson.responsavel ? "Sim" : "Não"}</p>
+                  <p><strong>É beneficiário responsável?</strong> {selectedPerson.beneficiarioResponsavel ? "Sim" : "Não"}</p>
+                  <p><strong>Tem atendimentos registrados?</strong> {selectedPerson.atendimentosRegistrados ? "Sim" : "Não"}</p>
+                  <p><strong>Oferece atendimentos?</strong> {selectedPerson.ofereceAtendimentos ? "Sim" : "Não"}</p>
+                  {selectedPerson.role === "Administrador" && (
+                    <p><strong>Cargo:</strong> {selectedPerson.cargo || "N/A"}</p>
+                  )}
+                </div>
+                <img
+                  src={selectedPerson.imageUrl || "/assets/img/placeholder.jpg"}
+                  alt={`Imagem de ${selectedPerson.name}`}
+                  className={styles.image}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </SimpleLayout>
   );
 }
+
+export default ConsultarCooperador;
