@@ -36,7 +36,7 @@ const RecuperarSenha = () => {
   };
 
   const enviarEmailRecuperacao = (email) => {
-    const codigoRecuperacao = Math.floor(100000 + Math.random() * 900000); // Gera um código de 6 dígitos
+    const codigoRecuperacao = Math.floor(100000 + Math.random() * 900000);
     const templateParams = {
       to_name: "Usuário",
       codigo_recuperacao: codigoRecuperacao,
@@ -79,9 +79,9 @@ const RecuperarSenha = () => {
 
   return (
     <div className={`${styles.container} ${isDarkMode ? styles.dark : ""}`}>
-      <h1 className={styles.title}>Recuperar Senha</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h1 className={styles.title}>Recuperar Senha</h1>
 
-      <form onSubmit={handleSubmit}>
         <div className={styles.inputContainer}>
           <label htmlFor="input">Matrícula, Email ou CPF:</label>
           <input
@@ -92,9 +92,10 @@ const RecuperarSenha = () => {
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Digite sua matrícula, email ou CPF"
           />
-          {error && <p className={styles.error}>{error}</p>}
-          {success && <p className={styles.success}>{success}</p>}
         </div>
+
+        {error && <p className={styles.error}>{error}</p>}
+        {success && <p className={styles.success}>{success}</p>}
 
         <button type="submit" className={styles.button} disabled={!inputValue.trim()}>
           Enviar

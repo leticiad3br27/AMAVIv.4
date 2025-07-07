@@ -1,122 +1,105 @@
+/* RecuperarSenha.module.css */
+
 .container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-}
-
-/* Tema Claro */
-.container {
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: #333;
-}
-
-/* Tema Escuro */
-.dark {
-    background: #1e1e1e;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    color: #f0f0f0;
-}
-
-.title {
-    font-size: 24px;
-}
-
-/* Inputs */
-.inputContainer {
-    text-align: left;
-    margin: 15px 0;
-}
-
-.inputContainer label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .dark {
+    background-color: #1a1a1a;
+  }
+  
+  .form {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease-in-out, background 0.3s, color 0.3s;
-}
-
-/* Tema Escuro para Inputs */
-.dark .input {
-    background: #2a2a2a;
-    color: #ffffff;
-    border-color: #444;
-}
-
-.input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-/* Estilo para erro */
-.error {
-    color: #cc0000;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .dark .form {
+    background-color: #2c2c2c;
+    color: #fff;
+  }
+  
+  .title {
+    font-size: 24px;
+    color: #0d47a1;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .dark .title {
+    color: #90caf9;
+  }
+  
+  .inputContainer {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .inputContainer label {
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .dark .inputContainer label {
+    color: #ddd;
+  }
+  
+  .input {
+    padding: 10px 12px;
+    border: 1.5px solid #0d47a1;
+    border-radius: 6px;
     font-size: 14px;
-    margin-top: 5px;
-    background: #ffcccc;
-    padding: 8px;
-    border-radius: 5px;
-}
-
-.dark .error {
-    background: #5a1e1e;
-    color: #ff8888;
-}
-
-/* Botão */
-.button {
+    outline: none;
+    transition: 0.3s ease;
+  }
+  
+  .input:focus {
+    border-color: #1565c0;
+    box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.2);
+  }
+  
+  .button {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #007bff;
+    background-color: #0d47a1;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s;
-}
-
-.button:hover {
-    background-color: #0056b3;
-    transform: scale(1.03);
-}
-
-.button:disabled {
-    background-color: #cccccc;
+    transition: 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .button:hover {
+    background-color: #1565c0;
+  }
+  
+  .button:disabled {
+    background-color: #9eb4cc;
     cursor: not-allowed;
-}
-
-/* Tema Escuro para o botão */
-.dark .button {
-    background-color: #0056b3;
-}
-
-.dark .button:hover {
-    background-color: #003f7f;
-}
-
-/* Responsividade */
-@media (max-width: 500px) {
-    .container {
-        width: 90%;
-    }
-
-    .title {
-        font-size: 20px;
-    }
-
-    .button {
-        font-size: 14px;
-    }
-}
+  }
+  
+  .error {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  
+  .success {
+    color: #2e7d32;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  
