@@ -1,64 +1,88 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-  
-  .title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .inputContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-  }
+/* RedefinirSenha.module.css */
 
-  
-  .input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .button {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .button:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-  
-  .error {
-    color: red;
-    margin-top: 10px;
-  }
-  
-  .success {
-    color: green;
-    margin-top: 10px;
-  }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.form {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center; /* Centraliza todo o conteúdo dentro do form */
+}
+
+.title {
+  font-size: 24px;
+  color: #0d47a1;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.inputContainer {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Mantém os labels alinhados à esquerda */
+}
+
+.inputContainer label {
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1.5px solid #0d47a1;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.input:focus {
+  border-color: #1565c0;
+  box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.2);
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d47a1;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #1565c0;
+}
+
+.button:disabled {
+  background-color: #9eb4cc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.success {
+  color: #2e7d32;
+  font-size: 13px;
+  margin-top: 8px;
+}
+

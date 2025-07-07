@@ -38,8 +38,9 @@ const RedefinirSenha = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Redefinir Senha</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h1 className={styles.title}>Redefinir Senha</h1>
+
         <div className={styles.inputContainer}>
           <label htmlFor="password">Nova Senha:</label>
           <input
@@ -51,6 +52,7 @@ const RedefinirSenha = () => {
             placeholder="Digite sua nova senha"
           />
         </div>
+
         <div className={styles.inputContainer}>
           <label htmlFor="confirmPassword">Confirme a Senha:</label>
           <input
@@ -61,10 +63,16 @@ const RedefinirSenha = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirme sua nova senha"
           />
-          {error && <p className={styles.error}>{error}</p>}
-          {success && <p className={styles.success}>{success}</p>}
         </div>
-        <button type="submit" className={styles.button} disabled={!password || !confirmPassword}>
+
+        {error && <p className={styles.error}>{error}</p>}
+        {success && <p className={styles.success}>{success}</p>}
+
+        <button
+          type="submit"
+          className={styles.button}
+          disabled={!password || !confirmPassword}
+        >
           Redefinir Senha
         </button>
       </form>
@@ -73,3 +81,4 @@ const RedefinirSenha = () => {
 };
 
 export default RedefinirSenha;
+
