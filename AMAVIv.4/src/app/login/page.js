@@ -33,6 +33,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // ← ESSENCIAL para cookies funcionarem
         body: JSON.stringify({
           cpf: trimmedUsername,
           senha: trimmedPassword,
@@ -45,7 +46,9 @@ export default function Login() {
         throw new Error(data.message || "Erro ao realizar login.");
       }
 
-      localStorage.setItem("token", data.token); // Supondo que o token esteja na resposta
+      // ✅ Não precisa salvar token, ele já vem via cookie HttpOnly
+      // localStorage.setItem("token", data.token);
+
       router.push("/"); // Redireciona após login
 
     } catch (error) {
