@@ -1,5 +1,3 @@
-
-
 .container {
   display: flex;
   justify-content: center;
@@ -23,7 +21,8 @@
   position: absolute;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
-  animation: float 6s ease-in-out infinite; /* Animação de flutuação */
+  animation: float 6s ease-in-out infinite;
+  transition: transform 0.3s ease-in-out;
 }
 
 .shape:nth-child(1) {
@@ -42,10 +41,10 @@
 
 @keyframes float {
   0%, 100% {
-    transform: translatey(0);
+    transform: translateY(0);
   }
   50% {
-    transform: translatey(-20px);
+    transform: translateY(-20px);
   }
 }
 
@@ -53,21 +52,21 @@
   background: white;
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Cor da sombra */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 400px;
-  transition: transform 0.3s; /* Animação de transformação */
+  transition: transform 0.3s;
 }
 
 .form:hover {
-  transform: scale(1.02); /* Efeito de zoom ao passar o mouse */
+  transform: scale(1.02);
 }
 
 .title {
   margin-bottom: 20px;
   font-size: 28px;
   text-align: center;
-  color: #0d47a1; /* Azul escuro */
+  color: #0d47a1;
   font-weight: bold;
 }
 
@@ -75,111 +74,55 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #424242; /* Cor dos rótulos */
+  color: #424242;
 }
 
 .input {
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
-  border: 2px solid #0d47a1; /* Azul escuro */
+  border: 2px solid #0d47a1;
   border-radius: 5px;
   font-size: 16px;
-  transition: border-color 0.3s, box-shadow 0.3s; /* Animação de transição */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .input:focus {
-  border-color: #1976d2; /* Azul claro */
+  border-color: #1976d2;
   outline: none;
-  box-shadow: 0 0 5px #1976d2; /* Sombra ao focar */
+  box-shadow: 0 0 5px #1976d2;
+}
+
+.input::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+
+.input:focus::placeholder {
+  color: transparent;
 }
 
 .button {
   width: 100%;
   padding: 12px;
-  background-color: #0d47a1; /* Azul escuro */
+  background-color: #0d47a1;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s; /* Animações de transição */
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .button:hover {
-  background-color: #1976d2; /* Azul claro */
-  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
+  background-color: #1976d2;
+  transform: translateY(-2px);
 }
 
-.social {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+.button:active {
+  animation: buttonPulse 0.5s;
 }
 
-.socialItem {
-  background: none;
-  border: none;
-  color: #0d47a1; /* Azul escuro */
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.3s; /* Animação de transição */
-}
-
-.socialItem:hover {
-  color: #1976d2; /* Azul claro */
-  text-decoration: underline; /* Sublinhado ao passar o mouse */
-}
-
-.fb {
-  color: #ff4757; /* Cor para o botão de recuperação de senha */
-}
-
-@media (max-width: 768px) {
-  .form {
-    padding: 20px; /* Reduz o padding em telas menores */
-  }
-
-  .title {
-    font-size: 24px; /* Tamanho do título em telas menores */
-  }
-
-  .input {
-    padding: 10px; /* Reduz o padding do input em telas menores */
-    font-size: 14px; /* Tamanho da fonte do input em telas menores */
-  }
-
-  .button {
-    padding: 10px; /* Reduz o padding do botão em telas menores */
-    font-size: 14px; /* Tamanho da fonte do botão em telas menores */
-  }
-
-  .socialItem {
-    font-size: 12px; /* Tamanho da fonte dos itens sociais em telas menores */
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 20px; /* Tamanho do título em telas muito pequenas */
-  }
-
-  .input {
-    padding: 8px; /* Reduz o padding do input em telas muito pequenas */
-    font-size: 12px; /* Tamanho da fonte do input em telas muito pequenas */
-  }
-
-  .button {
-    padding: 8px; /* Reduz o padding do botão em telas muito pequenas */
-    font-size: 12px; /* Tamanho da fonte do botão em telas muito pequenas */
-  }
-
-  .socialItem {
-    font-size: 10px; /* Tamanho da fonte dos itens sociais em telas muito pequenas */
-  }
-}
-
-/* Efeitos adicionais para animações */
 @keyframes buttonPulse {
   0% {
     transform: scale(1);
@@ -192,20 +135,75 @@
   }
 }
 
-.button:active {
-  animation: buttonPulse 0.5s; /* Animação de pulsação ao clicar no botão */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.input::placeholder {
-  color: #aaa; /* Cor do placeholder */
-  opacity: 1; /* Para garantir que o placeholder seja visível */
+.socialItem {
+  background: none;
+  border: none;
+  color: #0d47a1;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s;
 }
 
-.input:focus::placeholder {
-  color: transparent; /* Esconde o placeholder ao focar */
+.socialItem:hover {
+  color: #1976d2;
+  text-decoration: underline;
 }
 
 .socialItem:focus {
   outline: none;
-  box-shadow: 0 0 5px #1976d2; /* Sombra ao focar */
+  box-shadow: 0 0 5px #1976d2;
+}
+
+.fb {
+  color: #ff4757;
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .socialItem {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .input {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .button {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .socialItem {
+    font-size: 10px;
+  }
 }

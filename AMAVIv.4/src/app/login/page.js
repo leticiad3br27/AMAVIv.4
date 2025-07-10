@@ -1,66 +1,95 @@
 "use client";
-import React, { useState } from 'react';
-import styles from './login.module.css';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import styles from "./login.module.css";
+
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const validateCPF = (cpf) => {
+    const numericCPF = cpf.replace(/\D/g, "");
+    return numericCPF.length === 11;
+  };
+
   const validateForm = async () => {
     const trimmedUsername = username.trim();
     const trimmedPassword = password.trim();
-    
-    if (trimmedUsername === '' || trimmedPassword === '') {
-      alert('Por favor, preencha todos os campos antes de continuar.');
+
+    if (trimmedUsername === "" || trimmedPassword === "") {
+      alert("Por favor, preencha todos os campos.");
       return;
     }
+
+    if (!validateCPF(trimmedUsername)) {
+      alert("CPF inválido. Digite 11 números.");
+      return;
+    }
+
     try {
-      const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           cpf: trimmedUsername,
           senha: trimmedPassword,
         }),
       });
+
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Erro ao realizar login.');
+        throw new Error(data.message || "Erro ao realizar login.");
       }
-      const data = await response.json();
-      // Armazenar o token no localStorage
-      localStorage.setItem('token', data.token); // Supondo que o token esteja na resposta da API
-      window.location.href = './'; // Redireciona após o login bem-sucedido
+
+      localStorage.setItem("token", data.token); // Supondo que o token esteja na resposta
+      router.push("/"); // Redireciona após login
+
     } catch (error) {
-      alert(error.message);
+      alert(error.message || "Erro inesperado.");
     }
   };
+
   const handleRegister = () => {
-    window.location.href = './Cadastrar-B'; // Redireciona para a página de cadastro
+    router.push("/Cadastrar-B");
   };
+
   const handleForgotPassword = () => {
-    window.location.href = './recuperar-senha'; // Redireciona para a página de recuperação de senha
+    router.push("/recuperar-senha");
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.background}>
         <div className={styles.shape} />
         <div className={styles.shape} />
       </div>
-      <form className={styles.form} id="loginForm" onSubmit={(e) => { e.preventDefault(); validateForm(); }}>
+
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          validateForm();
+        }}
+      >
         <h3 className={styles.title}>Entrar</h3>
+
         <label className={styles.label} htmlFor="username">
           Usuário
         </label>
         <input
           type="text"
-          placeholder="CPF"
+          placeholder="CPF (somente números)"
           id="username"
           className={styles.input}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           aria-label="Usuário"
         />
+
         <label className={styles.label} htmlFor="password">
           Senha
         </label>
@@ -73,22 +102,16 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           aria-label="Senha"
         />
+
         <button type="submit" className={styles.button}>
           Entrar
         </button>
-        <div className={styles.social}>
-          <button 
-            type="button"
-            className={styles.socialItem}
-            onClick={handleRegister}
-          >
+
+        <div className={styles.actions}>
+          <button type="button" className={styles.socialItem} onClick={handleRegister}>
             Cadastrar-se
           </button>
-          <button 
-            type="button"
-            className={`${styles.socialItem} ${styles.fb}`}
-            onClick={handleForgotPassword}
-          >
+          <button type="button" className={`${styles.socialItem} ${styles.fb}`} onClick={handleForgotPassword}>
             Esqueceu a senha?
           </button>
         </div>
