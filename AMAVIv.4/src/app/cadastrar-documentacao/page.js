@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useRef } from "react";
 import styles from "./CadastrarDocumentacao.module.css";
 import useTheme from "../../hook/useTheme";
 import ConfigLayout from "../layouts/ConfigLayout";
@@ -14,7 +13,6 @@ const isValidCPF = (cpf) => {
 
 const DocumentacaoPage = () => {
   const { isDarkMode } = useTheme();
-  const router = useRouter();
 
   const [cpf, setCpf] = useState("");
   const [descricao, setDescricao] = useState("");
@@ -22,33 +20,8 @@ const DocumentacaoPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [documentos, setDocumentos] = useState([]);
 
   const fileInputRef = useRef(null);
-
-  // Buscar documentos pelo CPF cadastrado (após cadastro ou busca manual)
-  const carregarDocumentosPorCPF = async (cpfUser) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Aqui o endpoint deve aceitar buscar por CPF
-      const res = await fetch(
-        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/usuario/cpf/${cpfUser}`,
-        { credentials: "include" }
-      );
-
-      if (!res.ok) throw new Error("Erro ao buscar documentos para esse CPF.");
-
-      const data = await res.json();
-      setDocumentos(data);
-    } catch (err) {
-      setError(err.message);
-      setDocumentos([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Manipula seleção de arquivo, valida tamanho e tipo
   const handleFileChange = (e) => {
@@ -103,7 +76,6 @@ const DocumentacaoPage = () => {
         "https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos",
         {
           method: "POST",
-          credentials: "include",
           body: formData,
         }
       );
@@ -119,36 +91,6 @@ const DocumentacaoPage = () => {
       setCpf("");
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = null;
-
-      // Atualiza lista de documentos do CPF cadastrado
-      await carregarDocumentosPorCPF(cpf.trim());
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Baixa arquivo do documento
-  const handleDownload = async (id) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/${id}`,
-        { credentials: "include" }
-      );
-
-      if (!response.ok) throw new Error("Erro ao baixar o arquivo.");
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `documento_${id}`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -163,7 +105,7 @@ const DocumentacaoPage = () => {
           isDarkMode ? styles.darkTheme : styles.lightTheme
         }`}
       >
-        <h1 className={styles.pageTitle}>Gerenciar Documentação</h1>
+        <h1 className={styles.pageTitle}>Cadastrar Documentação</h1>
 
         <section className={styles.formContainer}>
           <h2 className={styles.sectionTitle}>Cadastrar Nova Documentação</h2>
@@ -220,33 +162,6 @@ const DocumentacaoPage = () => {
               {loading ? "Enviando..." : "Cadastrar Documento"}
             </button>
           </form>
-        </section>
-
-        <section className={styles.documentsContainer}>
-          <h2 className={styles.sectionTitle}>Documentos Cadastrados</h2>
-          {loading && !documentos.length && <p>Carregando documentos...</p>}
-          {!loading && documentos.length === 0 && (
-            <p className={styles.noDocuments}>Nenhum documento encontrado para este CPF.</p>
-          )}
-          {documentos.length > 0 && (
-            <ul className={styles.documentList}>
-              {documentos.map((doc) => (
-                <li key={doc.id} className={styles.documentItem}>
-                  <span>
-                    <strong>{doc.dia || "Data não informada"}:</strong> {doc.descricao}
-                  </span>
-                  <button
-                    onClick={() => handleDownload(doc.id)}
-                    className={styles.downloadButton}
-                    disabled={loading}
-                    aria-label={`Baixar documento ${doc.descricao}`}
-                  >
-                    Baixar
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
         </section>
       </div>
     </ConfigLayout>
