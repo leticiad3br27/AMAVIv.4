@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation"; // Importando useRouter
+import { useRouter } from "next/navigation";
 import styles from "./CadastrarR.module.css";
 
 const validateCPF = (cpf) => {
@@ -35,7 +35,7 @@ const validateEmail = (email) => {
 };
 
 export default function CadastrarResponsavel() {
-  const router = useRouter(); // Inicializando o roteador
+  const router = useRouter();
   const [formData, setFormData] = useState({
     nome: "",
     cpf: "",
@@ -65,51 +65,62 @@ export default function CadastrarResponsavel() {
     if (field === "cpf") {
       newValue = formatCPF(newValue);
       setFormData((prev) => ({ ...prev, cpf: newValue }));
-      setCpfError(newValue.replace(/\D/g, "").length === 11 && !validateCPF(newValue) ? "CPF inválido" : "");
+      setCpfError(
+        newValue.replace(/\D/g, "").length === 11 && !validateCPF(newValue)
+          ? "CPF inválido"
+          : ""
+      );
     } else if (field === "telefone") {
       newValue = newValue
         .replace(/\D/g, "")
         .replace(/(\d{2})(\d)/, "($1) $2")
         .replace(/(\d{5})(\d)/, "$1-$2")
         .slice(0, 15);
+      setFormData((prev) => ({ ...prev, telefone: newValue }));
     } else if (field === "email") {
-      setEmailError(
-        newValue.length > 0 && !validateEmail(newValue) ? "Email inválido" : ""
-      );
+      setEmailError(newValue.length > 0 && !validateEmail(newValue) ? "Email inválido" : "");
+      setFormData((prev) => ({ ...prev, email: newValue }));
     } else if (field === "rendaMensal") {
-      newValue = newValue
-        .replace(/[^\d,\.]/g, "")
-        .replace(/,/g, ".");
+      newValue = newValue.replace(/[^\d,\.]/g, "").replace(/,/g, ".");
+      setFormData((prev) => ({ ...prev, rendaMensal: newValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: newValue }));
     }
-    setFormData((prev) => ({ ...prev, [field]: newValue }));
   }, []);
 
   const allFieldsFilled = Object.values(formData).every((val) => val !== "");
-  const hasErrors = cpfError || emailError;
+  const hasErrors = cpfError !== "" || emailError !== "";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (hasErrors || !allFieldsFilled) {
-      alert("Por favor, corrija os erros e preencha todos os campos antes de continuar.");
-      return;
-    }
-    console.log("Dados enviados:", formData);
-    router.push("/definir-senha"); // Redirecionando para a página de definição de senha
+    const formData = new FormData(e.target);
+
+    // O campo de arquivo deve ter name="foto_blob"
+    // <input type="file" name="foto_blob" />
+
+    const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    });
+
+    // ...tratar resposta...
   };
 
   return (
     <div className={styles.container} role="form" aria-labelledby="form-title">
-      <h2 id="form-title" className={styles.title}>Dados do Responsável</h2>
+      <h2 id="form-title" className={styles.title}>
+        Dados do Responsável
+      </h2>
 
       <div className={styles.progressContainer} aria-label="Progresso do formulário">
-        <div
-          className={styles.progressBar}
-          style={{ width: `${progress}%` }}
-        />
+        <div className={styles.progressBar} style={{ width: `${progress}%` }} />
       </div>
 
       <form className={styles.formContainer} onSubmit={handleSubmit} noValidate>
         <div className={styles.gridContainer}>
+          {/* Campos de formulário aqui, como no seu código original */}
+          {/* Nome */}
           <label className={styles.label}>
             Nome Completo
             <input
@@ -121,7 +132,7 @@ export default function CadastrarResponsavel() {
               aria-label="Nome Completo"
             />
           </label>
-
+          {/* CPF */}
           <label className={styles.label}>
             CPF
             <input
@@ -140,7 +151,7 @@ export default function CadastrarResponsavel() {
               </p>
             )}
           </label>
-
+          {/* RG */}
           <label className={styles.label}>
             RG
             <input
@@ -152,7 +163,7 @@ export default function CadastrarResponsavel() {
               aria-label="RG"
             />
           </label>
-
+          {/* Profissão */}
           <label className={styles.label}>
             Profissão
             <input
@@ -164,7 +175,7 @@ export default function CadastrarResponsavel() {
               aria-label="Profissão"
             />
           </label>
-
+          {/* Data de nascimento */}
           <label className={styles.label}>
             Data de Nascimento
             <input
@@ -176,7 +187,7 @@ export default function CadastrarResponsavel() {
               aria-label="Data de Nascimento"
             />
           </label>
-
+          {/* Estado civil */}
           <label className={styles.label}>
             Estado Civil
             <select
@@ -194,7 +205,7 @@ export default function CadastrarResponsavel() {
               <option value="outro">Outro</option>
             </select>
           </label>
-
+          {/* Renda mensal */}
           <label className={styles.label}>
             Renda Mensal (R$)
             <input
@@ -206,7 +217,7 @@ export default function CadastrarResponsavel() {
               aria-label="Renda Mensal"
             />
           </label>
-
+          {/* Endereço */}
           <label className={styles.label}>
             Endereço Completo
             <textarea
@@ -218,14 +229,14 @@ export default function CadastrarResponsavel() {
               aria-label="Endereço Completo"
             />
           </label>
-
+          {/* Email */}
           <label className={styles.label}>
             Email
             <input
               type="email"
               className={styles.inputField}
               value={formData.email}
-              onChange={( e) => handleChange("email", e.target.value)}
+              onChange={(e) => handleChange("email", e.target.value)}
               aria-required="true"
               aria-invalid={emailError ? "true" : "false"}
               aria-describedby="emailError"
@@ -237,7 +248,7 @@ export default function CadastrarResponsavel() {
               </p>
             )}
           </label>
-
+          {/* Telefone */}
           <label className={styles.label}>
             Telefone
             <input
@@ -247,6 +258,17 @@ export default function CadastrarResponsavel() {
               onChange={(e) => handleChange("telefone", e.target.value)}
               aria-required="true"
               aria-label="Telefone"
+            />
+          </label>
+          {/* Foto */}
+          <label className={styles.label}>
+            Foto
+            <input
+              type="file"
+              name="foto_blob"
+              accept="image/*"
+              className={styles.inputField}
+              aria-label="Foto"
             />
           </label>
         </div>

@@ -1,111 +1,82 @@
+/* page.module.css */
+
 .container {
-  background-color: #217fa4;
-  color: white;
-  font-family: "Aoboshi One", sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
 }
 
 .title {
-  font-family: "Sorts Mill Goudy", serif;
-  margin-bottom: 20px;
-  color: #ffffff;
-  margin-top: 20px;
-  font-size: 2rem;
-}
-
-.form {
-  background-color: #00435d;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  margin: 5px 0;
-  color: #ffffff;
-  font-size: 1rem;
-}
-
-.input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  width: 100%;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
-
-.button {
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: #217fa4;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.3s;
-}
-
-.button:hover {
-  background-color: #005f99;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #002b5c;
 }
 
 .buttonVoltar {
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: #01202c;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 20%;
-  transition: background 0.3s;
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .buttonVoltar:hover {
-  background-color: #217fa4;
+  color: #084298;
+  text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  .title {
-    font-size: 1.8rem;
-  }
-
-  .form {
-    padding: 15px;
-  }
+.label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #212529;
+  display: block;
 }
 
-@media (max-width: 500px) {
-  .title {
-    font-size: 1.5rem;
-    margin-top: 10px;
-  }
+.loading {
+  text-align: center;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 16px;
+}
 
-  .form {
-    width: 100%;
-    padding: 15px;
-  }
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  .input,
-  .button {
-    font-size: 0.9rem;
-  }
+.input {
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+}
 
-  .buttonVoltar {
-    width: 100%;
-  }
+.input:focus {
+  border-color: #86b7fe;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.button {
+  background-color: #0d6efd;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0b5ed7;
 }
