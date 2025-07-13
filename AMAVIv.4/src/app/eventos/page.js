@@ -8,6 +8,8 @@ import { Calendar } from 'lucide-react';
 import styles from './page.module.css';
 import SimpleLayout from '../layouts/SimpleLayout';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://amaviapi.dev.ifro.edu.br/';
+
 export default function Eventos() {
   const router = useRouter();
   const [eventos, setEventos] = useState([]);
@@ -19,7 +21,18 @@ export default function Eventos() {
   useEffect(() => {
     async function fetchEventos() {
       try {
-        const response = await fetch(`${API_URL}/evento`);
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+        if (!token) {
+          setError('Usuário não autenticado. Faça login.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${API_URL}/eventos`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setEventos(data);
