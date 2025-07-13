@@ -56,7 +56,7 @@ export default function CadastrarCooperador() {
       formDataToSend.append(key, formData[key]);
     }
     if (imagem) {
-      formDataToSend.append('imagem', imagem);
+      formDataToSend.append('foto_url', imagem); // Corrigido para foto_url
     }
 
     try {
@@ -69,24 +69,16 @@ export default function CadastrarCooperador() {
       });
 
       const text = await response.text();
-      console.log('Status:', response.status, 'Resposta:', text);
-
       if (response.ok) {
         setSuccess('Colaborador cadastrado com sucesso!');
         setFormData({ nome: '', email: '', telefone: '', cargo: '', isAdmin: false, senha: '' });
         setImagem(null);
         e.target.reset();
-
-        if (formData.isAdmin) {
-          router.push('/cadastrar-senha');
-        } else {
-          router.push('/colaboradores');
-        }
+        router.push('/consultar-cop');
       } else {
         setError(`Erro ao cadastrar: ${text}`);
       }
     } catch (err) {
-      console.error('Erro na requisição:', err);
       setError('Erro de conexão com o servidor.');
     } finally {
       setLoading(false);
