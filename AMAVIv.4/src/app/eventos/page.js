@@ -22,7 +22,6 @@ export default function Eventos() {
     async function fetchEventos() {
       try {
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-        console.log('Token:', token); 
         if (!token) {
           setError('Usuário não autenticado. Faça login.');
           setLoading(false);

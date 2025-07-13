@@ -46,8 +46,9 @@ export default function Login() {
         throw new Error(data.message || "Erro ao realizar login.");
       }
 
+      localStorage.setItem("token", data.token);
+
       // ✅ Não precisa salvar token, ele já vem via cookie HttpOnly
-      // localStorage.setItem("token", data.token);
 
       router.push("/"); // Redireciona após login
 
