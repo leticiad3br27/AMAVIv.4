@@ -1,129 +1,127 @@
 "use client";
+
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./CadastrarDocumentacao.module.css";
 import useTheme from "../../hook/useTheme";
 import ConfigLayout from "../layouts/ConfigLayout";
 
+const isValidCPF = (cpf) => {
+  // Validação simples só para formato: 000.000.000-00 ou somente números
+  const regex = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/;
+  return regex.test(cpf);
+};
+
 const DocumentacaoPage = () => {
   const { isDarkMode } = useTheme();
   const router = useRouter();
 
-  const [userId, setUserId] = useState(null);
-  const [documentos, setDocumentos] = useState([]);
+  const [cpf, setCpf] = useState("");
   const [descricao, setDescricao] = useState("");
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [documentos, setDocumentos] = useState([]);
+
   const fileInputRef = useRef(null);
 
-  // Carrega o usuário autenticado e os documentos dele
-  useEffect(() => {
-    const fetchUserAndDocuments = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const verificaRes = await fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/verificar-login", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!verificaRes.ok) throw new Error("Usuário não autenticado.");
-
-        const verificaData = await verificaRes.json();
-        const idUsuario = verificaData.id;
-        if (!idUsuario || isNaN(idUsuario)) throw new Error("ID do usuário inválido.");
-
-        setUserId(idUsuario);
-
-        await carregarDocumentos(idUsuario);
-      } catch (err) {
-        console.error("Erro:", err.message);
-        setError(err.message);
-        router.push("/login");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserAndDocuments();
-  }, [router]);
-
-  const carregarDocumentos = async (idUsuario) => {
+  // Buscar documentos pelo CPF cadastrado (após cadastro ou busca manual)
+  const carregarDocumentosPorCPF = async (cpfUser) => {
     try {
-      const res = await fetch(`https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/usuario/${idUsuario}`, {
-        credentials: "include",
-      });
+      setLoading(true);
+      setError(null);
 
-      if (!res.ok) throw new Error("Erro ao buscar documentos.");
+      // Aqui o endpoint deve aceitar buscar por CPF
+      const res = await fetch(
+        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/usuario/cpf/${cpfUser}`,
+        { credentials: "include" }
+      );
+
+      if (!res.ok) throw new Error("Erro ao buscar documentos para esse CPF.");
+
       const data = await res.json();
       setDocumentos(data);
     } catch (err) {
       setError(err.message);
+      setDocumentos([]);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Manipula seleção de arquivo, valida tamanho e tipo
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setError("Apenas arquivos PDF, JPEG ou PNG são permitidos.");
-        setFile(null);
-        return;
-      }
-      if (selectedFile.size > 10 * 1024 * 1024) {
-        setError("O arquivo excede o limite de 10MB.");
-        setFile(null);
-        return;
-      }
-      setFile(selectedFile);
-      setError(null);
+    if (!selectedFile) return;
+
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+    if (!allowedTypes.includes(selectedFile.type)) {
+      setError("Apenas arquivos PDF, JPEG ou PNG são permitidos.");
+      setFile(null);
+      return;
     }
+    if (selectedFile.size > 10 * 1024 * 1024) {
+      setError("O arquivo deve ter no máximo 10MB.");
+      setFile(null);
+      return;
+    }
+    setFile(selectedFile);
+    setError(null);
   };
 
+  // Envio do formulário para cadastrar documento
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file || !descricao || !userId) {
-      setError("Por favor, preencha a descrição e selecione um arquivo.");
+    setError(null);
+    setSuccess(null);
+
+    if (!cpf.trim() || !descricao.trim() || !file) {
+      setError("Por favor, preencha CPF, descrição e selecione um arquivo.");
+      return;
+    }
+
+    if (!isValidCPF(cpf.trim())) {
+      setError("CPF inválido. Formato esperado: 000.000.000-00 ou somente números.");
       return;
     }
 
     if (descricao.length > 255) {
-      setError("A descrição não pode exceder 255 caracteres.");
+      setError("A descrição deve ter no máximo 255 caracteres.");
       return;
     }
 
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
-
     try {
+      setLoading(true);
+
       const formData = new FormData();
-      formData.append("id_usuario", userId);
-      formData.append("descricao", descricao);
+      formData.append("cpf", cpf.trim());
+      formData.append("descricao", descricao.trim());
       formData.append("documento", file);
 
-      const response = await fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos",
+        {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Erro ao cadastrar documentação.");
+        const errData = await response.json();
+        throw new Error(errData.error || "Erro ao cadastrar documento.");
       }
 
       const result = await response.json();
-      setSuccess(result.message);
+      setSuccess(result.message || "Documento cadastrado com sucesso!");
       setDescricao("");
+      setCpf("");
       setFile(null);
-      fileInputRef.current.value = null;
+      if (fileInputRef.current) fileInputRef.current.value = null;
 
-      await carregarDocumentos(userId);
+      // Atualiza lista de documentos do CPF cadastrado
+      await carregarDocumentosPorCPF(cpf.trim());
     } catch (err) {
       setError(err.message);
     } finally {
@@ -131,12 +129,14 @@ const DocumentacaoPage = () => {
     }
   };
 
+  // Baixa arquivo do documento
   const handleDownload = async (id) => {
     try {
       setLoading(true);
-      const response = await fetch(`https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/${id}`, {
-        credentials: "include",
-      });
+      const response = await fetch(
+        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/${id}`,
+        { credentials: "include" }
+      );
 
       if (!response.ok) throw new Error("Erro ao baixar o arquivo.");
 
@@ -156,27 +156,32 @@ const DocumentacaoPage = () => {
     }
   };
 
-  if (loading) {
-    return <div className={styles.loading}>Carregando...</div>;
-  }
-
-  if (error && !userId) {
-    return (
-      <div className={styles.error}>
-        {error}
-        <button onClick={() => router.push("/login")}>Voltar ao Login</button>
-      </div>
-    );
-  }
-
   return (
     <ConfigLayout>
-      <div className={`${styles.pageContainer} ${isDarkMode ? styles.darkTheme : styles.lightTheme}`}>
+      <div
+        className={`${styles.pageContainer} ${
+          isDarkMode ? styles.darkTheme : styles.lightTheme
+        }`}
+      >
         <h1 className={styles.pageTitle}>Gerenciar Documentação</h1>
 
-        <div className={styles.formContainer}>
+        <section className={styles.formContainer}>
           <h2 className={styles.sectionTitle}>Cadastrar Nova Documentação</h2>
-          <form onSubmit={handleSubmit} className={styles.uploadForm}>
+          <form onSubmit={handleSubmit} className={styles.uploadForm} noValidate>
+            <div className={styles.formGroup}>
+              <label htmlFor="cpf">CPF do Usuário:</label>
+              <input
+                type="text"
+                id="cpf"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                maxLength={14}
+                placeholder="000.000.000-00"
+                required
+                className={styles.input}
+              />
+            </div>
+
             <div className={styles.formGroup}>
               <label htmlFor="descricao">Descrição:</label>
               <input
@@ -189,6 +194,7 @@ const DocumentacaoPage = () => {
                 className={styles.input}
               />
             </div>
+
             <div className={styles.formGroup}>
               <label htmlFor="documento">Selecionar Arquivo (PDF, JPEG, PNG):</label>
               <input
@@ -201,17 +207,28 @@ const DocumentacaoPage = () => {
                 className={styles.fileInput}
               />
             </div>
+
             {error && <div className={styles.errorMessage}>{error}</div>}
             {success && <div className={styles.successMessage}>{success}</div>}
-            <button type="submit" disabled={loading} className={styles.submitButton}>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className={styles.submitButton}
+              aria-busy={loading}
+            >
               {loading ? "Enviando..." : "Cadastrar Documento"}
             </button>
           </form>
-        </div>
+        </section>
 
-        <div className={styles.documentsContainer}>
+        <section className={styles.documentsContainer}>
           <h2 className={styles.sectionTitle}>Documentos Cadastrados</h2>
-          {documentos.length > 0 ? (
+          {loading && !documentos.length && <p>Carregando documentos...</p>}
+          {!loading && documentos.length === 0 && (
+            <p className={styles.noDocuments}>Nenhum documento encontrado para este CPF.</p>
+          )}
+          {documentos.length > 0 && (
             <ul className={styles.documentList}>
               {documentos.map((doc) => (
                 <li key={doc.id} className={styles.documentItem}>
@@ -222,16 +239,15 @@ const DocumentacaoPage = () => {
                     onClick={() => handleDownload(doc.id)}
                     className={styles.downloadButton}
                     disabled={loading}
+                    aria-label={`Baixar documento ${doc.descricao}`}
                   >
                     Baixar
                   </button>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className={styles.noDocuments}>Nenhum documento encontrado.</p>
           )}
-        </div>
+        </section>
       </div>
     </ConfigLayout>
   );
