@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
@@ -12,16 +12,24 @@ export default function CadastrarEvento() {
   const [formData, setFormData] = useState({
     titulo: '',
     descricao: '',
-    tipo_evento: 'default',
+    tipo_evento: '',
     data_evento: '',
     horario_evento: '',
     publico: 'geral',
   });
   const [imagem, setImagem] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null); // Adicionado para preview
+  const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,27 +37,26 @@ export default function CadastrarEvento() {
   };
 
   const handleFileChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      if (file && file.size > 10 * 1024 * 1024) {
-        setError('A imagem deve ter no máximo 10MB');
-        setImagem(null);
-        setPreviewUrl(null);
-        return;
-      }
-      if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
-        setError('Apenas imagens JPEG ou PNG são permitidas');
-        setImagem(null);
-        setPreviewUrl(null);
-        return;
-      }
-      setError(null);
-      setImagem(file);
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-      // Criar URL para preview
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
+    if (file.size > 10 * 1024 * 1024) {
+      setError('A imagem deve ter no máximo 10MB');
+      setImagem(null);
+      setPreviewUrl(null);
+      return;
     }
+
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      setError('Apenas imagens JPEG ou PNG são permitidas');
+      setImagem(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    setError(null);
+    setImagem(file);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const handleSubmit = async (e) => {
@@ -58,16 +65,17 @@ export default function CadastrarEvento() {
     setError(null);
     setSuccess(null);
 
-    const formDataToSend = new FormData();
-    formDataToSend.append('titulo', formData.titulo);
-    formDataToSend.append('descricao', formData.descricao);
-    formDataToSend.append('tipo_evento', formData.tipo_evento);
-    formDataToSend.append('data_evento', formData.data_evento);
-    formDataToSend.append('horario_evento', formData.horario_evento);
-    formDataToSend.append('publico', formData.publico);
-    if (imagem) {
-      formDataToSend.append('imagem', imagem);
+    if (new Date(formData.data_evento) < new Date()) {
+      setError('A data do evento não pode estar no passado.');
+      setLoading(false);
+      return;
     }
+
+    const formDataToSend = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSend.append(key, value);
+    });
+    if (imagem) formDataToSend.append('foto_blob', imagem); // CORRIGIDO
 
     try {
       const token = localStorage.getItem('token');
@@ -98,15 +106,15 @@ export default function CadastrarEvento() {
         setFormData({
           titulo: '',
           descricao: '',
-          tipo_evento: 'default',
+          tipo_evento: '',
           data_evento: '',
           horario_evento: '',
           publico: 'geral',
         });
         setImagem(null);
-        setPreviewUrl(null); // Limpa o preview após sucesso
+        setPreviewUrl(null);
         e.target.reset();
-        router.push('/eventos');
+        setTimeout(() => router.push('/eventos'), 1000);
       } else {
         throw new Error(`Erro ${response.status}: ${text}`);
       }
@@ -120,7 +128,7 @@ export default function CadastrarEvento() {
 
   return (
     <Container className={styles.container}>
-      <Link href="/eventos" className={styles.voltarBtn}>
+      <Link href="/evento" className={styles.voltarBtn}>
         ← Voltar para Eventos
       </Link>
 
@@ -188,13 +196,16 @@ export default function CadastrarEvento() {
 
         <Form.Group className="mb-3">
           <Form.Label>Público:</Form.Label>
-          <Form.Control
-            type="text"
+          <Form.Select
             name="publico"
             value={formData.publico}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="geral">Geral</option>
+            <option value="colaboradores">Colaboradores</option>
+            <option value="usuarios">Usuários</option>
+          </Form.Select>
         </Form.Group>
 
         <Form.Group className="mb-3">
@@ -210,7 +221,6 @@ export default function CadastrarEvento() {
                 src={previewUrl}
                 alt="Pré-visualização da imagem"
                 className={styles.previewImage}
-                onLoad={() => URL.revokeObjectURL(previewUrl)}
               />
             </div>
           )}
