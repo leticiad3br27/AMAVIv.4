@@ -15,6 +15,7 @@ export default function CadastrarCooperador() {
     telefone: '',
     cargo: '',
     isAdmin: false,
+    senha: '',
   });
   const [imagem, setImagem] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,13 +31,13 @@ export default function CadastrarCooperador() {
   };
 
   const handleFileChange = (e) => {
-    if (e.target.files) {
+    if (e.target.files?.length) {
       const file = e.target.files[0];
-      if (file && file.size > 5 * 1024 * 1024) {
+      if (file.size > 5 * 1024 * 1024) {
         setError('A imagem deve ter no máximo 5MB');
         return;
       }
-      if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
         setError('Apenas imagens JPEG ou PNG são permitidas');
         return;
       }
@@ -51,17 +52,15 @@ export default function CadastrarCooperador() {
     setSuccess(null);
 
     const formDataToSend = new FormData();
-    formDataToSend.append('nome', formData.nome);
-    formDataToSend.append('email', formData.email);
-    formDataToSend.append('telefone', formData.telefone);
-    formDataToSend.append('cargo', formData.cargo);
-    formDataToSend.append('isAdmin', formData.isAdmin.toString());
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
     if (imagem) {
       formDataToSend.append('imagem', imagem);
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/colaboradores`, {
+      const response = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/evento', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -74,9 +73,10 @@ export default function CadastrarCooperador() {
 
       if (response.ok) {
         setSuccess('Colaborador cadastrado com sucesso!');
-        setFormData({ nome: '', email: '', telefone: '', cargo: '', isAdmin: false });
+        setFormData({ nome: '', email: '', telefone: '', cargo: '', isAdmin: false, senha: '' });
         setImagem(null);
         e.target.reset();
+
         if (formData.isAdmin) {
           router.push('/cadastrar-senha');
         } else {
@@ -94,7 +94,7 @@ export default function CadastrarCooperador() {
   };
 
   return (
-    <Container className={styles.container}>
+    <div className={styles.container}>
       <Link href="/ConfigAdm" className={styles.buttonVoltar}>
         ← Voltar para Configuração
       </Link>
@@ -108,72 +108,39 @@ export default function CadastrarCooperador() {
       <Form onSubmit={handleSubmit} className={styles.form}>
         <Form.Group className="mb-3">
           <Form.Label className={styles.label}>Nome completo:</Form.Label>
-          <Form.Control
-            type="text"
-            name="nome"
-            value={formData.nome}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
+          <Form.Control className={styles.input} type="text" name="nome" value={formData.nome} onChange={handleChange} required />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label className={styles.label}>Email:</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
+          <Form.Control className={styles.input} type="email" name="email" value={formData.email} onChange={handleChange} required />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label className={styles.label}>Telefone:</Form.Label>
-          <Form.Control
-            type="tel"
-            name="telefone"
-            value={formData.telefone}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
+          <Form.Control className={styles.input} type="tel" name="telefone" value={formData.telefone} onChange={handleChange} required />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label className={styles.label}>Cargo:</Form.Label>
-          <Form.Control
-            type="text"
-            name="cargo"
-            value={formData.cargo}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
+          <Form.Control className={styles.input} type="text" name="cargo" value={formData.cargo} onChange={handleChange} required />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label className={styles.label}>Imagem (JPEG/PNG, máx. 5MB):</Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/jpeg,image/png"
-            onChange={handleFileChange}
-            className={styles.input}
-          />
+          <Form.Control className={styles.input} type="file" accept="image/jpeg,image/png" onChange={handleFileChange} />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="É administrador?"
-            name="isAdmin"
-            checked={formData.isAdmin}
-            onChange={handleChange}
-            className={styles.label}
-          />
+          <Form.Check type="checkbox" label="É administrador?" name="isAdmin" checked={formData.isAdmin} onChange={handleChange} className={styles.label} />
         </Form.Group>
+
+        {formData.isAdmin && (
+          <Form.Group className="mb-3">
+            <Form.Label className={styles.label}>Senha:</Form.Label>
+            <Form.Control className={styles.input} type="password" name="senha" value={formData.senha} onChange={handleChange} required />
+          </Form.Group>
+        )}
 
         <div className="d-flex justify-content-center">
           <Button variant="primary" type="submit" disabled={loading} className={styles.button}>
@@ -182,6 +149,6 @@ export default function CadastrarCooperador() {
           </Button>
         </div>
       </Form>
-    </Container>
+    </div>
   );
 }
