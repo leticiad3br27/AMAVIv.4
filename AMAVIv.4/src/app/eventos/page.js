@@ -8,8 +8,6 @@ import { Calendar } from 'lucide-react';
 import styles from './page.module.css';
 import SimpleLayout from '../layouts/SimpleLayout';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://default-api-url.com';
-
 export default function Eventos() {
   const router = useRouter();
   const [eventos, setEventos] = useState([]);
