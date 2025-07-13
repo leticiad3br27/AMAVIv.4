@@ -21,21 +21,15 @@ export default function Eventos() {
   useEffect(() => {
     async function fetchEventos() {
       try {
-        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-        if (!token) {
-          setError('Usuário não autenticado. Faça login.');
-          setLoading(false);
-          return;
-        }
-
+        // Remova a checagem do token no localStorage
         const response = await fetch(`${API_URL}/eventos`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          credentials: 'include', // ESSENCIAL para enviar o cookie de autenticação
         });
         if (response.ok) {
           const data = await response.json();
           setEventos(data);
+        } else if (response.status === 401) {
+          setError('Usuário não autenticado. Faça login.');
         } else {
           setError('Erro ao carregar eventos');
         }
@@ -115,3 +109,8 @@ export default function Eventos() {
     </SimpleLayout>
   );
 }
+
+app.use(cors({
+  origin: ['https://amavi.dev.vilhena.ifro.edu.br', 'http://localhost:3000'],
+  credentials: true,
+}));

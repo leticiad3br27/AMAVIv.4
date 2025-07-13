@@ -1,50 +1,75 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './historico-atendimentos.module.css';
-import { useRouter } from "next/navigation"; // Importando useRouter
+import { useRouter } from "next/navigation";
 import SimpleLayout from '../../layouts/SimpleLayout';
-const App = () => {
-    const router = useRouter(); 
-    const requerimentos = [
-        { id: 1, descricao: "Requerimento de licença de funcionamento", data: "2023-01-15", status: "Deferido" },
-        { id: 2, descricao: "Solicitação de documento pessoal", data: "2023-02-20", status: "Indeferido" },
-        { id: 3, descricao: "Pedido de isenção de taxas", data: "2023-03-10", status: "Requerido" },
-        { id: 4, descricao: "Requerimento de alteração cadastral", data: "2023-04-05", status: "Deferido" },
-        { id: 5, descricao: "Solicitação de informações", data: "2023-05-12", status: "Requerido" }
-    ];
-    const handleNovaSolicitacao = () => {
-        router.push('/Solicitar-Atendimento'); 
-        alert("Redirecionando para nova solicitação..."); 
-    };
-    return (
-        <SimpleLayout>
-            <div className={`${styles.container} ${styles.lightTheme}`}> {/* Adicionando classe de tema claro */}
-                <h1>Histórico de Requerimentos</h1>
-                <table className={styles.tabelaRequerimentos}>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Descrição</th>
-                            <th>Data</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {requerimentos.map(requerimento => (
-                            <tr key={requerimento.id}>
-                                <td>{requerimento.id}</td>
-                                <td>{requerimento.descricao}</td>
-                                <td>{requerimento.data}</td>
-                                <td>{requerimento.status}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <button className={styles.btnNovaSolicitacao} onClick={handleNovaSolicitacao}>
-                    Nova Solicitação
-                </button>
-            </div>
-        </SimpleLayout>
-    );
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://amaviapi.dev.ifro.edu.br/';
+
+const HistoricoAtendimentos = () => {
+  const router = useRouter();
+  const [historico, setHistorico] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function fetchHistorico() {
+      setLoading(true);
+      try {
+        // Busque o ID do usuário autenticado conforme sua lógica de autenticação
+        // Exemplo: const userId = getUserIdFromContext();
+        const userId = 1; // Substitua pelo ID real do usuário autenticado
+        const response = await fetch(`${API_URL}/api/historico/atendimento/${userId}`, {
+          credentials: 'include',
+        });
+        if (!response.ok) throw new Error('Erro ao buscar histórico');
+        const data = await response.json();
+        setHistorico(data);
+      } catch (err) {
+        setError('Erro ao carregar histórico');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchHistorico();
+  }, []);
+
+  const handleNovaSolicitacao = () => {
+    router.push('/Solicitar-Atendimento');
+  };
+
+  return (
+    <SimpleLayout>
+      <div className={`${styles.container} ${styles.lightTheme}`}>
+        <h1>Histórico de Requerimentos</h1>
+        {loading && <p>Carregando...</p>}
+        {error && <p className={styles.error}>{error}</p>}
+        <table className={styles.tabelaRequerimentos}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Descrição</th>
+              <th>Data</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {historico.map(requerimento => (
+              <tr key={requerimento.solicitacao_id}>
+                <td>{requerimento.solicitacao_id}</td>
+                <td>{requerimento.solicitacao_descricao}</td>
+                <td>{requerimento.data}</td>
+                <td>{requerimento.solicitacao_status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button className={styles.btnNovaSolicitacao} onClick={handleNovaSolicitacao}>
+          Nova Solicitação
+        </button>
+      </div>
+    </SimpleLayout>
+  );
 };
-export default App;
+
+export default HistoricoAtendimentos;
