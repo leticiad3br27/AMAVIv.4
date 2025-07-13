@@ -1,0 +1,1 @@
+NEXT_PUBLIC_API_URL=https://amaviapi.dev.vilhena.ifro.edu.br
