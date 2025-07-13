@@ -19,18 +19,7 @@ export default function Eventos() {
   useEffect(() => {
     async function fetchEventos() {
       try {
-        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-        if (!token) {
-          setError('Usuário não autenticado. Faça login.');
-          setLoading(false);
-          return;
-        }
-
-        const response = await fetch(`${API_URL}/eventos`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(`${API_URL}/eventos`);
         if (response.ok) {
           const data = await response.json();
           setEventos(data);
