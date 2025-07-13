@@ -150,7 +150,7 @@ function ConsultarCooperador() {
                   <p><strong>Criado em:</strong> {selectedPerson.criado_em ? new Date(selectedPerson.criado_em).toLocaleString() : 'N/A'}</p>
                 </div>
                 <img
-                  src={selectedPerson.foto_url ? `data:image/jpeg;base64,${selectedPerson.foto_url}` : '/assets/img/placeholder.jpg'}
+                  src={selectedPerson.foto_base64 ? `data:image/jpeg;base64,${selectedPerson.foto_base64}` : '/assets/img/placeholder.jpg'}
                   alt={`Imagem de ${selectedPerson.nome || 'colaborador'}`}
                   className={styles.image}
                 />
