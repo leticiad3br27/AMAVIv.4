@@ -56,7 +56,7 @@ export default function CadastrarCooperador() {
       formDataToSend.append(key, formData[key]);
     }
     if (imagem) {
-      formDataToSend.append('foto_url', imagem); // Corrigido para foto_url
+      formDataToSend.append('foto_url', imagem); // Use sempre 'foto_url'
     }
 
     try {
