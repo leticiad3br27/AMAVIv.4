@@ -109,8 +109,3 @@ export default function Eventos() {
     </SimpleLayout>
   );
 }
-
-app.use(cors({
-  origin: ['https://amavi.dev.vilhena.ifro.edu.br', 'http://localhost:3000'],
-  credentials: true,
-}));
