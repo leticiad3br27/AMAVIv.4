@@ -19,7 +19,7 @@ export default function Eventos() {
   useEffect(() => {
     async function fetchEventos() {
       try {
-        const response = await fetch(`${API_URL}/eventos`);
+        const response = await fetch(`${API_URL}/evento`);
         if (response.ok) {
           const data = await response.json();
           setEventos(data);
