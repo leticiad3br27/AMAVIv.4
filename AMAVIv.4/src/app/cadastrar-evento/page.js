@@ -18,6 +18,7 @@ export default function CadastrarEvento() {
     publico: 'geral',
   });
   const [imagem, setImagem] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null); // Adicionado para preview
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -32,13 +33,22 @@ export default function CadastrarEvento() {
       const file = e.target.files[0];
       if (file && file.size > 10 * 1024 * 1024) {
         setError('A imagem deve ter no máximo 10MB');
+        setImagem(null);
+        setPreviewUrl(null);
         return;
       }
       if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
         setError('Apenas imagens JPEG ou PNG são permitidas');
+        setImagem(null);
+        setPreviewUrl(null);
         return;
       }
+      setError(null);
       setImagem(file);
+
+      // Criar URL para preview
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
     }
   };
 
@@ -66,14 +76,11 @@ export default function CadastrarEvento() {
         router.push('/login');
         return;
       }
-      console.log('Token:', token);
-      for (let [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
-      }
 
-      const apiUrl = process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000/api/evento'
-        : 'https://amaviapi.dev.vilhena.ifro.edu.br/api/evento';
+      const apiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/evento'
+          : 'https://amaviapi.dev.vilhena.ifro.edu.br/api/evento';
 
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -88,8 +95,16 @@ export default function CadastrarEvento() {
 
       if (response.ok) {
         setSuccess('Evento cadastrado com sucesso!');
-        setFormData({ titulo: '', descricao: '', tipo_evento: 'default', data_evento: '', horario_evento: '', publico: 'geral' });
+        setFormData({
+          titulo: '',
+          descricao: '',
+          tipo_evento: 'default',
+          data_evento: '',
+          horario_evento: '',
+          publico: 'geral',
+        });
         setImagem(null);
+        setPreviewUrl(null); // Limpa o preview após sucesso
         e.target.reset();
         router.push('/eventos');
       } else {
@@ -189,10 +204,25 @@ export default function CadastrarEvento() {
             accept="image/jpeg,image/png"
             onChange={handleFileChange}
           />
+          {previewUrl && (
+            <div className={styles.previewContainer}>
+              <img
+                src={previewUrl}
+                alt="Pré-visualização da imagem"
+                className={styles.previewImage}
+                onLoad={() => URL.revokeObjectURL(previewUrl)}
+              />
+            </div>
+          )}
         </Form.Group>
 
         <div className="d-flex justify-content-center">
-          <Button variant="primary" type="submit" disabled={loading}>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={loading}
+            className={styles.submitButton}
+          >
             <CalendarPlus size={16} className="me-2" />
             {loading ? 'Cadastrando...' : 'Cadastrar Evento'}
           </Button>
