@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/famipage.module.css";
-import useTheme from "../../hook/useTheme"; // ✅ ajuste o caminho conforme sua pasta real
+import useTheme from "../../hook/useTheme"; // Ajuste o caminho conforme seu projeto
 import ConfigLayout from "../layouts/ConfigLayout";
 
 const calcularIdade = (dataNasc) => {
@@ -18,7 +18,7 @@ const calcularIdade = (dataNasc) => {
 };
 
 const FamiliaPage = () => {
-  const { isDarkMode } = useTheme(); // ✅ tema funcionando
+  const { isDarkMode } = useTheme();
   const router = useRouter();
   const [usuario, setUsuario] = useState(null);
   const [historico, setHistorico] = useState([]);
@@ -40,10 +40,13 @@ const FamiliaPage = () => {
         const verificaData = await verificaRes.json();
         const nomeUsuario = verificaData.nome;
 
-        const usuarioRes = await fetch(`https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios?nome=${encodeURIComponent(nomeUsuario)}`, {
-          method: "GET",
-          credentials: "include",
-        });
+        const usuarioRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios?nome=${encodeURIComponent(nomeUsuario)}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
         if (!usuarioRes.ok) {
           const erroTexto = await usuarioRes.text();
@@ -61,10 +64,13 @@ const FamiliaPage = () => {
         setUsuario(usuarioEncontrado);
 
         // Buscar histórico
-        const historicoRes = await fetch(`https://amaviapi.dev.vilhena.ifro.edu.br/api/historico/usuario/${usuarioEncontrado.id}`, {
-          method: "GET",
-          credentials: "include",
-        });
+        const historicoRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/historico/usuario/${usuarioEncontrado.id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
         if (historicoRes.ok) {
           const historicoData = await historicoRes.json();
@@ -84,7 +90,7 @@ const FamiliaPage = () => {
   }, [router]);
 
   const handleHistoricoClick = () => {
-    router.push("Solicitar-Atendimento/historico-atendimentos");
+    router.push("/Solicitar-Atendimento/historico-atendimentos");
   };
 
   if (loading) {
@@ -95,6 +101,12 @@ const FamiliaPage = () => {
     return <div className={styles.error}>Usuário não encontrado ou não autenticado.</div>;
   }
 
+  // Construção do URL da imagem
+  // Ajuste aqui conforme o formato que o backend envia:
+  // Se foto_blob for string base64:
+  // const fotoUrl = usuario?.foto_blob ? `data:image/jpeg;base64,${usuario.foto_blob}` : null;
+
+  // Se foto_blob for objeto { data: [...] } com bytes:
   const fotoUrl = usuario?.foto_blob?.data
     ? `data:image/jpeg;base64,${btoa(
         new Uint8Array(usuario.foto_blob.data).reduce((data, byte) => data + String.fromCharCode(byte), "")
@@ -116,14 +128,30 @@ const FamiliaPage = () => {
             </div>
             <h1 className={styles.profileName}>{usuario.nome}</h1>
           </div>
-          <p className={styles.profileInfo}><strong>Idade:</strong> {calcularIdade(usuario.data_nascimento)}</p>
-          <p className={styles.profileInfo}><strong>Gênero:</strong> {usuario.sexo || "Não informado"}</p>
-          <p className={styles.profileInfo}><strong>Número SUS:</strong> {usuario.num_sus || "Não informado"}</p>
-          <p className={styles.profileInfo}><strong>CPF:</strong> {usuario.cpf || "Não informado"}</p>
-          <p className={styles.profileInfo}><strong>RG:</strong> {usuario.rg || "Não informado"}</p>
-          <p className={styles.profileInfo}><strong>Endereço:</strong> {usuario.endereco || "Não informado"}</p>
-          <p className={styles.profileInfo}><strong>Telefone:</strong> {usuario.telefone || "Não informado"}</p>
-          <p className={styles.profileInfo}><strong>Email:</strong> {usuario.email || "Não informado"}</p>
+          <p className={styles.profileInfo}>
+            <strong>Idade:</strong> {calcularIdade(usuario.data_nascimento)}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>Gênero:</strong> {usuario.sexo || "Não informado"}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>Número SUS:</strong> {usuario.num_sus || "Não informado"}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>CPF:</strong> {usuario.cpf || "Não informado"}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>RG:</strong> {usuario.rg || "Não informado"}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>Endereço:</strong> {usuario.endereco || "Não informado"}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>Telefone:</strong> {usuario.telefone || "Não informado"}
+          </p>
+          <p className={styles.profileInfo}>
+            <strong>Email:</strong> {usuario.email || "Não informado"}
+          </p>
         </div>
 
         {/* Coluna de Histórico */}
