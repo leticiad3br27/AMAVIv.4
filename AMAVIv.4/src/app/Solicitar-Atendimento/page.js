@@ -1,144 +1,91 @@
 'use client';
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import SimpleLayout from "../layouts/SimpleLayout";
+
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import SimpleLayout from '../../app/layouts/SimpleLayout';
 import styles from './page.module.css';
 
-// Helpers para localStorage com expiração
-function setItemWithExpiry(key, value, ttl) {
-  const now = new Date();
-  const item = {
-    value,
-    expiry: now.getTime() + ttl,
-  };
-  localStorage.setItem(key, JSON.stringify(item));
-}
-
-function getItemWithExpiry(key) {
-  const itemStr = localStorage.getItem(key);
-  if (!itemStr) return null;
-  try {
-    const item = JSON.parse(itemStr);
-    const now = new Date();
-    if (now.getTime() > item.expiry) {
-      localStorage.removeItem(key);
-      return null;
-    }
-    return item.value;
-  } catch {
-    localStorage.removeItem(key);
-    return null;
-  }
-}
-
-export default function SolicitarAtendimento() {
+export default function SolicitarRequerimento() {
   const [descricao, setDescricao] = useState('');
   const [classificacao, setClassificacao] = useState('');
   const [idDocumentacao, setIdDocumentacao] = useState('');
-  const [documentos, setDocumentos] = useState([]); // New state for documents
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [documentos, setDocumentos] = useState([]);
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
   const router = useRouter();
 
   useEffect(() => {
-    async function verificarUsuario() {
-      const localUsuario = getItemWithExpiry("amavi_logged_in");
-      if (localUsuario) {
-        // Já está logado, pode prosseguir
-        const res = await fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/verificar-login", {
-          method: "GET",
-          credentials: "include",
+    const fetchDadosUsuarioEDocumentos = async () => {
+      try {
+        setLoading(true);
+
+        // Verificar login
+        const loginRes = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/verificar-login', {
+          method: 'GET',
+          credentials: 'include',
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          setUsuario(data);
-          // Fetch documents for the user
-          await fetchDocumentos(data.id);
-        } else {
-          localStorage.removeItem("amavi_logged_in");
-          router.push("/login");
-        }
+        if (!loginRes.ok) throw new Error('Não autenticado');
 
-        setLoading(false);
-        return;
-      }
+        const loginData = await loginRes.json();
 
-      // Não logado, tenta verificar com o backend
-      try {
-        const res = await fetch("https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/verificar-login", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          setUsuario(data);
-          setItemWithExpiry("amavi_logged_in", true, 60 * 60 * 1000); // 1 hora
-          // Fetch documents for the user
-          await fetchDocumentos(data.id);
-        } else {
-          router.push("/login");
-        }
-      } catch (err) {
-        console.error("Erro ao verificar login:", err);
-        router.push("/login");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    // Function to fetch documents
-    async function fetchDocumentos(usuarioId) {
-      try {
-        const documentosRes = await fetch(
-          `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/usuario/${usuarioId}`,
+        // Buscar dados do usuário
+        const usuarioRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios?nome=${encodeURIComponent(loginData.nome)}`,
           {
             method: 'GET',
             credentials: 'include',
           }
         );
 
-        if (documentosRes.ok) {
-          const documentosData = await documentosRes.json();
-          setDocumentos(documentosData);
-        } else {
-          setDocumentos([]);
-          setError('Erro ao carregar documentos do usuário.');
-        }
-      } catch (err) {
-        console.error("Erro ao buscar documentos:", err);
-        setDocumentos([]);
-        setError('Erro ao conectar com o servidor para carregar documentos.');
-      }
-    }
+        if (!usuarioRes.ok) throw new Error('Erro ao buscar dados do usuário');
 
-    verificarUsuario();
+        const usuarios = await usuarioRes.json();
+        const usuarioAtual = usuarios[0];
+        if (!usuarioAtual) throw new Error('Usuário não encontrado');
+
+        setUsuario(usuarioAtual);
+
+        // Buscar documentos do usuário
+        const documentosRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/usuario/${usuarioAtual.id}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+          }
+        );
+
+        const documentosData = await documentosRes.ok ? await documentosRes.json() : [];
+        setDocumentos(documentosData);
+      } catch (err) {
+        console.error(err);
+        router.push('/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDadosUsuarioEDocumentos();
   }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError(null);
+    setSuccess(null);
 
-    if (!descricao || !classificacao || !idDocumentacao) {
-      setError('Por favor, preencha todos os campos obrigatórios.');
-      return;
-    }
-
-    if (!usuario?.id) {
-      setError('Usuário não identificado. Faça login novamente.');
-      router.push('/login');
+    if (!usuario) {
+      setError('Usuário não carregado. Refaça o login.');
       return;
     }
 
     const payload = {
+      id_usuario: usuario.id,
+      id_documentacao: idDocumentacao,
       descricao,
       classificacao,
-      id_documentacao: Number(idDocumentacao),
-      id_usuario: usuario.id,
     };
 
     try {
@@ -151,7 +98,7 @@ export default function SolicitarAtendimento() {
 
       const data = await response.json();
 
-      if (response.status === 201) {
+      if (response.status === 201 || response.ok) {
         setSuccess(data.message || 'Solicitação enviada com sucesso!');
         setDescricao('');
         setClassificacao('');

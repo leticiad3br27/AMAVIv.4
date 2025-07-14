@@ -1,278 +1,304 @@
+/* Estilo geral para o contêiner principal */
 .box {
-    padding-top: 3%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .busc {
-    display: flex;
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Estilo do painel de busca */
+.busc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  background-color: #001555;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.busc:hover {
+  transform: translateY(-4px);
+}
+
+/* Estilo do contêiner de busca */
+.busca {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.busca h1 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilo do contêiner de input de busca */
+.search-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-icon {
+  padding: 0.75rem;
+  background-color: #c3ddff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-icon:hover {
+  background-color: #5A8DEE;
+}
+
+/* Estilo do botão de cadastro */
+.butao {
+  width: 100%;
+  background-color: #3091ff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.butao > button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.butao:hover {
+  background-color: #5A8DEE;
+  transform: translateY(-2px);
+}
+
+/* Estilo do painel de filtros */
+.sugestao {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.sugestao h2 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Estilo dos botões de filtro */
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.filterButton {
+  background-color: #3091ff;
+  color: #ffffff;
+  font-weight: 500;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterButton:hover,
+.filterButton.active {
+  background-color: #5A8DEE;
+  transform: translateY(-2px);
+}
+
+/* Estilo do painel de resultados */
+.resul {
+  width: 100%;
+  max-width: 700px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cad-donw {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.cad-donw:hover {
+  transform: translateY(-3px);
+}
+
+.txt {
+  flex: 1;
+}
+
+.txt h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.txt p {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+/* Estilo do botão de download */
+.downloadButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #3091ff;
+  transition: all 0.2s ease;
+}
+
+.downloadButton:hover {
+  color: #5A8DEE;
+  transform: scale(1.1);
+}
+
+.downloadButton:disabled {
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Estilo do loading */
+.loading {
+  color: #3091ff;
+  font-size: 1.125rem;
+  text-align: center;
+}
+
+/* Estilo do erro */
+.error {
+  background-color: #ff4d4f;
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.closeErrorButton {
+  background-color: #ffffff;
+  color: #ff4d4f;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.closeErrorButton:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .box {
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    width: 40%;
-    min-width: 300px;
-    background-color: #001555; /* Azul Royal */
-    padding: 20px;
-    border-radius: 10px;
   }
-  
-  .busca {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .busca h1 {
-    color: white;
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 5px 0 0 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .search-icon {
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 0 5px 5px 0;
-    background-color: #c3ddff; /* Azul Royal */
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .butao {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    background-color: #3091ff; /* Azul Royal */
-    text-decoration: none;
-    border-radius: 8px;
-    margin-top: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, background-color 0.2s ease;
-  }
-  
-  .butao > button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .butao:hover {
-    background-color: #5A8DEE; /* Azul Royal mais claro */
-    transform: scale(1.05);
-  }
-  
-  .butao:hover > button {
-    color: white;
-  }
-  
-  .sugestao {
-    width: 100%;
-    margin-top: 30px;
-  }
-  
-  .sugestao h1 {
-    color: white;
-    font-size: 20px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  
-  .table {
-    width: 100%;
-  }
-  
-  .type {
-    color: white;
-    font-size: 16px;
-    text-align: left;
-    padding-left: 10px;
-  }
-  
-  .SquareCheckBig {
-    background: transparent;
-    border: none;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  .SquareCheckBig:focus {
-    outline: none;
-  }
-  
+
+  .busc,
   .resul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 55%;
-    min-width: 300px;
-    background-color: #3091ff; /* Azul Royal */
-    border-radius: 10px;
-    padding: 20px;
-    gap: 20px;
+    max-width: 90%;
   }
-  
-  .cad-donw {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff; /* Azul Royal mais claro */
-    width: 100%;
-    padding: 15px;
-    border-radius: 15px;
-    gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .busca h1 {
+    font-size: 1.25rem;
   }
-  
-  .txt {
-    display: flex;
-    flex-direction: column;
-    width: 85%;
+
+  .sugestao h2 {
+    font-size: 1rem;
   }
-  
-  .txt h1 {
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-  
-  .txt h2 {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .cad-donw > button {
-    background: none;
-    border: none;
-    width: 15%;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .cad-donw > button:hover {
-    transform: scale(1.1);
-    color: #3091ff; /* Azul Royal */
-  }
-  
-  .cad-donw > button:focus {
-    outline: none;
-  }
-  
-  .cad-donw > button > svg {
-    width: 100%;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 1024px) {
-    .box {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .busc, .resul {
-      width: 80%;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .busc, .resul {
-      width: 90%;
-    }
-  
-    .sugestao {
-      margin-top: 20px;
-    }
-  
-    .txt h1 {
-      font-size: 16px;
-    }
-  
-    .txt h2 {
-      font-size: 12px;
-    }
-  
-    .search-input, .search-icon {
-      padding: 8px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .search-container {
-      flex-direction: column;
-    }
-  
-    .search-input, .search-icon {
-      width: 100%;
-      border-radius: 5px;
-    }
-  
-    .butao {
-      width: 100%;
-    }
-  
-    .sugestao h1, .busca h1 {
-      font-size: 18px;
-    }
-  
-    .type {
-      font-size: 14px;
-    }
-  
-    .resul {
-      width: 100%;
-    }
-  }
-  
-  .filter-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  
+
   .filterButton {
-    background-color: #3091ff; /* Azul Royal */
-    color: white;
-    font-weight: bold;
-    border: none;
-    padding: 10px 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .txt h3 {
+    font-size: 1rem;
+  }
+
+  .txt p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-input,
+  .search-icon {
     width: 100%;
     border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
   }
-  
-  .filterButton:hover {
-    background-color: #5A8DEE; /* Azul Royal mais claro */
-    color: white;
-    transform: scale(1.05);
+
+  .butao {
+    width: 100%;
   }
-  
-  @media (max-width: 480px) {
-    .filter-buttons {
-      flex-direction: column;
-    }
+
+  .filter-buttons {
+    flex-direction: column;
   }
+
+  .resul {
+    padding: 1rem;
+  }
+
+  .cad-donw {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .downloadButton {
+    align-self: flex-end;
+  }
+}
