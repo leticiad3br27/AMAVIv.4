@@ -1,75 +1,132 @@
-"use client";
-import React, { useEffect, useState } from 'react';
-import styles from './historico-atendimentos.module.css';
-import { useRouter } from "next/navigation";
-import SimpleLayout from '../../layouts/SimpleLayout';
+'use client';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://amaviapi.dev.ifro.edu.br/';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import SimpleLayout from '../../../app/layouts/SimpleLayout';
+import styles from './historico-atendimentos.module.css'; // seu arquivo CSS com as classes
 
-const HistoricoAtendimentos = () => {
-  const router = useRouter();
-  const [historico, setHistorico] = useState([]);
+export default function HistoricoRequerimentos() {
+  const [usuario, setUsuario] = useState(null);
+  const [requerimentos, setRequerimentos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
+
+  const router = useRouter();
 
   useEffect(() => {
-    async function fetchHistorico() {
-      setLoading(true);
+    const fetchUsuarioERequerimentos = async () => {
       try {
-        // Busque o ID do usuário autenticado conforme sua lógica de autenticação
-        // Exemplo: const userId = getUserIdFromContext();
-        const userId = 1; // Substitua pelo ID real do usuário autenticado
-        const response = await fetch(`${API_URL}/api/historico/atendimento/${userId}`, {
+        setLoading(true);
+        // Verificar login
+        const loginRes = await fetch('https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/verificar-login', {
+          method: 'GET',
           credentials: 'include',
         });
-        if (!response.ok) throw new Error('Erro ao buscar histórico');
-        const data = await response.json();
-        setHistorico(data);
+        if (!loginRes.ok) throw new Error('Não autenticado');
+        const loginData = await loginRes.json();
+
+        // Buscar dados do usuário
+        const usuarioRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios?nome=${encodeURIComponent(loginData.nome)}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+          }
+        );
+        if (!usuarioRes.ok) throw new Error('Erro ao buscar dados do usuário');
+        const usuarios = await usuarioRes.json();
+        const usuarioAtual = usuarios[0];
+        if (!usuarioAtual) throw new Error('Usuário não encontrado');
+
+        setUsuario(usuarioAtual);
+
+        // Buscar requerimentos do usuário
+        const reqRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/requerimentos/solicitacao/usuario/${usuarioAtual.id}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+          }
+        );
+
+        if (!reqRes.ok) throw new Error('Erro ao buscar requerimentos');
+
+        const reqData = await reqRes.json();
+        setRequerimentos(reqData);
       } catch (err) {
-        setError('Erro ao carregar histórico');
+        console.error(err);
+        router.push('/login');
       } finally {
         setLoading(false);
       }
-    }
-    fetchHistorico();
-  }, []);
+    };
 
-  const handleNovaSolicitacao = () => {
-    router.push('/Solicitar-Atendimento');
-  };
+    fetchUsuarioERequerimentos();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <SimpleLayout>
+        <div className={styles.container}>
+          <p>Carregando histórico de requerimentos...</p>
+        </div>
+      </SimpleLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <SimpleLayout>
+        <div className={styles.container}>
+          <p className={styles.error}>{error}</p>
+        </div>
+      </SimpleLayout>
+    );
+  }
 
   return (
     <SimpleLayout>
-      <div className={`${styles.container} ${styles.lightTheme}`}>
-        <h1>Histórico de Requerimentos</h1>
-        {loading && <p>Carregando...</p>}
-        {error && <p className={styles.error}>{error}</p>}
-        <table className={styles.tabelaRequerimentos}>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Descrição</th>
-              <th>Data</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {historico.map(requerimento => (
-              <tr key={requerimento.solicitacao_id}>
-                <td>{requerimento.solicitacao_id}</td>
-                <td>{requerimento.solicitacao_descricao}</td>
-                <td>{requerimento.data}</td>
-                <td>{requerimento.solicitacao_status}</td>
+      <div className={styles.container}>
+        <h1 className={styles.title}>📜 Histórico de Requerimentos</h1>
+
+        {usuario && <p>Olá, {usuario.nome}! Veja seus requerimentos abaixo:</p>}
+
+        {requerimentos.length === 0 ? (
+          <p>Você não possui requerimentos cadastrados.</p>
+        ) : (
+          <table className={styles.tabelaRequerimentos}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Classificação</th>
+                <th>Documento</th>
+                <th>Status</th>
+                <th>Data de Solicitação</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <button className={styles.btnNovaSolicitacao} onClick={handleNovaSolicitacao}>
-          Nova Solicitação
+            </thead>
+            <tbody>
+              {requerimentos.map((req) => (
+                <tr key={req.id}>
+                  <td>{req.id}</td>
+                  <td>{req.descricao}</td>
+                  <td>{req.classificacao}</td>
+                  <td>{req.id_documentacao || '—'}</td>
+                  <td>{req.status || 'Pendente'}</td>
+                  <td>{new Date(req.data_solicitacao || req.created_at).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        <button
+          className={styles.btnNovaSolicitacao}
+          onClick={() => router.push('/Solicitar-Atendimento')}
+        >
+          + Nova Solicitação
         </button>
       </div>
     </SimpleLayout>
   );
-};
-
-export default HistoricoAtendimentos;
+}
