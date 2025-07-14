@@ -35,6 +35,7 @@ export default function SolicitarAtendimento() {
   const [descricao, setDescricao] = useState('');
   const [classificacao, setClassificacao] = useState('');
   const [idDocumentacao, setIdDocumentacao] = useState('');
+  const [documentos, setDocumentos] = useState([]); // New state for documents
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [usuario, setUsuario] = useState(null);
@@ -54,6 +55,8 @@ export default function SolicitarAtendimento() {
         if (res.ok) {
           const data = await res.json();
           setUsuario(data);
+          // Fetch documents for the user
+          await fetchDocumentos(data.id);
         } else {
           localStorage.removeItem("amavi_logged_in");
           router.push("/login");
@@ -74,6 +77,8 @@ export default function SolicitarAtendimento() {
           const data = await res.json();
           setUsuario(data);
           setItemWithExpiry("amavi_logged_in", true, 60 * 60 * 1000); // 1 hora
+          // Fetch documents for the user
+          await fetchDocumentos(data.id);
         } else {
           router.push("/login");
         }
@@ -82,6 +87,31 @@ export default function SolicitarAtendimento() {
         router.push("/login");
       } finally {
         setLoading(false);
+      }
+    }
+
+    // Function to fetch documents
+    async function fetchDocumentos(usuarioId) {
+      try {
+        const documentosRes = await fetch(
+          `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/usuario/${usuarioId}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+          }
+        );
+
+        if (documentosRes.ok) {
+          const documentosData = await documentosRes.json();
+          setDocumentos(documentosData);
+        } else {
+          setDocumentos([]);
+          setError('Erro ao carregar documentos do usuário.');
+        }
+      } catch (err) {
+        console.error("Erro ao buscar documentos:", err);
+        setDocumentos([]);
+        setError('Erro ao conectar com o servidor para carregar documentos.');
       }
     }
 
@@ -194,8 +224,15 @@ export default function SolicitarAtendimento() {
             required
           >
             <option value="">Selecione</option>
-            <option value="1">Documento 1</option>
-            <option value="2">Documento 2</option>
+            {documentos.length > 0 ? (
+              documentos.map((doc) => (
+                <option key={doc.id} value={doc.id}>
+                  {doc.descricao}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>Nenhum documento disponível</option>
+            )}
           </select>
 
           <div className={styles.buttonGroup}>
