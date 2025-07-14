@@ -97,6 +97,9 @@ export default function Documents() {
   }, [router]);
 
   const handleDownload = async (docId, docName, arquivoUrl) => {
+    // Adicione este log para depuração
+    console.log('handleDownload:', { docId, docName, arquivoUrl });
+
     if (!docId || !docName || !arquivoUrl) {
       setError('ID, nome ou arquivo do documento inválido.');
       return;
@@ -154,6 +157,40 @@ export default function Documents() {
       URL.revokeObjectURL(link.href);
     } catch (error) {
       setError(`Erro ao baixar o arquivo: ${error.message}`);
+    } finally {
+      setDownloading((prev) => ({ ...prev, [docId]: false }));
+    }
+  };
+
+  // Adicione esta função para download via endpoint do backend (fetch + blob)
+  const downloadFromApi = async (docId) => {
+    setDownloading((prev) => ({ ...prev, [docId]: true }));
+    try {
+      // Ajuste a URL conforme seu endpoint real de download
+      const response = await fetch(
+        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/download/${docId}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        }
+      );
+      if (!response.ok) throw new Error('Erro ao baixar arquivo do servidor');
+      // Extrai o nome do arquivo do header (se backend enviar)
+      const disposition = response.headers.get('Content-Disposition');
+      let filename = 'documento';
+      if (disposition && disposition.includes('filename=')) {
+        filename = decodeURIComponent(disposition.split('filename=')[1].replace(/"/g, ''));
+      }
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    } catch (err) {
+      setError('Erro ao baixar o arquivo.');
     } finally {
       setDownloading((prev) => ({ ...prev, [docId]: false }));
     }
@@ -268,23 +305,101 @@ export default function Documents() {
 
         {filteredDocs.length > 0 ? (
           <ul className={styles.resul} role="list">
-            {filteredDocs.map((doc) => (
-              <li key={doc.id} className={styles['cad-donw']}>
-                <div className={styles.txt}>
-                  <h3>{doc.descricao}</h3>
-                  <p>Data: {new Date(doc.criado_em).toLocaleDateString('pt-BR')}</p>
-                </div>
-                <button
-                  onClick={() => handleDownload(doc.id, doc.descricao, doc.arquivo_url)}
-                  disabled={downloading[doc.id]}
-                  className={styles.downloadButton}
-                  aria-label={`Baixar documento ${doc.descricao}`}
-                  aria-busy={downloading[doc.id]}
-                >
-                  {downloading[doc.id] ? 'Baixando...' : <CloudDownload size={24} />}
-                </button>
-              </li>
-            ))}
+            {filteredDocs.map((doc) => {
+              // Detecta o campo base64 ou url de arquivo
+              const arquivoBase64 = doc.arquivo_url || doc.arquivo || doc.file || doc.base64 || '';
+              const temArquivo = !!(doc.arquivo_url || doc.arquivo || doc.file || doc.base64);
+
+              // Tenta obter nome do arquivo ou gera um padrão
+              const nomeArquivo =
+                doc.nome_arquivo ||
+                doc.descricao ||
+                `documento_${doc.id || ''}`;
+
+              // Função universal para baixar qualquer tipo de arquivo base64 ou data URL
+              const baixarArquivo = () => {
+                let fileName = nomeArquivo;
+                let fileData = arquivoBase64;
+                let fileType = '';
+                let fileExtension = '';
+
+                // Detecta se é data URL
+                if (fileData.startsWith('data:')) {
+                  // Exemplo: data:application/pdf;base64,....
+                  const matches = fileData.match(/^data:(.+);base64,(.*)$/);
+                  if (matches) {
+                    fileType = matches[1];
+                    fileData = matches[2];
+                    // Tenta extrair extensão do tipo MIME
+                    if (fileType.includes('pdf')) fileExtension = '.pdf';
+                    else if (fileType.includes('png')) fileExtension = '.png';
+                    else if (fileType.includes('jpeg') || fileType.includes('jpg')) fileExtension = '.jpg';
+                    else if (fileType.includes('docx')) fileExtension = '.docx';
+                    else if (fileType.includes('doc')) fileExtension = '.doc';
+                    else if (fileType.includes('xls')) fileExtension = '.xls';
+                    else if (fileType.includes('xlsx')) fileExtension = '.xlsx';
+                    else if (fileType.includes('txt')) fileExtension = '.txt';
+                    else if (fileType.includes('zip')) fileExtension = '.zip';
+                    else fileExtension = '';
+                  }
+                } else {
+                  // Assume base64 puro, tenta usar extensão do nome_arquivo ou padrão PDF
+                  fileType = '';
+                  if (nomeArquivo.endsWith('.pdf')) fileExtension = '.pdf';
+                  else if (nomeArquivo.endsWith('.png')) fileExtension = '.png';
+                  else if (nomeArquivo.endsWith('.jpg') || nomeArquivo.endsWith('.jpeg')) fileExtension = '.jpg';
+                  else if (nomeArquivo.endsWith('.docx')) fileExtension = '.docx';
+                  else if (nomeArquivo.endsWith('.doc')) fileExtension = '.doc';
+                  else if (nomeArquivo.endsWith('.xls')) fileExtension = '.xls';
+                  else if (nomeArquivo.endsWith('.xlsx')) fileExtension = '.xlsx';
+                  else if (nomeArquivo.endsWith('.txt')) fileExtension = '.txt';
+                  else if (nomeArquivo.endsWith('.zip')) fileExtension = '.zip';
+                  else fileExtension = '.pdf';
+                }
+
+                // Garante extensão no nome do arquivo
+                if (!fileName.endsWith(fileExtension)) fileName += fileExtension;
+
+                // Decodifica base64 para blob
+                try {
+                  const byteCharacters = atob(fileData);
+                  const byteNumbers = new Array(byteCharacters.length);
+                  for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                  }
+                  const byteArray = new Uint8Array(byteNumbers);
+                  const blob = new Blob([byteArray], { type: fileType || undefined });
+
+                  const link = document.createElement('a');
+                  link.href = URL.createObjectURL(blob);
+                  link.download = fileName;
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  URL.revokeObjectURL(link.href);
+                } catch (err) {
+                  alert('Erro ao baixar o arquivo.');
+                }
+              };
+
+              return (
+                <li key={doc.id} className={styles['cad-donw']}>
+                  <div className={styles.txt}>
+                    <h3>{doc.descricao}</h3>
+                    <p>Data: {new Date(doc.criado_em).toLocaleDateString('pt-BR')}</p>
+                  </div>
+                  <button
+                    onClick={() => downloadFromApi(doc.id)}
+                    disabled={downloading[doc.id]}
+                    className={styles.downloadButton}
+                    aria-label={`Baixar documento ${doc.descricao}`}
+                    aria-busy={downloading[doc.id]}
+                  >
+                    {downloading[doc.id] ? 'Baixando...' : <CloudDownload size={24} />}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <div className={styles.resul}>
@@ -297,3 +412,4 @@ export default function Documents() {
     </SimpleLayout>
   );
 }
+  
