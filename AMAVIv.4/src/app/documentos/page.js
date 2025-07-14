@@ -1,11 +1,18 @@
-
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import SimpleLayout from '../../app/layouts/SimpleLayout';
 import styles from './documentos.module.css';
 import { Search, CloudDownload } from 'lucide-react';
-import debounce from 'lodash/debounce';
+
+// Função debounce simples
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
 
 export default function Documents() {
   const [searchTerm, setSearchTerm] = useState('');

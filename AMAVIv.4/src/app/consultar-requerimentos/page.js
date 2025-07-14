@@ -5,7 +5,7 @@ import SimpleLayout from '../../app/layouts/SimpleLayout';
 import styles from './requerimentos.module.css';
 import { Search, CloudDownload } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://amaviapi.dev.ifro.edu.br/';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://amaviapi.dev.vilhena.ifro.edu.br/';
 
 export default function Requerimentos() {
   const [searchTerm, setSearchTerm] = useState('');
