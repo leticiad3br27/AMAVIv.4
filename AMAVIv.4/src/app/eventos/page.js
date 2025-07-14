@@ -109,7 +109,7 @@ export default function Agenda() {
     <SimpleLayout>
       <Container className={styles.body}>
         <div className={styles.eve}>
-          <h1 className={styles.agaum}>Agenda de Eventos</h1>
+          <h1 className={styles.agaum}>Eventos</h1>
         </div>
 
         <div className={styles.divCards}>
