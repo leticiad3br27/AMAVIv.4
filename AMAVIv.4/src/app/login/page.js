@@ -58,7 +58,7 @@ export default function Login() {
   };
 
   const handleRegister = () => {
-    router.push("/Cadastrar-B");
+    router.push("/Cadastrar-se");
   };
 
   const handleForgotPassword = () => {
