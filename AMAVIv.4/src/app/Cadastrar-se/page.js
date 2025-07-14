@@ -50,8 +50,8 @@ export default function Beneficiario() {
         cep: '',
         sexo: '',
         cartaoSus: '',
-        laudo_medico: null, // correto
-        foto_blob: null,    // correto
+        laudo_medico: null,
+        foto_blob: null,
         informacoesMedicas: ''
     });
 
@@ -60,7 +60,6 @@ export default function Beneficiario() {
     const [cpfError, setCpfError] = useState("");
     const router = useRouter();
 
-    // Estados para controle de senha
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const [requisitos, setRequisitos] = useState({
@@ -92,10 +91,36 @@ export default function Beneficiario() {
             if (typeof value === 'string' && value.trim() === '') return false;
             return true;
         }).length;
-
         const totalFields = Object.keys(formData).length;
         setProgress((filledFields / totalFields) * 100);
     }, [formData]);
+
+    useEffect(() => {
+        const buscarEnderecoPorCep = async () => {
+            const cepLimpo = formData.cep.replace(/\D/g, '');
+            if (cepLimpo.length === 8) {
+                try {
+                    const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+                    const data = await response.json();
+                    if (!data.erro) {
+                        setFormData(prev => ({
+                            ...prev,
+                            rua: data.logradouro || '',
+                            cidade: data.localidade || '',
+                            estado: data.uf || ''
+                        }));
+                    } else {
+                        alert('CEP não encontrado.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar endereço pelo CEP:', error);
+                    alert('Erro ao buscar endereço. Verifique o CEP e tente novamente.');
+                }
+            }
+        };
+
+        if (formData.cep) buscarEnderecoPorCep();
+    }, [formData.cep]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -108,6 +133,12 @@ export default function Beneficiario() {
             } else {
                 setCpfError("");
             }
+            return;
+        }
+
+        if (name === "cep") {
+            const cepFormatado = value.replace(/\D/g, '').slice(0, 8);
+            setFormData({ ...formData, cep: cepFormatado });
             return;
         }
 
@@ -128,21 +159,18 @@ export default function Beneficiario() {
     const handleBeneficiarioSubmit = (e) => {
         e.preventDefault();
 
-        // Validar CPF do beneficiário
         const rawCPF = formData.cpf.replace(/[^\d]+/g, '');
         if (!validateCPF(rawCPF)) {
             setCpfError("CPF inválido! Por favor, insira um CPF válido.");
             return;
         }
 
-        // Calcular idade
         const age = calculateAge(formData.nascimento);
         if (age < 18) {
             router.push("/Cadastrar-R");
             return;
         }
 
-        // Verificar campos obrigatórios do beneficiário
         const requiredBeneficiarioFields = [
             'nome', 'cpf', 'telefone', 'email', 'nascimento',
             'rg', 'profissao', 'rua', 'numero', 'cidade',
@@ -156,7 +184,6 @@ export default function Beneficiario() {
             }
         }
 
-        // Mostrar formulário de senha
         setMostrarSenhaForm(true);
     };
 
@@ -181,12 +208,11 @@ export default function Beneficiario() {
 
     const handleFinalSubmit = async () => {
         const finalFormData = new FormData();
-        // Corrija o nome do campo do cartão SUS para num_sus
         for (const key in formData) {
             if (key === 'cartaoSus') {
                 finalFormData.append('num_sus', formData[key]);
             } else if (key === 'nascimento') {
-                finalFormData.append('data_nascimento', formData[key]); // <-- Adicione esta linha
+                finalFormData.append('data_nascimento', formData[key]);
             } else if (formData[key] instanceof File) {
                 finalFormData.append(key, formData[key]);
             } else {
