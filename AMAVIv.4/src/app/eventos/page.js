@@ -33,7 +33,8 @@ export default function Eventos() {
           setError('Erro ao carregar eventos');
         }
       } catch (err) {
-        setError('Erro de conexão com o servidor');
+        // Em caso de erro de conexão, não setar erro, apenas mostrar tela sem eventos
+        setEventos([]);
       } finally {
         setLoading(false);
       }
@@ -67,7 +68,9 @@ export default function Eventos() {
     );
   }
 
-  if (error) {
+  // Só mostra erro se for erro de autenticação ou erro explícito do backend
+  // Não mostra erro de conexão, apenas exibe a tela normalmente (com lista vazia)
+  if (error && error !== 'Erro de conexão com o servidor') {
     return (
       <SimpleLayout>
         <Container className={styles.body}>
@@ -89,17 +92,21 @@ export default function Eventos() {
         </div>
 
         <div className={styles.divCards}>
-          {eventos.map((evento) => (
-            <div key={evento.id} className={styles.divCard} onClick={() => openModal(evento)}>
-              {evento.foto_url ? (
-                <img className={styles.imgNh} src={evento.foto_url} alt={evento.titulo} />
-              ) : (
-                <div className={styles.imgPlaceholder}>Sem imagem</div>
-              )}
-              <h3 className={styles.h3}>{evento.titulo}</h3>
-              <p className={styles.para}>{evento.descricao}</p>
-            </div>
-          ))}
+          {eventos.length > 0 ? (
+            eventos.map((evento) => (
+              <div key={evento.id} className={styles.divCard} onClick={() => openModal(evento)}>
+                {evento.foto_url ? (
+                  <img className={styles.imgNh} src={evento.foto_url} alt={evento.titulo} />
+                ) : (
+                  <div className={styles.imgPlaceholder}>Sem imagem</div>
+                )}
+                <h3 className={styles.h3}>{evento.titulo}</h3>
+                <p className={styles.para}>{evento.descricao}</p>
+              </div>
+            ))
+          ) : (
+            <div className={styles.semEventos}>Nenhum evento encontrado.</div>
+          )}
         </div>
 
         {modalOpen && modalData && (
