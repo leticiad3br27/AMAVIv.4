@@ -168,7 +168,7 @@ export default function Documents() {
     try {
       // Ajuste a URL conforme seu endpoint real de download
       const response = await fetch(
-        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/download/${docId}`,
+        `https://amaviapi.dev.vilhena.ifro.edu.br/api/documentacao/documentos/arquivo/${docId}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -412,4 +412,3 @@ export default function Documents() {
     </SimpleLayout>
   );
 }
-  
