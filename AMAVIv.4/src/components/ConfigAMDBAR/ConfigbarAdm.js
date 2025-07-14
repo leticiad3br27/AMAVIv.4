@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import styles from "./ConfigBarADM.module.css";
-import { FaUserMd, FaFileAlt, FaClipboardList, FaPlus, FaSearch, FaGift, FaBars, FaTimes, FaCog } from "react-icons/fa";
+import {
+  FaUserMd,
+  FaFileAlt,
+  FaClipboardList,
+  FaPlus,
+  FaSearch,
+  FaGift,
+  FaBars,
+  FaTimes,
+  FaCog
+} from "react-icons/fa";
 
 const ConfigBarADM = () => {
   const [isOpen, setIsOpen] = useState(true);
 
-  // Se desejar, pode adicionar lógica para detectar o tamanho da tela e ajustar o isOpen inicialmente.
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 720) {
@@ -15,7 +24,7 @@ const ConfigBarADM = () => {
       }
     };
 
-    handleResize(); // Chama ao montar
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -32,7 +41,6 @@ const ConfigBarADM = () => {
       </div>
 
       <ul className={styles.menu}>
-  
 
         <li className={styles.menuItem}>
           <a href="/documentos">
@@ -66,6 +74,13 @@ const ConfigBarADM = () => {
           <a href="/cadastrar-evento">
             <FaPlus className={styles.icon} />
             {isOpen && <span>Cadastrar Evento</span>}
+          </a>
+        </li>
+
+        <li className={styles.menuItem}>
+          <a href="/Deleta">
+            <FaTimes className={styles.icon} />
+            {isOpen && <span>Deletar Evento</span>}
           </a>
         </li>
 

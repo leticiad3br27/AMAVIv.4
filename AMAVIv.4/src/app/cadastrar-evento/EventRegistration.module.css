@@ -1,127 +1,198 @@
-/* EventRegistration.module.css */
+/* EventoCadastro.module.css */
 
+/* Container styling */
 .container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 24px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.voltarBtn {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.2s ease-in-out;
-}
-
-.voltarBtn:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
-
-.titulo {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 25px;
-  color: #333;
-  text-align: center;
-}
-
-.form {
-  width: 100%;
-}
-
-.form .mb-3 {
-  margin-bottom: 1.25rem;
-}
-
-.form label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  display: block;
-  color: #444;
-}
-
-.form input[type="text"],
-.form input[type="date"],
-.form input[type="time"],
-.form textarea,
-.form input[type="file"] {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 1rem;
-  border: 1.5px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
-  font-family: inherit;
-}
-
-.form input[type="text"]:focus,
-.form input[type="date"]:focus,
-.form input[type="time"]:focus,
-.form textarea:focus,
-.form input[type="file"]:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 4px #007bffaa;
-}
-
-.form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.loading {
-  text-align: center;
-  font-weight: 600;
-  color: #555;
-  margin: 15px 0;
-}
-
-/* Botão submit com classe local para evitar erro do Next.js */
-
-.submitButton {
-  width: 100%;
-  max-width: 250px;
-  padding: 10px 0;
-  font-weight: 700;
-  font-size: 1.1rem;
-  background-color: #007bff;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
+  background: linear-gradient(135deg, #e0f2fe, #f3f4f6);
+  padding: 2.5rem;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 0 auto;
+}
+
+/* Form card styling */
+.formCard {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 2.5rem;
+  max-width: 32rem;
+  width: 100%;
+}
+
+.formCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+.heading {
+  color: #1e3a8a;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: -0.025em;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(to right, #1e40af, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Back button */
+.backButton {
+  background: transparent;
+  color: #1e40af;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid #1e40af;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.backButton:hover {
+  background: #1e40af;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+/* Form inputs */
+.input,
+.textarea,
+.select {
+  border: 2px solid #93c5fd !important;
+  border-radius: 0.75rem !important;
+  padding: 0.875rem 1.25rem !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #1e3a8a;
+  background: #f8fafc;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: #1e40af !important;
+  box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.2) !important;
+  background: #ffffff;
+  outline: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Labels */
+.label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 0.75rem;
+}
+
+/* Error and success messages */
+.error {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+}
+
+.success {
+  background: linear-gradient(90deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+  border: 1px solid #22c55e;
+  color: #22c55e;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+}
+
+/* Submit button */
+.submitButton {
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: #0056b3;
+  background: linear-gradient(90deg, #3b82f6, #1e40af);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(30, 64, 175, 0.4);
 }
 
 .submitButton:disabled {
-  background-color: #a1c8ff;
+  opacity: 0.6;
   cursor: not-allowed;
-}
-.previewContainer {
-  margin-top: 10px;
-  text-align: center;
+  transform: none;
+  box-shadow: none;
 }
 
-.previewImage {
-  max-width: 150px;
-  max-height: 150px;
-  object-fit: contain;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+/* Form group spacing */
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .formCard {
+    padding: 1.75rem;
+  }
+
+  .heading {
+    font-size: 1.75rem;
+  }
+
+  .backButton {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .input,
+  .textarea,
+  .select {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem;
+  }
+
+  .label {
+    font-size: 0.85rem;
+  }
+
+  .submitButton {
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+  }
 }
