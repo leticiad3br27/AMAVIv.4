@@ -105,3 +105,193 @@
   object-fit: cover;
   border-radius: 50%;
 }
+.pageContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dataColumn {
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.historyColumn {
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.darkTheme .dataColumn,
+.darkTheme .historyColumn {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.profileImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.imgPerfil {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profileName {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.profileInfo {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.historyList {
+  list-style: none;
+  padding: 0;
+}
+
+.historyItem {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.historyItem:hover {
+  background-color: #f0f0f0;
+}
+
+.darkTheme .historyItem:hover {
+  background-color: #3a3a3a;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.deleteButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.deleteButtonLight {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteButtonDark {
+  background-color: #a71d2a;
+  color: white;
+}
+
+.deleteButton:hover {
+  opacity: 0.9;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.modalDark {
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.modalMessage {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modalError {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modalButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.cancelButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.confirmButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancelButton:hover,
+.confirmButton:hover {
+  opacity: 0.9;
+}

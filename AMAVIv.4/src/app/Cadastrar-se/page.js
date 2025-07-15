@@ -58,6 +58,8 @@ export default function Beneficiario() {
     const [profissoes, setProfissoes] = useState([]);
     const [progress, setProgress] = useState(0);
     const [cpfError, setCpfError] = useState("");
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [userId, setUserId] = useState(null);
     const router = useRouter();
 
     const [senha, setSenha] = useState('');
@@ -228,8 +230,8 @@ export default function Beneficiario() {
             });
             const data = await response.json();
             if (response.ok) {
-                alert('Usuário cadastrado com sucesso! ID: ' + data.id);
-                router.push("/login");
+                setUserId(data.id);
+                setShowSuccessModal(true);
             } else {
                 alert('Erro: ' + (data.error || 'Erro desconhecido'));
             }
@@ -237,6 +239,11 @@ export default function Beneficiario() {
             console.error('Erro ao cadastrar:', error);
             alert('Erro ao cadastrar usuário.');
         }
+    };
+
+    const handleCloseModal = () => {
+        setShowSuccessModal(false);
+        router.push("/login");
     };
 
     return (
@@ -287,7 +294,7 @@ export default function Beneficiario() {
                                 <input 
                                     type="file" 
                                     name="foto_blob" 
-                                    onChange={(e) => setFormData({ ...formData, foto_blob: e.target.files[0] })} // corrigido
+                                    onChange={(e) => setFormData({ ...formData, foto_blob: e.target.files[0] })} 
                                     className={styles.inputField} 
                                     accept="image/*"
                                 />
@@ -333,7 +340,7 @@ export default function Beneficiario() {
                                 <input 
                                     type="file" 
                                     name="laudo_medico" 
-                                    onChange={(e) => setFormData({ ...formData, laudo_medico: e.target.files[0] })} // corrigido
+                                    onChange={(e) => setFormData({ ...formData, laudo_medico: e.target.files[0] })} 
                                     className={styles.inputField} 
                                 />
                             </label>
@@ -396,6 +403,22 @@ export default function Beneficiario() {
                         </div>
                     </div>
                 </>
+            )}
+
+            {showSuccessModal && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <div className={styles.modalContent}>
+                            <h2 className={styles.modalTitle}>Cadastro Concluído!</h2>
+                            <p className={styles.modalMessage}>
+                                Usuário cadastrado com sucesso! 
+                            </p>
+                            <button className={styles.modalButton} onClick={handleCloseModal}>
+                                Ir para o Login
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

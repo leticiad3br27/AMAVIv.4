@@ -6,8 +6,8 @@ import useTheme from "../../hook/useTheme";
 import emailjs from "emailjs-com";
 
 const credenciaisValidas = {
-  emails: ["leticiad3br3@gmail.com", "teste@dominio.com", "exemplo@amavi.org"],
-  cpfs: ["111.111.111-11", "222.222.222-22", "333.333.333-33"],
+  emails: ["almeida.leticia@estudante.ifro.edu.br", "teste@dominio.com", "exemplo@amavi.org"],
+  cpfs: ["05873188211", "222.222.222-22", "333.333.333-33"],
   matriculas: ["123456", "987654", "654321"],
 };
 

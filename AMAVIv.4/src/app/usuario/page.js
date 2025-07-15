@@ -23,6 +23,8 @@ const FamiliaPage = () => {
   const [usuario, setUsuario] = useState(null);
   const [historico, setHistorico] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -93,6 +95,55 @@ const FamiliaPage = () => {
     router.push("/Solicitar-Atendimento/historico-atendimentos");
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      // Step 1: Delete the login
+      const loginResponse = await fetch(
+        `https://amaviapi.dev.vilhena.ifro.edu.br/api/auth/deletar-login/${usuario.cpf}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!loginResponse.ok) {
+        const errorData = await loginResponse.json();
+        throw new Error(errorData.error || "Erro ao excluir conta de login");
+      }
+
+      // Step 2: Delete the user data
+      const userResponse = await fetch(
+        `https://amaviapi.dev.vilhena.ifro.edu.br/api/usuarios/Usuarios/${usuario.id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!userResponse.ok) {
+        const errorData = await userResponse.json();
+        throw new Error(errorData.error || "Erro ao excluir dados do usuário");
+      }
+
+      // Clear cookies or local storage
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      setShowModal(false);
+      router.push("/login");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const openDeleteModal = () => {
+    setShowModal(true);
+    setError(null);
+  };
+
+  const closeDeleteModal = () => {
+    setShowModal(false);
+    setError(null);
+  };
+
   if (loading) {
     return <div className={styles.loading}>Carregando informações do usuário...</div>;
   }
@@ -101,12 +152,6 @@ const FamiliaPage = () => {
     return <div className={styles.error}>Usuário não encontrado ou não autenticado.</div>;
   }
 
-  // Construção do URL da imagem
-  // Ajuste aqui conforme o formato que o backend envia:
-  // Se foto_blob for string base64:
-  // const fotoUrl = usuario?.foto_blob ? `data:image/jpeg;base64,${usuario.foto_blob}` : null;
-
-  // Se foto_blob for objeto { data: [...] } com bytes:
   const fotoUrl = usuario?.foto_blob?.data
     ? `data:image/jpeg;base64,${btoa(
         new Uint8Array(usuario.foto_blob.data).reduce((data, byte) => data + String.fromCharCode(byte), "")
@@ -152,6 +197,12 @@ const FamiliaPage = () => {
           <p className={styles.profileInfo}>
             <strong>Email:</strong> {usuario.email || "Não informado"}
           </p>
+          <button
+            className={`${styles.deleteButton} ${isDarkMode ? styles.deleteButtonDark : styles.deleteButtonLight}`}
+            onClick={openDeleteModal}
+          >
+            Excluir Conta
+          </button>
         </div>
 
         {/* Coluna de Histórico */}
@@ -169,6 +220,33 @@ const FamiliaPage = () => {
             )}
           </ul>
         </div>
+
+        {/* Modal de Confirmação */}
+        {showModal && (
+          <div className={styles.modalOverlay}>
+            <div className={`${styles.modal} ${isDarkMode ? styles.modalDark : styles.modalLight}`}>
+              <h2 className={styles.modalTitle}>Confirmar Exclusão de Conta</h2>
+              <p className={styles.modalMessage}>
+                Tem certeza que deseja excluir sua conta? Esta ação é irreversível e removerá todos os seus dados.
+              </p>
+              {error && <p className={styles.modalError}>{error}</p>}
+              <div className={styles.modalButtons}>
+                <button
+                  className={`${styles.modalButton} ${styles.cancelButton}`}
+                  onClick={closeDeleteModal}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className={`${styles.modalButton} ${styles.confirmButton}`}
+                  onClick={handleDeleteAccount}
+                >
+                  Excluir
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </ConfigLayout>
   );
