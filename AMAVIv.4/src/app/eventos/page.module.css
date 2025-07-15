@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #ffffff; /* Azul substituído */
+  background-color: #ffffff;
   min-height: 100vh;
   align-items: center;
   padding: 20px;
 }
+
 .eve {
   background-color: #3091ff; /* Azul Royal */
   border-radius: 35px;
@@ -21,6 +22,7 @@
   padding: 20px;
   text-align: center;
 }
+
 .agaum {
   text-align: center;
   display: flex;
@@ -29,17 +31,19 @@
   font-size: clamp(40px, 6vw, 70px);
   color: white;
 }
+
 .divCards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   padding: 20px;
-  background-color: #ffffff; /* Azul substituído */
+  background-color: #ffffff;
   border-radius: 10px;
   width: 90%;
   max-width: 1200px;
 }
+
 .divCard {
   background-color: #3091ff; /* Azul Royal */
   padding: 20px;
@@ -48,22 +52,34 @@
   cursor: pointer;
   width: calc(100% - 40px);
   max-width: 300px;
+  height: 350px; /* 🔥 altura fixa para manter todos iguais */
   transition: transform 0.3s ease-in-out;
-  overflow: hidden; /* Adicionado para evitar que o texto saia do card */
+  overflow: hidden; /* Evita que o texto/imagem saia do card */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
 .divCard:hover {
   transform: scale(1.05);
   background-color: #5A8DEE; /* Azul Royal mais claro */
 }
+
 .imgNh {
   width: 100%;
-  height: auto;
+  max-width: 300px;
+  height: 200px; /* altura fixa */
+  object-fit: contain; /* 🔥 Redimensiona proporcionalmente sem cortar */
   border-radius: 10px;
+  background-color: #ffffff; /* Opcional: cor de fundo caso sobrem bordas */
 }
+
+
 .a {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 1.5rem;
 }
+
 .h3 {
   justify-content: center;
   align-items: center;
@@ -71,13 +87,18 @@
   font-size: 2rem;
   color: white;
 }
+
 .para {
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 1.2rem;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
 /* Ajustes responsivos */
 @media (max-width: 1024px) {
   .divCard {
@@ -88,7 +109,6 @@
   .divCard {
     width: 90%;
   }
-  
   .eve {
     font-size: 30px;
     padding: 15px;
@@ -98,23 +118,21 @@
   .eve {
     font-size: 25px;
   }
-  
   .agaum {
     font-size: 36px;
   }
   .divCard {
-    padding: 10px; /* Reduzir o padding para dispositivos móveis */
+    padding: 10px;
+    height: auto; /* 🔥 Para mobile fica flexível */
   }
   .h3 {
-    font-size: 1.5rem; /* Ajustar o tamanho da fonte para h3 */
+    font-size: 1.5rem;
   }
   .para {
-    font-size: 1rem; /* Ajustar o tamanho da fonte para para */
-    overflow: hidden; /* Garante que o texto não saia do card */
-    text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
-    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    font-size: 1rem;
   }
 }
+
 /* Modal Responsivo */
 .modal {
   color: white;
@@ -131,10 +149,11 @@
   font-size: 1.5rem;
   padding: 20px;
 }
-/* Bloqueia rolagem do fundo quando o modal está aberto */
+
 body.modal-open {
   overflow: hidden;
 }
+
 .modalContent {
   background-color: #3091ff; /* Azul Royal */
   padding: 20px;
@@ -145,27 +164,31 @@ body.modal-open {
   color: #ffffff;
   transition: all 0.3s ease-in-out;
 }
-/* Ajusta o tamanho da imagem quando o modal estiver aberto */
+
 .modal img {
-  width: 90%;
-  max-width: 200px;
-  height: auto;
+  width: 100%;
+  max-width: 300px;
+  height: 200px; /* altura fixa */
+  object-fit: contain; /* 🔥 Redimensiona proporcionalmente sem cortar */
   border-radius: 10px;
   margin-bottom: 20px;
-  transition: transform 0.3s ease-in-out;
+  background-color: #ffffff; /* Opcional: cor de fundo */
 }
-/* Quando o modal for aberto, reduz um pouco mais a imagem */
+
+
 .modal.open img {
   max-width: 300px;
 }
+
 .close {
-  color: #001555; /* Azul substituído */
+  color: #001555;
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
 }
+
 .close:hover,
 .close:focus {
-  color: #3091ff; /* Azul Royal */
+  color: #3091ff;
   text-decoration: none;
 }
